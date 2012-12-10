@@ -2,10 +2,8 @@ class nginx(
     $nx_user = 'nginx',
     $version = '1.2.3-1.el6.ngx'
 ){
-    realize(Yumrepo['nginx'])
     package {
         'nginx':
-            require => Yumrepo['nginx'],
             ensure  => $version;
     }
 
