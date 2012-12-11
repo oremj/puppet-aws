@@ -8,6 +8,6 @@ define supervisord::program(
     file {
         "/etc/supervisord.conf.d/$program_name.conf":
             notify => Service['supervisord'],
-            content => templates('supervisord/program.conf');
+            content => template('supervisord/program.conf');
     }
 }
