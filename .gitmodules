@@ -1,0 +1,3 @@
+[submodule "modules/rabbitmq"]
+	path = modules/rabbitmq
+	url = git://github.com/puppetlabs/puppetlabs-rabbitmq.git
