@@ -1,18 +1,18 @@
 define solitude::instance (
     $project_dir,
-    $ref
+    $ref,
     $repo = 'git://github.com/mozilla/solitude.git',
 ) {
     $project_name = $name
 
     file {
-        ${project_dir}:
+        "${project_dir}":
             ensure => 'directory';
     }
 
     exec {
         "solitude-git-clone-${project_name}":
-            require => File[${project_dir}],
+            require => File["${project_dir}"],
             command => "/usr/bin/git clone $repo ${project_dir}/solitude",
             creates => "${project_dir}/solitude/.git";
 
