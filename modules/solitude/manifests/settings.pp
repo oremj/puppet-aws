@@ -9,7 +9,7 @@ define solitude::settings(
 ) {
 
     file {
-        "${project_dir}/solitude/settings/local.py":
+        "${project_dir}/solitude/solitude/settings/local.py":
             content => template('solitude/settings/local.py');
     }
     
