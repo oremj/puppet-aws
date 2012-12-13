@@ -4,8 +4,8 @@ define solitude::settings(
     $db_name,
     $db_user,
     $db_password,
-    $secret_key
-    $db_port => '3306',
+    $secret_key,
+    $db_port = '3306',
 ) {
 
     file {
