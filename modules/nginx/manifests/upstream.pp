@@ -1,6 +1,6 @@
 define nginx::upstream(
-    $upstream_host,
-    $upstream_port
+    $upstream_port,
+    $upstream_host = '127.0.0.1'
 ) {
     $upstream_name = $name
     nginx::config {
