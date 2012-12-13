@@ -1,6 +1,6 @@
 class nginx(
     $nx_user = 'nginx',
-    $version = '1.2.3-1.el6.ngx'
+    $version = 'present'
 ){
     package {
         'nginx':
