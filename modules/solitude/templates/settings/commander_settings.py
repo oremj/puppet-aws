@@ -5,6 +5,7 @@ PYREPO = 'https://pyrepo.addons.mozilla.org'
 PYTHON = VIRTUAL_ENV + '/bin/python'
 
 WEB_HOSTGROUP = 'None'
+CELERY_HOSTGROUP = 'None'
 SSH_KEY = None
 
 UPDATE_REF = None
