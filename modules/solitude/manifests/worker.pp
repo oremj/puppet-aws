@@ -1,7 +1,7 @@
 define solitude::worker(
     $project_dir,
     $workers = 4,
-    $settings_module = 'solitude.settings.local'
+    $settings_module = 'solitude.settings'
 ) {
     $app_name = $name
     supervisord::program {
