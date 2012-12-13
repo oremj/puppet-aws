@@ -71,3 +71,4 @@ SECRET_KEY = '<%= secret_key %>'
 # Common Event Format logging parameters
 #CEF_PRODUCT = 'Playdoh'
 #CEF_VENDOR = 'Mozilla'
+HAS_SYSLOG = False
