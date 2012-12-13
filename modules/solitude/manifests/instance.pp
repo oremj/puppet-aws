@@ -1,35 +1,41 @@
-define solitude::instance (
+define solitude::instance(
     $project_dir,
-    $ref,
-    $repo = 'git://github.com/mozilla/solitude.git',
+    $app_name,
+    $git_ref,
+    $db_host,
+    $db_name,
+    $db_user,
+    $db_password,
+    $secret_key
 ) {
-    $project_name = $name
-
-    file {
-        "${project_dir}":
-            ensure => 'directory';
+    $app_domain = $name
+    solitude::instance {
+        $app_domain:
+            ref => $git_ref,
+            project_dir => $project_dir;
     }
 
-    exec {
-        "solitude-git-clone-${project_name}":
-            require => File["${project_dir}"],
-            command => "/usr/bin/git clone $repo ${project_dir}/solitude",
-            creates => "${project_dir}/solitude/.git";
-
+    solitude::settings {
+        $app_domain:
+            require => Solitude::Instance[$app_domain],
+            project_dir => $project_dir,
+            db_host => $db_host,
+            db_name => $db_name,
+            db_user => $db_user,
+            db_password => $db_password,
+            secret_key => $secret_key;
     }
 
-    file {
-        "${project_dir}/solitude/bin/update/commander_settings.py":
-            require => Exec["solitude-git-clone-${project_name}"],
-            content => template('solitude/settings/commander_settings.py');
+    solitude::worker {
+        $app_name:
+            require => Solitude::Settings[$app_domain],
+            project_dir => $project_dir;
     }
 
-    exec {
-        "solitude-pre-update-${project_name}":
-            require => File["${project_dir}/solitude/bin/update/commander_settings.py"],
-            command => "/usr/bin/commander ${project_dir}/solitude/bin/update/deploy.py pre_update:${ref}";
-        "solitude-create-venv-${project_name}":
-            require => Exec["solitude-pre-update-${project_name}"],
-            command => "/usr/bin/commander ${project_dir}/solitude/bin/update/deploy.py create_virtualenv";
+    solitude::nginx {
+        $app_domain:
+            require => Solitude::Worker[$app_name],
+            gunicorn_name => "gunicorn-solitude-${app_name}";
     }
+
 }
