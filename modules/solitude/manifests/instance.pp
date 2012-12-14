@@ -17,7 +17,7 @@ define solitude::instance(
 
     solitude::settings {
         $app_domain:
-            require => Solitude::Instance[$app_domain],
+            require => Solitude::Checkout[$app_domain],
             project_dir => $project_dir,
             db_host => $db_host,
             db_name => $db_name,
