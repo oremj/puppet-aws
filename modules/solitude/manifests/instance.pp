@@ -9,7 +9,7 @@ define solitude::instance(
     $secret_key
 ) {
     $app_domain = $name
-    solitude::instance {
+    solitude::checkout {
         $app_domain:
             ref => $git_ref,
             project_dir => $project_dir;
