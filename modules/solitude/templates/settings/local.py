@@ -2,30 +2,24 @@
 # These settings overrides what's in settings/base.py
 
 # To extend any settings from settings/base.py here's an example:
+import dj_database_url
 from . import base
 INSTALLED_APPS = base.INSTALLED_APPS + ('django_extensions',)
 #INSTALLED_APPS = base.INSTALLED_APPS + ('debug_toolbar')
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '<%= db_name %>',
-        'USER': '<%= db_user %>',
-        'PASSWORD': '<%= db_password %>',
-        'HOST': '<%= db_host %>',
-        'PORT': '<%= db_port %>',
-        'OPTIONS': {
-            'init_command': 'SET storage_engine=InnoDB',
-            'charset': 'utf8',
-            'use_unicode': True,
-        },
-        'TEST_CHARSET': 'utf8',
-        'TEST_COLLATION': 'utf8_general_ci',
-    },
-    # 'slave': {
-    #     ...
-    # },
+    'default': dj_database_url.parse('<%= db_url %>')
 }
+
+DATABASES['default'].update({
+    'OPTIONS': {
+        'init_command': 'SET storage_engine=InnoDB',
+        'charset': 'utf8',
+        'use_unicode': True,
+    },
+    'TEST_CHARSET': 'utf8',
+    'TEST_COLLATION': 'utf8_general_ci',
+})
 
 # Uncomment this and set to all slave DBs in use on the site.
 # SLAVE_DATABASES = ['slave']
