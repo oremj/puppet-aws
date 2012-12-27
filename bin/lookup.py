@@ -7,7 +7,7 @@ import yaml
 import os
 import ConfigParser
 
-config_file =  "%s/.lookup.cfg" %  os.path.dirname(os.path.realpath(__file__))
+config_file =  "%s/.aws.cfg" %  os.path.dirname(os.path.realpath(__file__))
 config = ConfigParser.RawConfigParser()
 config.read(config_file)
 
