@@ -6,7 +6,6 @@ import sys
 import yaml
 
 region = 'us-west-2'
-#filters = {'tag:Project': 'amo'}
 aws_access_key_id = ''
 aws_secret_access_key = ''
 fqdn = sys.argv[1]
@@ -22,17 +21,16 @@ def get_type(filters):
         if not reservations:
             sys.exit('Host not found')
         else:
-            return reservations[0].instances[0].tags['Type']
+            return reservations[0].instances[0].tags
     except:
         print sys.exc_info()
 
-def create_yaml(tag):  
-    tclass = "base::%s" % tag
+def create_yaml(tags):  
+    tclass = "%s::%s::%s" % (tags['App'], tags['Type'], tags['Env'])
     pclass =  tclass.encode('ascii','ignore')
-    data = {"classes": [pclass,'something'] }
+    data = {"classes": [pclass] }
              
     print yaml.dump(data, default_flow_style=False, indent=10)
 
-
-tag=get_type(filters)
-create_yaml(tag)
+tags=get_type(filters)
+create_yaml(tags)
