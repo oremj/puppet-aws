@@ -36,7 +36,7 @@ def get_type(filters):
 
 
 def create_yaml(tags):
-    tclass = "%s::%s::%s" % (tags['App'], tags['Type'], tags['Env'])
+    tclass = "%s-private::%s::%s" % (tags['App'], tags['Type'], tags['Env'])
     pclass = tclass.encode('ascii', 'ignore')
     data = {"classes": [pclass]}
     print yaml.dump(data, default_flow_style=False, indent=10)
