@@ -7,7 +7,7 @@ import yaml
 import os
 import ConfigParser
 
-config_file =  "%s/.aws.cfg" %  os.path.dirname(os.path.realpath(__file__))
+config_file = "%s/.aws.cfg" % os.path.dirname(os.path.realpath(__file__))
 config = ConfigParser.RawConfigParser()
 config.read(config_file)
 
@@ -19,6 +19,7 @@ fqdn = sys.argv[1]
 filters = {'tag:Project': 'amo',
            'private_dns_name': fqdn,
           }
+
 
 def get_type(filters):
     try:
@@ -33,12 +34,11 @@ def get_type(filters):
         print sys.exc_info()
         sys.exit(1)
 
-def create_yaml(tags):  
+
+def create_yaml(tags):
     tclass = "%s::%s::%s" % (tags['App'], tags['Type'], tags['Env'])
-    pclass =  tclass.encode('ascii','ignore')
-    data = {"classes": [pclass] }
-             
+    pclass = tclass.encode('ascii', 'ignore')
+    data = {"classes": [pclass]}
     print yaml.dump(data, default_flow_style=False, indent=10)
 
-tags=get_type(filters)
-create_yaml(tags)
+create_yaml(get_type(filters))
