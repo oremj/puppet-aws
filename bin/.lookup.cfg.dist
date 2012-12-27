@@ -1,0 +1,4 @@
+[aws]
+id = some_id
+secret = some_secret
+region = us-west-2
