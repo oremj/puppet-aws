@@ -14,7 +14,11 @@ define solitude::settings(
 ) {
 
     file {
-        "${project_dir}/solitude/solitude/settings/local.py":
+        $aes_key_dir:
+            ensure => 'directory';
+    }
+    file {
+        "${project_dir}/settings/local.py":
             content => template('solitude/settings/local.py');
     }
 }
