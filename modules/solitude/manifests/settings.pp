@@ -16,8 +16,10 @@ define solitude::settings(
     file {
         $aes_key_dir:
             ensure => 'directory';
-    }
-    file {
+
+        "${project_dir}/settings":
+            ensure => 'directory';
+
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local.py');
     }

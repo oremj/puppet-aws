@@ -14,6 +14,9 @@ define solitude::settings-proxy(
 ) {
 
     file {
+        "${project_dir}/settings":
+            ensure => 'directory';
+
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local-proxy.py');
     }
