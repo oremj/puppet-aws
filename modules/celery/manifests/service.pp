@@ -1,11 +1,10 @@
-define celery::service {
+define celery::service (
     $project_dir,
     $user = 'celery',
     $workers = '4',
     $python = '/usr/bin/python',
     $loglevel = 'INFO',
     $args = ''
-
 ) {
     include supervisord
 
