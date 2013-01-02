@@ -6,7 +6,6 @@ define solitude::instance(
 
     solitude::worker {
         $app_name:
-            require => Solitude::Settings[$app_domain],
             project_dir => $project_dir;
     }
 
