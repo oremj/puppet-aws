@@ -1,9 +1,9 @@
 define celery::service {
     $project_dir,
-    $user = 'celery'.
+    $user = 'celery',
     $workers = '4',
     $python = '/usr/bin/python',
-    $loglevel = 'INFO'
+    $loglevel = 'INFO',
     $args = ''
 
 ) {
