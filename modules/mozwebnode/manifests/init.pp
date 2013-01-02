@@ -9,6 +9,11 @@ class mozwebnode(
             ensure => 'present';
     }
 
+    rsyslog::config {
+        'web':
+            content => template('mozwebnode/syslog.conf');
+    }
+
     class {
         'nginx':
             version => 'present';
