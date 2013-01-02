@@ -2,6 +2,8 @@ define solitude::instance(
     $project_dir,
     $app_name
 ) {
+    include solitude::packages
+
     $app_domain = $name
 
     solitude::worker {
