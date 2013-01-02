@@ -16,7 +16,7 @@ define celery::service (
 
     supervisord::program {
         "celeryd-${celery_name}":
-            command => "${python} ${app_dir} --loglevel=${log_level} -c ${workers} ${args}",
+            command => "${python} ${app_dir}/manage.py celeryd --loglevel=${log_level} -c ${workers} ${args}",
             cwd     => $app_dir,
             user    => $user;
     }
