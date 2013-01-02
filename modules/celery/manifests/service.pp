@@ -1,9 +1,9 @@
 define celery::service (
-    $project_dir,
+    $app_dir,
     $user = 'celery',
     $workers = '4',
     $python = '/usr/bin/python',
-    $loglevel = 'INFO',
+    $log_level = 'INFO',
     $args = ''
 ) {
     include supervisord
@@ -16,7 +16,7 @@ define celery::service (
 
     supervisord::program {
         "celeryd-${celery_name}":
-            command => "${python} ${project_dir} --loglevel=${loglevel} -c ${workers} ${args}",
+            command => "${python} ${project_dir} --loglevel=${log_level} -c ${workers} ${args}",
             app_dir => $app_dir,
             user    => $user;
     }
