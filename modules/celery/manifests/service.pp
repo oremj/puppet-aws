@@ -7,12 +7,13 @@ define celery::service {
     $args = ''
 
 ) {
-
-    $celery_name = $name
+    include supervisord
 
     if $user == 'celery' {
         include celery::user
     }
+
+    $celery_name = $name
 
     supervisord::program {
         "celeryd-${celery_name}":
