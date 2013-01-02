@@ -9,7 +9,8 @@ SERVER_EMAIL = '<%= server_email %>'
 EMAIL_HOST = '<%= email_host %>'
 
 DATABASES = {
-    'default': dj_database_url.parse('<%= db_url %>')
+    'default': dj_database_url.parse('<%= db_url %>'),
+    'slave': dj_database_url.parse('<%= db_url_slave %>')
 }
 
 DATABASES['default'].update({
@@ -22,8 +23,17 @@ DATABASES['default'].update({
     'TEST_COLLATION': 'utf8_general_ci',
 })
 
+DATABASES['slave'].update({
+    'OPTIONS': {
+        'init_command': 'SET storage_engine=InnoDB',
+        'charset': 'utf8',
+        'use_unicode': True,
+    },
+})
+
 # Uncomment this and set to all slave DBs in use on the site.
-# SLAVE_DATABASES = ['slave']
+SLAVE_DATABASES = ['slave']
+
 CACHE_PREFIX = '<% cache_prefix %>'
 
 CACHES = {
