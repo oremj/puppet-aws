@@ -1,5 +1,5 @@
 class mozwebnode(
-    $syslog_server
+    $syslog_servers
 ){
     include supervisord
     include rsyslog
