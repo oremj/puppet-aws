@@ -1,5 +1,7 @@
 class mozwebsyslogger {
     include rsyslog
+    include rsyslog::udpserver
+
     file {
         '/var/log/clusterlogs':
             mode => '0755',
