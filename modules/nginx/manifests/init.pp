@@ -12,6 +12,8 @@ class nginx(
             require    => Package['nginx'],
             ensure     => running,
             enable     => true,
+            restart    => '/etc/init.d/nginx restart'
+            restart    => '/etc/init.d/nginx status'
             hasstatus  => true,
             hasrestart => true;
     }
@@ -29,9 +31,11 @@ class nginx(
             purge   => true;
 
         '/etc/nginx/nginx.conf':
+            before  => Service[nginx],
             content => template('nginx/nginx.conf');
 
         '/etc/nginx/conf.d/managed.conf':
+            before  => Service[nginx],
             content => "include managed/*.conf;\n";
 
         '/etc/nginx/mime.types':
