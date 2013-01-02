@@ -12,8 +12,8 @@ class nginx(
             require    => Package['nginx'],
             ensure     => running,
             enable     => true,
-            restart    => '/etc/init.d/nginx restart'
-            restart    => '/etc/init.d/nginx status'
+            restart    => '/etc/init.d/nginx restart',
+            status     => '/etc/init.d/nginx status',
             hasstatus  => true,
             hasrestart => true;
     }
