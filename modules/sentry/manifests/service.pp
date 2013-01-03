@@ -42,9 +42,7 @@ class sentry::service(
       command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start http',
       cwd     => '/usr/bin',
       user    => 'sentry',
-      require => [ File['/etc/sentry/sentry.conf.py'],
-                   Class['supervisord'],
-      ]
+      require => File['/etc/sentry/sentry.conf.py'],
   }
 
   supervisord::program {
@@ -52,9 +50,7 @@ class sentry::service(
       command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start udp',
       cwd     => '/usr/bin',
       user    => 'sentry',
-      require => [ File['/etc/sentry/sentry.conf.py'],
-                   Class['supervisord'],
-      ]
+      require => File['/etc/sentry/sentry.conf.py'],
   }
 
   celery::service {
