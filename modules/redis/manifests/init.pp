@@ -4,7 +4,7 @@ class redis {
   package {
     'redis':
       ensure  => present,
-      require => Class['yum::base'],
+      require => Class['base::yum'],
   }
 
   service {
