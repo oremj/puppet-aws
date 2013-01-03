@@ -1,6 +1,7 @@
 define celery::service (
     $app_dir,
     $user = 'celery',
+    $command = undef,
     $workers = '4',
     $python = '/usr/bin/python',
     $log_level = 'INFO',
@@ -12,11 +13,16 @@ define celery::service (
         include celery::user
     }
 
+    if ! $command {
+      $celery_command = "${python} ${app_dir}/manage.py celeryd --loglevel=${log_level} -c ${workers} ${args}"
+    }
+
+    $celery_command = $command
     $celery_name = $name
 
     supervisord::program {
         "celeryd-${celery_name}":
-            command => "${python} ${app_dir}/manage.py celeryd --loglevel=${log_level} -c ${workers} ${args}",
+            command => $celery_command,
             cwd     => $app_dir,
             user    => $user;
     }
