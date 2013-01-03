@@ -8,7 +8,7 @@ class sentry::user {
       uid     => '2001',
       gid     => $default_user,
       shell   => '/sbin/nologin',
-      home    => "/home/${name}",
+      home    => "/home/${default_user}",
       require => Group[$default_user],
   }
 
