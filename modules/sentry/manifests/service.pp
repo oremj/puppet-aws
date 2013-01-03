@@ -1,5 +1,4 @@
 class sentry::service(
-  $debug = 'False',
   $db_user = 'sentry',
   $db_name = 'sentry',
   $db_password = undef,
