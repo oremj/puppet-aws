@@ -30,7 +30,7 @@ class sentry::service(
 
   file { '/etc/sentry/sentry.conf.py':
       ensure  => present,
-      content => template("modules/${module_name}/sentry.conf.py.erb"),
+      content => template("${module_name}/sentry.conf.py.erb"),
       mode    => 0644,
       owner   => 'sentry',
       group   => 'root',
