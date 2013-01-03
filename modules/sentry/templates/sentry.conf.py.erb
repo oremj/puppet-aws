@@ -39,7 +39,7 @@ SENTRY_WEB_OPTIONS = {
 }
 
 SENTRY_UDP_HOST = '<%= udp_host %>'
-SENTRY_UDP_PORT = '<%= udp_port %>'
+SENTRY_UDP_PORT = <%= udp_port %>
 
 SENTRY_USE_QUEUE = True
 
@@ -49,6 +49,7 @@ CELERYD_PREFETCH_MULTIPLIER = 8
 
 BROKER_URL = '<%= broker_url %>'
 
+SENTRY_BUFFER = 'sentry.buffer.redis.RedisBuffer'
 SENTRY_BUFFER_OPTIONS = {
     'hosts': {
         0: {
