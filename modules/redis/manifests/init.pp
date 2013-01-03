@@ -1,5 +1,5 @@
 class redis {
-  include yum::base
+  include base::yum
 
   package {
     'redis':
