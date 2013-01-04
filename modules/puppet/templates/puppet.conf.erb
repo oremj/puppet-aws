@@ -14,7 +14,7 @@
 <% if is_master == true -%>
     # Define additional module paths
     modulepath = $confdir/modules:/usr/share/puppet/modules:/etc/puppet/modules-aws/modules:$confdir/modules-private/modules
-<%= end -%>
+<% end -%>
 
 [agent]
     # The file in which puppetd stores a list of the classes
@@ -37,4 +37,4 @@
   node_terminus = exec
   dns_alt_names = <%= fqdn %>,puppet
   external_nodes = /usr/bin/puppet_aws_lookup
-<%= end -%>
+<% end -%>
