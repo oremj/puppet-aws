@@ -13,7 +13,7 @@
 
 <% if is_master == true -%>
     # Define additional module paths
-    modulepath = $confdir/modules:/usr/share/puppet/modules:/etc/puppet/modules-aws/modules:$confdir/modules-private/modules
+    modulepath = $confdir/modules:/usr/share/puppet/modules:$confdir/modules-aws/modules:$confdir/modules-private/modules
 <% end -%>
 
 [agent]
@@ -24,7 +24,7 @@
     # The default value is '$confdir/classes.txt'.
     classfile = $vardir/classes.txt
 
-    # use ec2_instance for cert name
+    # use ec2_instance_id for certname
     certname = <%= ec2_instance_id %>
 
     # Where puppetd caches the local configuration.  An
