@@ -35,6 +35,6 @@
 <% if is_master == true -%>
 [master]
   node_terminus = exec
-  dns_alt_names = <%= fqdn %>,puppet
+  dns_alt_names = <%= ec2_instance_id %>,puppet
   external_nodes = /usr/bin/puppet_aws_lookup
 <% end -%>
