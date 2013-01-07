@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -x
+PUPPETDIR=/etc/puppet
+PRIVATE="$PUPPETDIR/modules-private"
+PUBLIC="$PUPPETDIR/modules-aws"
+MOZDEPLOY=/data/mozawsdeploy
+
+
+
+function update(){
+    cd $1
+    git fetch origin -q
+    git checkout -f origin/master -q
+    }
+
+update $PRIVATE &
+update $PUBLIC &
+update $MOZDEPLOY &
+
+wait
