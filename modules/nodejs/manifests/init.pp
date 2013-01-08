@@ -14,6 +14,7 @@ class nodejs (
       provider => rpm,
       ensure   => present,
       source   => "file:///var/tmp/${node_rpm}",
+      require  => File["/var/tmp/${node_rpm}"],
   }
 
 }
