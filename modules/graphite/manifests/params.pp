@@ -10,12 +10,11 @@
 #
 # * Implement user creation.
 #
-class graphite{
+class graphite::params (
+  $time_zone = 'UTC',
+  $manage_httpd = false
+) {
 
-  include graphite::packages
-  include graphite::carbon
-  include graphite::whisper
-  include graphite::web
 
 }
 
