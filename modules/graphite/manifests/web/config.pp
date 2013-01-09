@@ -12,6 +12,7 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class graphite::web::config ($time_zone = 'America/Los_Angeles'){
+  include graphite::web::service
 
   file {'local_settings.py':
     ensure    => file,
