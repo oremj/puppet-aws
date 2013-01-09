@@ -11,6 +11,9 @@
     # The default value is '$confdir/ssl'.
     ssldir = $vardir/ssl
 
+    # allow pluginsync
+    pluginsync = true
+
 <% if is_master == true -%>
     # Define additional module paths
     modulepath = $confdir/modules:/usr/share/puppet/modules:$confdir/modules-aws/modules:$confdir/modules-private/modules
