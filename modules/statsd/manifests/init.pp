@@ -3,7 +3,7 @@ class statsd (
 ){
 
   $user = 'statsd'
-  $statsd_rpm = "nodejs-statsd-${version}-1.amzn1.x86_64.rpm"
+  $statsd_rpm = "nodejs-statsd-${version}.amzn1.x86_64.rpm"
   file {
     "/var/tmp/${statsd_rpm}":
       ensure => present,
