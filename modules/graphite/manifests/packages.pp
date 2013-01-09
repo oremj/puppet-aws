@@ -1,6 +1,5 @@
 class graphite::packages{
   realize (Yumrepo['epel'])
-  realize (Package['httpd'])
   # only needed because the rpms are local (for now)
   package {
     [
@@ -11,6 +10,7 @@ class graphite::packages{
       'pycairo',
       'django-tagging',
       'Django',
+      'httpd',
       'python-twisted-core',
       'mod_wsgi'
     ]:
