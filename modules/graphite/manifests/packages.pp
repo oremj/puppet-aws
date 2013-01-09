@@ -1,17 +1,18 @@
-class graphite::packages {
-
+class graphite::packages{
+  realize (Yumrepo['epel'])
+  realize (Package['httpd'])
+  # only needed because the rpms are local (for now)
   package {
     [
-      'Django14',
-      'MySQL-python',
-      'cairo',
-      'django-tagging',
-      'fontconfig',
+      'apr',
+      'apr-util',
+      'generic-logos',
+      'pixman',
       'pycairo',
-      'python-memcache',
-      'python-twisted',
-      'python-txamqp',
-      'zope-interface',
+      'django-tagging',
+      'Django',
+      'python-twisted-core',
+      'mod_wsgi'
     ]:
       ensure => present,
       before => [
@@ -21,18 +22,5 @@ class graphite::packages {
       ],
   }
 
-  package {
-    [
-      'carbon',
-      'whisper',
-      'graphite-web',
-    ]:
-      provider => pip;
-  }
-
-  # we need statsd
-  nodejs::npm{
-    'statsd':;
-  }
-
 }
+
