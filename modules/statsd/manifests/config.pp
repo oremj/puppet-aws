@@ -2,7 +2,7 @@ class statsd::config (
   $graphite_host = 'localhost',
   $graphite_port = '2003',
   $port = '8125',
-  $flushinterval = '10'
+  $flush_interval = '10'
 ){
   include statsd
   $config = '/etc/statsd.js'
