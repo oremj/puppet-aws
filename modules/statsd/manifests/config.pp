@@ -4,7 +4,6 @@ class statsd::config (
   $port = '8125',
   $flush_interval = '10'
 ){
-  include statsd
   $config = '/etc/statsd.js'
 
   file{ "$config":
@@ -12,6 +11,5 @@ class statsd::config (
     owner   => 'root',
     group   => 'root',
     content => template("$module_name/statsd.js.erb"),
-    require => Package['statsd']
   }
 }
