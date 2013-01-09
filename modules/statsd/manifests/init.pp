@@ -11,7 +11,7 @@ class statsd (
   }
 
   package {
-    'statsd':
+    'nodejs-statsd':
       provider => rpm,
       ensure   => present,
       source   => "file:///var/tmp/${statsd_rpm}",
