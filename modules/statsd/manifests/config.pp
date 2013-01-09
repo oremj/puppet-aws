@@ -11,7 +11,7 @@ class statsd::config (
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    content => template("$module_name/statsd.js,erb"),
+    content => template("$module_name/statsd.js.erb"),
     require => Package['statsd']
   }
 }
