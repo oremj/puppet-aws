@@ -1,4 +1,6 @@
-class statsd::daemon {
+class statsd::service {
+
+  include supervisord
 
   include statsd::config
   $node = '/usr/bin/node'
