@@ -17,7 +17,8 @@ define solitude::settings-proxy(
         $aes_key_dir:
             ensure => 'directory';
 
-        ["${project_dir}/settings",
+        [$project_dir,
+         "${project_dir}/settings",
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
