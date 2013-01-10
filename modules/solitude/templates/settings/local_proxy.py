@@ -1,1 +1,1 @@
-from .sites.<%= site %>.db import *
+from .sites.<%= site %>.proxy import *

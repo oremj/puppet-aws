@@ -3,4 +3,4 @@
 
 # To extend any settings from settings/base.py here's an example:
 
-from .sites.<%= site %>.proxy import *
+from .sites.<%= site %>.db import *
