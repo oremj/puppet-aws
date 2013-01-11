@@ -1,6 +1,7 @@
 define solitude::settings(
     $project_dir,
     $site,
+    $subnet_id,
     $db_url,
     $db_url_slave,
     $secret_key,
@@ -26,6 +27,9 @@ define solitude::settings(
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
+
+        "${project_dir}/fabfile.py":
+            content => template('solitude/fabfile.py');
 
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local.py');
