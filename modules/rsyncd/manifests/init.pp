@@ -22,7 +22,7 @@ class rsyncd(
 
     exec {
         'build-rsync':
-            command => 'cat /etc/rsyncd.conf.d/* > /etc/rsyncd.conf.new; mv /etc/rsyncd.conf.new /etc/rsyncd.conf',
+            command => '/bin/cat /etc/rsyncd.conf.d/* > /etc/rsyncd.conf.new; /bin/mv /etc/rsyncd.conf.new /etc/rsyncd.conf',
             require => File['/etc/rsyncd.conf.d'],
             notify => Service['xinetd'],
             refreshonly => true;
