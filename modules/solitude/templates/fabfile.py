@@ -72,14 +72,19 @@ def create_security_groups():
 
     get_sg('base').authorize(ip_protocol='tcp',
                              from_port=22,
-                             end_port=22,
+                             to_port=22,
                              src_group=get_sg('admin'))
 
     for sg in ['web', 'web-proxy', 'celery']:
         get_sg('admin').authorize(ip_protocol='tcp',
                                   from_port=873,
-                                  end_port=873,
+                                  to_port=873,
                                   src_group=get_sg(sg))
+
+    get_sg('admin').authorize(ip_protocol='tcp',
+                              from_port=8140,
+                              to_port=8140,
+                              srg_group=get_sg('base'))
 
     get_sg('syslog').authorize(ip_protocol='udp',
                                from_port=514,
@@ -89,7 +94,7 @@ def create_security_groups():
     for sg in ['web', 'admin', 'celery']:
         get_sg('rabbitmq-elb').authorize(ip_protocol='tcp',
                                          from_port=5672,
-                                         end_port=5672,
+                                         to_port=5672,
                                          src_group=get_sg(sg))
 
 
