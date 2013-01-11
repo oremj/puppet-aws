@@ -20,8 +20,7 @@ class mozwebnode(
     }
 
     file {
-        ['/data',
-         '/data/www']:
+        '/data':
             ensure => 'directory';
     }
 

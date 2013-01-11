@@ -1,4 +1,5 @@
 define solitude::nginx(
+    $project_dir,
     $gunicorn_name 
 ) {
     $app_domain = $name
