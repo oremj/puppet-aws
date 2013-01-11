@@ -3,10 +3,10 @@ define rsyncd::module(
     $path,
     $allowed_hosts
 ) {
-    $module_name = $name
+    $rsync_module_name = $name
 
     file {
-        "/etc/rsyncd.conf.d/${module_name}.conf":
+        "/etc/rsyncd.conf.d/${rsync_module_name}.conf":
             notify => Exec['build-rsync'],
             content => template('rsyncd/module.conf');
     }
