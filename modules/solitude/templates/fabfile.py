@@ -47,7 +47,7 @@ def create_instance(server_type, instance_type='m1.small'):
 
 
 @task
-def create_security_groups():
+def create_security_groups(env=ENV):
     """
     This function will create security groups for the specified env
     """
@@ -90,7 +90,7 @@ def create_security_groups():
                         ec2.SecurityGroup('web'),
                         ec2.SecurityGroup('web-elb')]
 
-    ec2.create_security_groups(security_groups, 'solitude', ENV)
+    ec2.create_security_groups(security_groups, 'solitude', env)
 
 
 @task
