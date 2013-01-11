@@ -66,11 +66,12 @@ SENTRY_BUFFER_OPTIONS = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'localhost'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_HOST_USER = ''
-EMAIL_PORT = 25
-EMAIL_USE_TLS = False
+SENTRY_SERVER_EMAIL = '<%= email_address %>'
+EMAIL_HOST = '<%= email_host %>'
+EMAIL_HOST_PASSWORD = '<%= email_host_password %>'
+EMAIL_HOST_USER = '<%= email_host_user %>'
+EMAIL_PORT = '<%= email_port %>'
+EMAIL_USE_TLS = <%= email_use_tls %>
 
 # http://twitter.com/apps/new
 # It's important that input a callback URL, even if its useless. We have no idea why, consult Twitter.

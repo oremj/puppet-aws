@@ -4,8 +4,8 @@ class sentry::service(
   $db_password = undef,
   $db_host = undef,
   $port = '3306',
-  $sentry_key = 'undef',
-  $secret_key = 'undef',
+  $sentry_key = undef,
+  $secret_key = undef,
   $url_prefix = 'https://somewebsite.mozilla.com',
   $web_host = '0.0.0.0',
   $web_port = '9000',
@@ -14,7 +14,13 @@ class sentry::service(
   $workers = '8',
   $broker_url = 'amqp://sentry:',
   $redis_host = 'localhost',
-  $redis_port = '6379'
+  $redis_port = '6379',
+  $email_host = 'localhost',
+  $email_host_password = '',
+  $email_host_user = '',
+  $email_port = '25',
+  $email_use_tls = 'False',
+  $email_address = 'nobody@mozilla.com'
 ){
   include sentry
   include supervisord
