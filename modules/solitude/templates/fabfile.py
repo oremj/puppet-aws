@@ -77,3 +77,8 @@ def build_release(ref):
                       repo='git://github.com/mozilla/solitude.git', ref=ref,
                       requirements='requirements/prod.txt',
                       settings_dir='solitude/settings', extra=extra)
+
+
+@task
+def remove_old_releases():
+    web.remove_old_releases(PROJECT_DIR, keep=4)
