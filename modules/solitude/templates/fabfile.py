@@ -51,51 +51,46 @@ def create_security_groups():
     """
     This function will create security groups for the specified env
     """
-    env = ENV
-    security_groups = ['solitude-base-%s' % env,
-                       'solitude-celery-%s' % env,
-                       'solitude-graphite-%s' % env,
-                       'solitude-graphite-elb-%s' % env,
-                       'solitude-rabbitmq-%s' % env,
-                       'solitude-rabbitmq-elb-%s' % env,
-                       'solitude-sentry-%s' % env,
-                       'solitude-sentry-elb-%s' % env,
-                       'solitude-syslog-%s' % env,
-                       'solitude-web-proxy-%s' % env,
-                       'solitude-web-%s' % env,
-                       'solitude-web-elb-%s' % env]
+    security_groups = []
+    admin = ec2.SecurityGroup('admin',
+                              [ec2.SecurityGroupInbound('tcp',
+                                                        873, 873, ['web',
+                                                                   'web-proxy',
+                                                                   'celery']),
+                               ec2.SecurityGroupInbound('tcp',
+                                                        8140, 8140, ['base'])])
 
-    sgs = ec2.create_security_groups(security_groups)
+    base = ec2.SecurityGroup('base',
+                             [ec2.SecurityGroupInbound('tcp',
+                                                       22, 22, ['admin'])])
 
-    def get_sg(name):
-        return sgs['solitude-%s-%s' % (name, env)]
+    rabbit_elb = ec2.SecurityGroup('rabbitmq-elb',
+                                   [ec2.SecurityGroupInbound('tcp',
+                                                             5672, 5672,
+                                                             ['web',
+                                                              'admin',
+                                                              'celery'])])
 
-    get_sg('base').authorize(ip_protocol='tcp',
-                             from_port=22,
-                             to_port=22,
-                             src_group=get_sg('admin'))
+    syslog = ec2.SecurityGroup('syslog',
+                               [ec2.SecurityGroupInbound('udp',
+                                                         514, 514, ['base'])])
 
-    for sg in ['web', 'web-proxy', 'celery']:
-        get_sg('admin').authorize(ip_protocol='tcp',
-                                  from_port=873,
-                                  to_port=873,
-                                  src_group=get_sg(sg))
+    security_groups.append(admin)
+    security_groups.append(base)
+    security_groups.append(rabbit_elb)
+    security_groups.append(syslog)
 
-    get_sg('admin').authorize(ip_protocol='tcp',
-                              from_port=8140,
-                              to_port=8140,
-                              srg_group=get_sg('base'))
+    security_groups += [ec2.SecurityGroup('celery'),
+                        ec2.SecurityGroup('graphite'),
+                        ec2.SecurityGroup('graphite-elb'),
+                        ec2.SecurityGroup('rabbitmq'),
+                        ec2.SecurityGroup('sentry'),
+                        ec2.SecurityGroup('sentry-elb'),
+                        ec2.SecurityGroup('web-proxy'),
+                        ec2.SecurityGroup('web'),
+                        ec2.SecurityGroup('web-elb')]
 
-    get_sg('syslog').authorize(ip_protocol='udp',
-                               from_port=514,
-                               to_port=514,
-                               src_group=get_sg('base'))
-
-    for sg in ['web', 'admin', 'celery']:
-        get_sg('rabbitmq-elb').authorize(ip_protocol='tcp',
-                                         from_port=5672,
-                                         to_port=5672,
-                                         src_group=get_sg(sg))
+    ec2.create_security_groups(security_groups, 'solitude', ENV)
 
 
 @task
