@@ -107,6 +107,7 @@ def create_security_groups():
     ec2.create_security_groups(security_groups)
 
 
+@task
 def build_release(ref):
     """Build release. This assumes puppet has placed settings in /settings"""
     project_dir = PROJECT_DIR
