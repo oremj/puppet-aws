@@ -61,10 +61,36 @@ def create_security_groups():
                        'solitude-sentry-%s' % env,
                        'solitude-sentry-elb-%s' % env,
                        'solitude-syslog-%s' % env,
+                       'solitude-web-proxy-%s' % env,
                        'solitude-web-%s' % env,
                        'solitude-web-elb-%s' % env]
 
-    ec2.create_security_groups(security_groups)
+    sgs = ec2.create_security_groups(security_groups)
+
+    def get_sg(name):
+        return sgs['solitude-%s-%s' % (name, env)]
+
+    get_sg('base').authorize(ip_protocol='tcp',
+                             from_port=22,
+                             end_port=22,
+                             src_group=get_sg('admin'))
+
+    for sg in ['web', 'web-proxy', 'celery']:
+        get_sg('admin').authorize(ip_protocol='tcp',
+                                  from_port=873,
+                                  end_port=873,
+                                  src_group=get_sg(sg))
+
+    get_sg('syslog').authorize(ip_protocol='udp',
+                               from_port=514,
+                               to_port=514,
+                               src_group=get_sg('base'))
+
+    for sg in ['web', 'admin', 'celery']:
+        get_sg('rabbitmq-elb').authorize(ip_protocol='tcp',
+                                         from_port=5672,
+                                         end_port=5672,
+                                         src_group=get_sg(sg))
 
 
 @task
