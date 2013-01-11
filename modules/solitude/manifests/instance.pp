@@ -14,6 +14,7 @@ define solitude::instance(
     solitude::nginx {
         $app_domain:
             require => Solitude::Worker[$app_name],
+            project_dir => $project_dir,
             gunicorn_name => "gunicorn-solitude-${app_name}";
     }
 
