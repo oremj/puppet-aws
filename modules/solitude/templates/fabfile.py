@@ -95,7 +95,6 @@ def create_security_groups(env=ENV):
 @task
 def deploy(ref):
     """Deploy a new version"""
-    execute(build_release, ref)
     r_id = build_release(ref)
     venv = os.path.join(PROJECT_DIR, 'venv')
     python = os.path.join(venv, 'bin',  'python')
