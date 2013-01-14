@@ -1,4 +1,5 @@
 import os
+import time
 from functools import partial
 
 from fabric.api import execute, lcd, local, task
@@ -20,7 +21,7 @@ create_server = partial(aws.create_server, app='solitude', ami=AMAZON_AMI,
 
 
 @task
-def create_web(instance_type='m1.small', count=1):
+def create_web(release_id, instance_type='m1.small', count=1):
     """
     args: instance_type, count
     This function will create the "golden master" ami for solitude web servers.
@@ -28,6 +29,9 @@ def create_web(instance_type='m1.small', count=1):
 
     instances = create_server(server_type='web', instance_type=instance_type,
                               count=count)
+
+    for i in instances:
+        i.add_tag('Release', release_id)
 
     return instances
 
@@ -93,7 +97,7 @@ def create_security_groups(env=ENV):
 
 
 @task
-def deploy(ref):
+def deploy(ref, wait_timeout=300):
     """Deploy a new version"""
     r_id = build_release(ref)
     venv = os.path.join(PROJECT_DIR, 'venv')
@@ -102,13 +106,35 @@ def deploy(ref):
     with lcd(app):
         local('%s %s/bin/schematic migrations' % (python, venv))
 
-    instances = create_web(count=4)
-    for i in instances:
-        i.add_tag('Release', r_id)
+    instances = create_web(r_id, count=4)
+    new_inst_ids = [i.id for i in instances]
+    lb_name = 'solitude-%s' % ENV
 
     elb_conn = ec2.get_elb_connection()
-    elb_conn.register_instances('solitude-%s' % ENV, [i.id for i in instances])
-    # TODO: wait for servers to become healthy, tear down old servers
+    elb_conn.register_instances(lb_name, new_inst_ids)
+
+    start_time = time.time()
+    print 'Waiting for instances'
+    while True:
+        if wait_timeout < (time.time() - start_time):
+            elb_conn.deregister_instances(lb_name, new_inst_ids)
+            raise Exception('Timeout exceeded.')
+
+        instance_health = elb_conn.describe_instance_health(lb_name,
+                                                            new_inst_ids)
+
+        if all(i.state == 'InService' for i in instance_health):
+            print 'All instances healthy'
+            registered = elb_conn.describe_instance_health(lb_name)
+            old_inst_ids = [i.instance_id for i in registered
+                            if i.instance_id not in new_inst_ids]
+
+            elb_conn.deregister_instances(lb_name, old_inst_ids)
+            break
+        
+        time.sleep(10)
+
+    print '%s is now running' % r_id
 
 
 @task
