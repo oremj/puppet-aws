@@ -2,7 +2,7 @@ import os
 import time
 from functools import partial
 
-from fabric.api import execute, lcd, local, task
+from fabric.api import lcd, local, task
 
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
@@ -131,7 +131,7 @@ def deploy(ref, wait_timeout=300):
 
             elb_conn.deregister_instances(lb_name, old_inst_ids)
             break
-        
+
         time.sleep(10)
 
     print '%s is now running' % r_id
