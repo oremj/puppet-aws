@@ -1,7 +1,7 @@
 import os
 from functools import partial
 
-from fabric.api import local, task
+from fabric.api import execute, lcd, local, task
 
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
@@ -29,8 +29,7 @@ def create_web(instance_type='m1.small', count=1):
     instances = create_server(server_type='web', instance_type=instance_type,
                               count=count)
 
-    elb_conn = ec2.get_elb_connection()
-    elb_conn.register_instances('solitude-%s' % ENV, [i.id for i in instances])
+    return instances
 
 
 @task
@@ -94,15 +93,38 @@ def create_security_groups(env=ENV):
 
 
 @task
+def deploy(ref):
+    """Deploy a new version"""
+    execute(build_release, ref)
+    r_id = build_release(ref)
+    venv = os.path.join(PROJECT_DIR, 'venv')
+    python = os.path.join(venv, 'bin',  'python')
+    app = os.path.join(PROJECT_DIR, 'solitude')
+    with lcd(app):
+        local('%s %s/bin/schematic migrations' % (python, venv))
+
+    instances = create_web(count=4)
+    for i in instances:
+        i.add_tag('Release', r_id)
+
+    elb_conn = ec2.get_elb_connection()
+    elb_conn.register_instances('solitude-%s' % ENV, [i.id for i in instances])
+    # TODO: wait for servers to become healthy, tear down old servers
+
+
+@task
 def build_release(ref):
     """Build release. This assumes puppet has placed settings in /settings"""
     def extra(release_dir):
         local('rsync -av %s/aeskeys/ %s/aeskeys/' % (PROJECT_DIR, release_dir))
 
-    web.build_release('solitude', PROJECT_DIR,
-                      repo='git://github.com/mozilla/solitude.git', ref=ref,
-                      requirements='requirements/prod.txt',
-                      settings_dir='solitude/settings', extra=extra)
+    r_id = web.build_release('solitude', PROJECT_DIR,
+                             repo='git://github.com/mozilla/solitude.git',
+                             ref=ref,
+                             requirements='requirements/prod.txt',
+                             settings_dir='solitude/settings', extra=extra)
+
+    return r_id
 
 
 @task
