@@ -13,6 +13,7 @@ PROJECT_DIR = os.path.normpath(os.path.dirname(__file__))
 AMAZON_AMI = 'ami-2a31bf1a'
 SUBNET_ID = '<%= subnet_id %>'
 ENV = '<%= site %>'
+LB_NAME = '<%= lb_name %>'
 
 SERVER_TYPES = ['syslog', 'celery', 'sentry', 'rabbitmq', 'graphite']
 
@@ -108,12 +109,11 @@ def deploy(ref, wait_timeout=900):
 
     instances = create_web(r_id, count=4)
     new_inst_ids = [i.id for i in instances]
-    lb_name = 'solitude-%s' % ENV
 
     print 'Sleeping for 5 min while instances build.'
     time.sleep(300)
     print 'Waiting for instances (timeout: %ds)' % wait_timeout
-    aws.wait_for_healthy_instances(lb_name, new_inst_ids, wait_timeout)
+    aws.wait_for_healthy_instances(LB_NAME, new_inst_ids, wait_timeout)
     print 'All instances healthy'
     print '%s is now running' % r_id
 

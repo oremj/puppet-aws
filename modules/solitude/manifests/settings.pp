@@ -15,7 +15,8 @@ define solitude::settings(
     $paypal_url_whitelist,
     $aes_key_dir,
     $statsd_host,
-    $statsd_port
+    $statsd_port,
+    $lb_name = 'solitude-prod'
 ) {
 
     file {

@@ -22,4 +22,4 @@ PAYPAL_CHAINS = (
     (30, '<%= paypal_chains %>'),
 )
 
-BANGO_AUTH = ''
+BANGO_AUTH = '<%= bango_auth %>'

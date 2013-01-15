@@ -1,27 +1,32 @@
 define solitude::settings-proxy(
     $project_dir,
+    $site,
+    $lb_name,
+    $subnet_id,
     $secret_key,
     $server_email,
     $email_host,
     $cache_prefix,
     $sentry_dsn,
-    $paypal_url_whitelist,
+    $bango_auth,
     $paypal_app_id,
     $paypal_auth_user,
     $paypal_auth_password,
     $paypal_auth_signature,
-    $aes_key_dir
+    $statsd_host,
+    $statsd_port,
+    $lb_name = 'solitude-proxy-prod'
 ) {
 
     file {
-        $aes_key_dir:
-            ensure => 'directory';
-
         [$project_dir,
          "${project_dir}/settings",
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
+
+        "${project_dir}/fabfile.py":
+            content => template('solitude/fabfile.py');
 
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local_proxy.py');
