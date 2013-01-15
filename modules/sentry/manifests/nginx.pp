@@ -13,7 +13,7 @@ class sentry::nginx {
     }
 
     nginx::logdir {
-        "${app_domain}":;
+        "${app_domain}":
             before       => Class['nginx'];
     }
 
