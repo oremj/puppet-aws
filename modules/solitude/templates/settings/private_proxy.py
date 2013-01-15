@@ -6,7 +6,7 @@ SECRET_KEY = '<%= secret_key %>'
 SENTRY_DSN = '<%= sentry_dsn %>'
 
 STATSD_HOST = '<%= statsd_host %>'
-STATSD_PORT = '<%= statsd_port %>'
+STATSD_PORT = <%= statsd_port %>
 STATSD_PREFIX = '<%= cache_prefix %>'
 CLIENT_JWT_KEYS = {}
 
