@@ -11,10 +11,17 @@ class mozwebsyslogger(
             ensure  => 'mounted',
             options => 'defaults',
             atboot  => 'true',
+            require => File['/var/log/clusterlogs'];
     }
 
     file {
-         ['/var/log/clusterlogs/hosts']:
+         '/var/log/clusterlogs':
+            mode    => '0755',
+            ensure  => directory,
+    }
+
+    file {
+         '/var/log/clusterlogs/hosts':
             mode    => '0755',
             ensure  => directory,
             require => Mount['/var/log/clusterlogs'];
