@@ -23,6 +23,7 @@ class sentry::service(
   $email_address = 'nobody@mozilla.com'
 ){
   include sentry
+  include sentry::nginx
   include supervisord
 
   file { '/etc/sentry':
