@@ -1,7 +1,6 @@
 define solitude::settings-proxy(
     $project_dir,
     $site,
-    $lb_name,
     $subnet_id,
     $secret_key,
     $server_email,
