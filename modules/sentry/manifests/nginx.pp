@@ -3,8 +3,11 @@ class sentry::nginx {
     include nginx
 
     $app_domain = $sentry::service::url_prefix
+
+    $app_name = 'sentry-http'
+
     nginx::upstream {
-        "sentry-http":
+        "${app_name}":
             upstream_port => $sentry::service::web_port;
     }
 
