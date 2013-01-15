@@ -12,6 +12,7 @@ define solitude::settings-proxy(
     $paypal_auth_user,
     $paypal_auth_password,
     $paypal_auth_signature,
+    $paypal_chains,
     $statsd_host,
     $statsd_port,
     $lb_name = 'solitude-proxy-prod'
