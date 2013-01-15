@@ -97,7 +97,7 @@ def create_security_groups(env=ENV):
 
 
 @task
-def deploy(ref, wait_timeout=300):
+def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
     r_id = build_release(ref)
     venv = os.path.join(PROJECT_DIR, 'venv')
@@ -110,30 +110,11 @@ def deploy(ref, wait_timeout=300):
     new_inst_ids = [i.id for i in instances]
     lb_name = 'solitude-%s' % ENV
 
-    elb_conn = ec2.get_elb_connection()
-    elb_conn.register_instances(lb_name, new_inst_ids)
-
-    start_time = time.time()
-    print 'Waiting for instances'
-    while True:
-        if wait_timeout < (time.time() - start_time):
-            elb_conn.deregister_instances(lb_name, new_inst_ids)
-            raise Exception('Timeout exceeded.')
-
-        instance_health = elb_conn.describe_instance_health(lb_name,
-                                                            new_inst_ids)
-
-        if all(i.state == 'InService' for i in instance_health):
-            print 'All instances healthy'
-            registered = elb_conn.describe_instance_health(lb_name)
-            old_inst_ids = [i.instance_id for i in registered
-                            if i.instance_id not in new_inst_ids]
-
-            elb_conn.deregister_instances(lb_name, old_inst_ids)
-            break
-
-        time.sleep(10)
-
+    print 'Sleeping for 5 min while instances build.'
+    time.sleep(300)
+    print 'Waiting for instances (timeout: %ds)' % wait_timeout
+    aws.wait_for_healthy_instances(lb_name, new_inst_ids, wait_timeout)
+    print 'All instances healthy'
     print '%s is now running' % r_id
 
 
