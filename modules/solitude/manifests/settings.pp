@@ -19,6 +19,8 @@ define solitude::settings(
     $lb_name = 'solitude-prod'
 ) {
 
+    $web_server_type = 'web'
+
     file {
         $aes_key_dir:
             ensure => 'directory';

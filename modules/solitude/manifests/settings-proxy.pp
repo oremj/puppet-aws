@@ -18,6 +18,8 @@ define solitude::settings-proxy(
     $lb_name = 'solitude-proxy-prod'
 ) {
 
+    $web_server_type = 'web-proxy'
+
     file {
         [$project_dir,
          "${project_dir}/settings",
