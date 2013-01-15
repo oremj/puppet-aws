@@ -1,7 +1,8 @@
 import os
+import time
 from functools import partial
 
-from fabric.api import local, task
+from fabric.api import lcd, local, task
 
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
@@ -20,7 +21,7 @@ create_server = partial(aws.create_server, app='solitude', ami=AMAZON_AMI,
 
 
 @task
-def create_web(instance_type='m1.small', count=1):
+def create_web(release_id, instance_type='m1.small', count=1):
     """
     args: instance_type, count
     This function will create the "golden master" ami for solitude web servers.
@@ -29,8 +30,10 @@ def create_web(instance_type='m1.small', count=1):
     instances = create_server(server_type='web', instance_type=instance_type,
                               count=count)
 
-    elb_conn = ec2.get_elb_connection()
-    elb_conn.register_instances('solitude-%s' % ENV, [i.id for i in instances])
+    for i in instances:
+        i.add_tag('Release', release_id)
+
+    return instances
 
 
 @task
@@ -47,24 +50,91 @@ def create_instance(server_type, instance_type='m1.small'):
 
 
 @task
-def create_security_groups():
+def create_security_groups(env=ENV):
     """
     This function will create security groups for the specified env
     """
-    env = ENV
-    security_groups = ['solitude-base-%s' % env,
-                       'solitude-celery-%s' % env,
-                       'solitude-graphite-%s' % env,
-                       'solitude-graphite-elb-%s' % env,
-                       'solitude-rabbitmq-%s' % env,
-                       'solitude-rabbitmq-elb-%s' % env,
-                       'solitude-sentry-%s' % env,
-                       'solitude-sentry-elb-%s' % env,
-                       'solitude-syslog-%s' % env,
-                       'solitude-web-%s' % env,
-                       'solitude-web-elb-%s' % env]
+    security_groups = []
+    admin = ec2.SecurityGroup('admin',
+                              [ec2.SecurityGroupInbound('tcp',
+                                                        873, 873, ['web',
+                                                                   'web-proxy',
+                                                                   'celery']),
+                               ec2.SecurityGroupInbound('tcp',
+                                                        8140, 8140, ['base'])])
 
-    ec2.create_security_groups(security_groups)
+    base = ec2.SecurityGroup('base',
+                             [ec2.SecurityGroupInbound('tcp',
+                                                       22, 22, ['admin'])])
+
+    rabbit_elb = ec2.SecurityGroup('rabbitmq-elb',
+                                   [ec2.SecurityGroupInbound('tcp',
+                                                             5672, 5672,
+                                                             ['web',
+                                                              'admin',
+                                                              'celery'])])
+
+    syslog = ec2.SecurityGroup('syslog',
+                               [ec2.SecurityGroupInbound('udp',
+                                                         514, 514, ['base'])])
+
+    security_groups.append(admin)
+    security_groups.append(base)
+    security_groups.append(rabbit_elb)
+    security_groups.append(syslog)
+
+    security_groups += [ec2.SecurityGroup('celery'),
+                        ec2.SecurityGroup('graphite'),
+                        ec2.SecurityGroup('graphite-elb'),
+                        ec2.SecurityGroup('rabbitmq'),
+                        ec2.SecurityGroup('sentry'),
+                        ec2.SecurityGroup('sentry-elb'),
+                        ec2.SecurityGroup('web-proxy'),
+                        ec2.SecurityGroup('web'),
+                        ec2.SecurityGroup('web-elb')]
+
+    ec2.create_security_groups(security_groups, 'solitude', env)
+
+
+@task
+def deploy(ref, wait_timeout=300):
+    """Deploy a new version"""
+    r_id = build_release(ref)
+    venv = os.path.join(PROJECT_DIR, 'venv')
+    python = os.path.join(venv, 'bin',  'python')
+    app = os.path.join(PROJECT_DIR, 'solitude')
+    with lcd(app):
+        local('%s %s/bin/schematic migrations' % (python, venv))
+
+    instances = create_web(r_id, count=4)
+    new_inst_ids = [i.id for i in instances]
+    lb_name = 'solitude-%s' % ENV
+
+    elb_conn = ec2.get_elb_connection()
+    elb_conn.register_instances(lb_name, new_inst_ids)
+
+    start_time = time.time()
+    print 'Waiting for instances'
+    while True:
+        if wait_timeout < (time.time() - start_time):
+            elb_conn.deregister_instances(lb_name, new_inst_ids)
+            raise Exception('Timeout exceeded.')
+
+        instance_health = elb_conn.describe_instance_health(lb_name,
+                                                            new_inst_ids)
+
+        if all(i.state == 'InService' for i in instance_health):
+            print 'All instances healthy'
+            registered = elb_conn.describe_instance_health(lb_name)
+            old_inst_ids = [i.instance_id for i in registered
+                            if i.instance_id not in new_inst_ids]
+
+            elb_conn.deregister_instances(lb_name, old_inst_ids)
+            break
+
+        time.sleep(10)
+
+    print '%s is now running' % r_id
 
 
 @task
@@ -73,10 +143,13 @@ def build_release(ref):
     def extra(release_dir):
         local('rsync -av %s/aeskeys/ %s/aeskeys/' % (PROJECT_DIR, release_dir))
 
-    web.build_release('solitude', PROJECT_DIR,
-                      repo='git://github.com/mozilla/solitude.git', ref=ref,
-                      requirements='requirements/prod.txt',
-                      settings_dir='solitude/settings', extra=extra)
+    r_id = web.build_release('solitude', PROJECT_DIR,
+                             repo='git://github.com/mozilla/solitude.git',
+                             ref=ref,
+                             requirements='requirements/prod.txt',
+                             settings_dir='solitude/settings', extra=extra)
+
+    return r_id
 
 
 @task
