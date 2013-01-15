@@ -2,6 +2,7 @@ class sentry {
 
   include sentry::user
   include base::yum
+  include sentry::nginx
  
   package {
     [
