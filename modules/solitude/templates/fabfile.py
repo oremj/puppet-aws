@@ -14,7 +14,6 @@ AMAZON_AMI = 'ami-2a31bf1a'
 SUBNET_ID = '<%= subnet_id %>'
 ENV = '<%= site %>'
 LB_NAME = '<%= lb_name %>'
-WEB_SERVER_TYPE = '<%= web_server_type %>'
 
 SERVER_TYPES = ['syslog', 'celery', 'sentry', 'rabbitmq', 'graphite']
 
@@ -29,7 +28,7 @@ def create_web(release_id, instance_type='m1.small', count=1):
     This function will create the "golden master" ami for solitude web servers.
     """
 
-    instances = create_server(server_type=WEB_SERVER_TYPE,
+    instances = create_server(server_type='web',
                               instance_type=instance_type,
                               count=count)
 

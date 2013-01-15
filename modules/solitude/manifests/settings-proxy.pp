@@ -28,7 +28,7 @@ define solitude::settings-proxy(
             ensure => 'directory';
 
         "${project_dir}/fabfile.py":
-            content => template('solitude/fabfile.py');
+            content => template('solitude/fabfile-proxy.py');
 
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local_proxy.py');
