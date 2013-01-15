@@ -49,16 +49,10 @@ CELERYD_PREFETCH_MULTIPLIER = 8
 
 BROKER_URL = '<%= broker_url %>'
 
-SENTRY_BUFFER = 'sentry.buffer.redis.RedisBuffer'
+SENTRY_BUFFER = 'sentry.buffer.base.Buffer'
 SENTRY_BUFFER_OPTIONS = {
-    'hosts': {
-        0: {
-            'host': '<%= redis_host %>',
-            'port': '<%= redis_port %>',
-        }
+    'delay': 5,  # delay for queued tasks
     }
-}
-
 # Mail server configuration
 
 # For more information check Django's documentation:

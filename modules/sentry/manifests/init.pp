@@ -2,7 +2,6 @@ class sentry {
 
   include sentry::user
   include base::yum
-  include redis
  
   package {
     [
