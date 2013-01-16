@@ -39,11 +39,6 @@ def create_web(release_id, instance_type='m1.small', count=1):
 
 
 @task
-def print_security_groups():
-    ec2.display_security_group_flows(config.vpc_id)
-
-
-@task
 def create_instance(server_type, instance_type='m1.small'):
     """
     args: server_type, instance_type.
