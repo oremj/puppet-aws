@@ -4,7 +4,7 @@ from functools import partial
 
 from fabric.api import lcd, local, task
 
-from mozawsdeploy import ec2
+from mozawsdeploy import config, ec2
 from mozawsdeploy.fabfile import aws, web
 
 
@@ -36,6 +36,11 @@ def create_web(release_id, instance_type='m1.small', count=1):
         i.add_tag('Release', release_id)
 
     return instances
+
+
+@task
+def print_security_groups():
+    ec2.display_security_group_flows(config.vpc_id)
 
 
 @task
