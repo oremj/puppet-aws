@@ -2,6 +2,8 @@ class rsyslog {
     package {
         'rsyslog':
             ensure => 'present';
+        'rsyslog-gnutls':
+            ensure => 'present';
     }
 
     file {
