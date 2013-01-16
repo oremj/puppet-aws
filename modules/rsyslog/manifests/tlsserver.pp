@@ -4,7 +4,8 @@ class rsyslog::tlsserver(
     $server_key_content,
     $ca_cert = '/etc/pki/rsyslog/rsyslog-ca.crt',
     $server_cert = '/etc/pki/rsyslog/rsyslog-ca.crt',
-    $server_key = '/etc/pki/rsyslog/rsyslog-ca.crt'
+    $server_key = '/etc/pki/rsyslog/rsyslog-ca.crt',
+    $tcp_port = '10514'
 ) {
     rsyslog::config {
         'tlsserver':

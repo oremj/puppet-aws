@@ -1,8 +1,24 @@
 class mozwebsyslogger(
-    $device = '/dev/xvdf1'
+    $device = '/dev/xvdf1',
+    $tls = true,
+    $ca_cert_content = undef,
+    $server_cert_content = undef,
+    $server_key_content = undef
+
 ){
     include rsyslog
-    include rsyslog::udpserver
+
+    if $tls {
+        class {
+            'rsyslog::tlsserver':
+              ca_cert_content     => $ca_cert_content,
+              server_cert_content => $server_cert_content,
+              server_key_content  => $server_key_content,
+        }
+    }
+    else {
+        include rsyslog::udpserver
+    }
     
     mount { 
         '/var/log/clusterlogs':
