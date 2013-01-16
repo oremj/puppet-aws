@@ -16,20 +16,20 @@ class rsyslog::tlsserver(
             ensure  => present,
             mode    => '0644',
             content => template("${ca_cert_content}"),
-            before  => Rsyslog::Config['web'],
+            before  => Rsyslog::Config['tlsserver'],
       }
     file {
         "${server_cert}":
             ensure  => present,
             mode    => '0644',
             content => template("${server_cert_content}"),
-            before  => Rsyslog::Config['web'],
+            before  => Rsyslog::Config['tlsserver'],
       }
     file {
         "${server_key}":
             ensure  => present,
             mode    => '0644',
             content => template("${server_key_content}"),
-            before  => Rsyslog::Config['web'],
+            before  => Rsyslog::Config['tlsserver'],
       }
 }
