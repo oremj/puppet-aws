@@ -33,7 +33,7 @@ class mozwebnode(
         "${rsyslog_ca_cert}":
           ensure  => present,
           mode    => '0644',
-          content => $rsyslog_ca_cert_content,
+          content => template("${rsyslog_ca_cert_content}"),
           before  => Rsyslog::Config['web'],
       }
     }
