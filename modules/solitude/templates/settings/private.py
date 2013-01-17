@@ -12,6 +12,7 @@ STATSD_PREFIX = '<%= cache_prefix %>'
 
 
 AES_KEYS = {
+    'bango:signature': '<%= aes_key_dir %>/bango_signature.key',
     'buyerpaypal:key': '<%= aes_key_dir %>/buyerpaypal.key',
     'sellerbluevia:id': '<%= aes_key_dir %>/sellerbluevia.key',
     'sellerpaypal:id': '<%= aes_key_dir %>/sellerpaypal_id.key',
