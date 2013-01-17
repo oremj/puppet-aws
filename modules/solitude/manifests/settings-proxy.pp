@@ -1,7 +1,5 @@
 define solitude::settings-proxy(
     $project_dir,
-    $site,
-    $subnet_id,
     $secret_key,
     $server_email,
     $email_host,
@@ -15,8 +13,7 @@ define solitude::settings-proxy(
     $paypal_auth_signature,
     $paypal_chains,
     $statsd_host,
-    $statsd_port,
-    $lb_name = 'solitude-proxy-prod'
+    $statsd_port
 ) {
 
     $web_server_type = 'web-proxy'
@@ -27,9 +24,6 @@ define solitude::settings-proxy(
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
-
-        "${project_dir}/fabfile.py":
-            content => template('solitude/fabfile-proxy.py');
 
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local_proxy.py');

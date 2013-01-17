@@ -1,7 +1,5 @@
 define solitude::settings(
     $project_dir,
-    $site,
-    $subnet_id,
     $db_url,
     $db_url_slave,
     $secret_key,
@@ -15,12 +13,8 @@ define solitude::settings(
     $paypal_url_whitelist,
     $aes_key_dir,
     $statsd_host,
-    $statsd_port,
-    $lb_name = 'solitude-prod'
+    $statsd_port
 ) {
-
-    $web_server_type = 'web'
-
     file {
         $aes_key_dir:
             ensure => 'directory';
@@ -30,9 +24,6 @@ define solitude::settings(
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
-
-        "${project_dir}/fabfile.py":
-            content => template('solitude/fabfile.py');
 
         "${project_dir}/settings/local.py":
             content => template('solitude/settings/local.py');
