@@ -1,6 +1,7 @@
 define mozuser::user(
     $shell,
     $groups,
+    $uid,
     $home = "/home/${name}",
     $shell = '/bin/bash'
 ) {
@@ -10,6 +11,7 @@ define mozuser::user(
             shell => $shell,
             managehome => true,
             home => $home,
+            uid => $uid,
             groups => $groups;
     }
 
