@@ -13,5 +13,5 @@ define mozuser::user(
             groups => $groups;
     }
 
-    mozuser::key <| user == $user_name |>
+    Mozuser::Key <| user == $user_name |>
 }
