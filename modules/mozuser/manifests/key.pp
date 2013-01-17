@@ -8,6 +8,6 @@ define mozuser::key(
         $key_name:
             user => $user,
             type => $type,
-            $key => $key;
+            key => $key;
     }
 }
