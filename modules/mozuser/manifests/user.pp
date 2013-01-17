@@ -1,5 +1,4 @@
 define mozuser::user(
-    $uid,
     $shell,
     $groups,
     $home = "/home/${name}",
@@ -8,7 +7,6 @@ define mozuser::user(
     $user_name = $name
     user {
         $user_name:
-            uid => $uid,
             shell => $shell,
             managehome => true,
             home => $home,
