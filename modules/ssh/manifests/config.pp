@@ -12,8 +12,7 @@ class ssh::config(
             owner   => 'root',
             group   => 'root',
             mode    => '0600',
-            notify  => Service['sshd'],
-            require => Class['ssh'],
+            notify  => Service['sshd'];
     }
 
 }
