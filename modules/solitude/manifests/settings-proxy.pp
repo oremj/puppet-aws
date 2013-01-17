@@ -1,4 +1,5 @@
 define solitude::settings-proxy(
+    $site,
     $project_dir,
     $secret_key,
     $server_email,
@@ -15,9 +16,6 @@ define solitude::settings-proxy(
     $statsd_host,
     $statsd_port
 ) {
-
-    $web_server_type = 'web-proxy'
-
     file {
         [$project_dir,
          "${project_dir}/settings",

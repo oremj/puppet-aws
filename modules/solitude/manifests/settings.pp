@@ -1,4 +1,5 @@
 define solitude::settings(
+    $site,
     $project_dir,
     $db_url,
     $db_url_slave,
