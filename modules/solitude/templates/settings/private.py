@@ -23,5 +23,5 @@ AES_KEYS = {
 
 CLIENT_JWT_KEYS = {}
 
-PAYPAL_PROXY = '<%= solitude_proxy %>/proxy/paypal/'
-BANGO_AUTH = ''
+PAYPAL_PROXY = '<%= solitude_proxy %>/proxy/paypal'
+BANGO_PROXY = '<%= solitude_proxy %>/proxy/bango'
