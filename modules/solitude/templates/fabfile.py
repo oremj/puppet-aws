@@ -120,7 +120,7 @@ def deploy(ref, wait_timeout=900):
 
 
 @task
-def build_release(ref):
+def build_release(ref, build_id, build_dir):
     """Build release. This assumes puppet has placed settings in /settings"""
     def extra(release_dir):
         local('rsync -av %s/aeskeys/ %s/aeskeys/' % (PROJECT_DIR, release_dir))
@@ -129,7 +129,8 @@ def build_release(ref):
                              repo='git://github.com/mozilla/solitude.git',
                              ref=ref,
                              requirements='requirements/prod.txt',
-                             settings_dir='solitude/settings', extra=extra)
+                             settings_dir='solitude/settings', extra=extra,
+                             build_dir=build_dir, release_id=build_id)
 
     return r_id
 
