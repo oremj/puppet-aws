@@ -1,4 +1,7 @@
-class mozwebnode{
+class mozwebnode(
+    $cluster,
+    $pkghost
+){
     include supervisord
 
     package {
@@ -12,8 +15,14 @@ class mozwebnode{
     }
 
     file {
-        '/data':
+        ['/data',
+         "/data/${cluster}",
+         "/data/${cluster}/bin"]:
             ensure => 'directory';
     }
 
+    mozdeploy::client {
+        $cluster: 
+            pkghost => $pkghost;
+    }
 }
