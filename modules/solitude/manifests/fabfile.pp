@@ -14,7 +14,7 @@ define solitude::fabfile(
 
     mozdeploy::application {
         $site_name:
-            build_command => "/usr/bin/fab -f ${project_dir}/fabfile.py build_release:{version}:{build_id}:{build_dir}",
+            build_command => "/usr/bin/fab -f ${project_dir}/fabfile.py build_release:{version},{build_id},{build_dir}",
             cluster => $cluster;
     }
 
