@@ -3,7 +3,7 @@ define solitude::fabfile(
     $lb_name,
     $subnet_id,
     $template = 'solitude/fabfile.py',
-    $cluster => 'solitude' 
+    $cluster = 'solitude' 
 ) {
     $project_dir = $name
     file {
