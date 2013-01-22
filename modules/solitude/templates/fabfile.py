@@ -10,6 +10,8 @@ from mozawsdeploy.fabfile import aws, web
 
 PROJECT_DIR = os.path.normpath(os.path.dirname(__file__))
 
+CLUSTER_DIR = '/data/<%= cluster %>'
+SITE_NAME = '<%= site_name %>'
 AMAZON_AMI = 'ami-2a31bf1a'
 SUBNET_ID = '<%= subnet_id %>'
 ENV = '<%= site %>'
@@ -102,9 +104,14 @@ def create_security_groups(env=ENV):
 def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
     r_id = build_release(ref)
-    venv = os.path.join(PROJECT_DIR, 'venv')
+    local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
+    local('%s/bin/install-app %s LATEST' % (CLUSTER_DIR, SITE_NAME))
+
+    release_dir = os.path.join(PROJECT_DIR, 'current')
+
+    venv = os.path.join(release_dir, 'venv')
     python = os.path.join(venv, 'bin',  'python')
-    app = os.path.join(PROJECT_DIR, 'solitude')
+    app = os.path.join(release_dir, 'solitude')
     with lcd(app):
         local('%s %s/bin/schematic migrations' % (python, venv))
 
@@ -133,8 +140,3 @@ def build_release(ref, build_id, build_dir):
                              build_dir=build_dir, release_id=build_id)
 
     return r_id
-
-
-@task
-def remove_old_releases():
-    web.remove_old_releases(PROJECT_DIR, keep=4)
