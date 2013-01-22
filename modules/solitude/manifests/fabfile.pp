@@ -1,5 +1,6 @@
 define solitude::fabfile(
     $site,
+    $site_name,
     $lb_name,
     $subnet_id,
     $template = 'solitude/fabfile.py',
@@ -12,7 +13,7 @@ define solitude::fabfile(
     }
 
     mozdeploy::application {
-        $site:
+        $site_name:
             build_command => "${project_dir}/build %s %s %s",
             cluster => 'solitude.prod';
     }
