@@ -7,6 +7,7 @@ define mozdeploy::server(
     $cluster = $name
     $server_name = "${cluster}.mozdeploy"
 
+    include mozdeploy
     include nginx
     nginx::config {
         $server_name:

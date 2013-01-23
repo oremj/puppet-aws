@@ -1,6 +1,7 @@
 class mozwebnode(
     $cluster,
-    $pkghost
+    $pkghost,
+    $pyrepo_server = 'https://pyrepo.addons.mozilla.org/'
 ){
     include supervisord
 
@@ -10,6 +11,8 @@ class mozwebnode(
     }
 
     class {
+        'pyrepo':
+            server => $pyrepo_server;
         'nginx':
             version => 'present';
     }
