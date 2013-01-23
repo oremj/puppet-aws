@@ -49,8 +49,6 @@ def deploy(ref, wait_timeout=900):
     venv = os.path.join(release_dir, 'venv')
     python = os.path.join(venv, 'bin',  'python')
     app = os.path.join(release_dir, 'solitude')
-    with lcd(app):
-        local('%s %s/bin/schematic migrations' % (python, venv))
 
     instances = create_proxy(ref, count=4)
     new_inst_ids = [i.id for i in instances]
