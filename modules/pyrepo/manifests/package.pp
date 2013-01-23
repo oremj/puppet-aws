@@ -3,7 +3,7 @@ define pyrepo::package(
 ) {
     exec {
         "pyrepo-package-install-${name}":
-            refreshonly => true,
+            unless => "/usr/bin/pip freeze | grep -q \"${name}==${version}\"",
             command => "/usr/bin/pip install --no-index -f ${pyrepo::server} ${name}==${version}";
     }
 }
