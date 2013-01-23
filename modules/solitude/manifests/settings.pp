@@ -17,11 +17,9 @@ define solitude::settings(
     $statsd_port
 ) {
     file {
-        $aes_key_dir:
-            ensure => 'directory';
-
         [$project_dir,
          "${project_dir}/settings",
+         "${project_dir}/aeskeys",
          "${project_dir}/settings/sites",
          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
