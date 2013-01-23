@@ -103,7 +103,6 @@ def create_security_groups(env=ENV):
 @task
 def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
-    r_id = build_release(ref)
     local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
     local('%s/bin/install-app %s LATEST' % (CLUSTER_DIR, SITE_NAME))
 
@@ -115,7 +114,7 @@ def deploy(ref, wait_timeout=900):
     with lcd(app):
         local('%s %s/bin/schematic migrations' % (python, venv))
 
-    instances = create_web(r_id, count=4)
+    instances = create_web(ref, count=4)
     new_inst_ids = [i.id for i in instances]
 
     print 'Sleeping for 5 min while instances build.'
@@ -123,7 +122,7 @@ def deploy(ref, wait_timeout=900):
     print 'Waiting for instances (timeout: %ds)' % wait_timeout
     aws.wait_for_healthy_instances(LB_NAME, new_inst_ids, wait_timeout)
     print 'All instances healthy'
-    print '%s is now running' % r_id
+    print '%s is now running' % ref
 
 
 @task
