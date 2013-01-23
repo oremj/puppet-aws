@@ -4,4 +4,4 @@
 APP=$1
 VERSION=$2
 
-/usr/bin/mozdeploy-install-app --pkghost "<%= pkghost %>" --env "<%= cluster %>" --app "$APP" --app_dir "/data/<%= cluster %>/www/$APP" --build_id $VERSION
+/usr/bin/mozdeploy-install-app --pkgroot "<%= pkgroot %>" --app "$APP" --app_dir "/data/<%= cluster %>/www/$APP" --build_id $VERSION
