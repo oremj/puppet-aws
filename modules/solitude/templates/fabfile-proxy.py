@@ -10,6 +10,8 @@ from mozawsdeploy.fabfile import aws, web
 
 PROJECT_DIR = os.path.normpath(os.path.dirname(__file__))
 
+CLUSTER_DIR = '/data/<%= cluster %>'
+SITE_NAME = '<%= site_name %>'
 AMAZON_AMI = 'ami-2a31bf1a'
 SUBNET_ID = '<%= subnet_id %>'
 ENV = '<%= site %>'
@@ -39,12 +41,18 @@ def create_proxy(release_id, instance_type='m1.small', count=1):
 @task
 def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
-    r_id = build_release(ref)
-    venv = os.path.join(PROJECT_DIR, 'venv')
-    python = os.path.join(venv, 'bin',  'python')
-    app = os.path.join(PROJECT_DIR, 'solitude')
+    local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
+    local('%s/bin/install-app %s LATEST' % (CLUSTER_DIR, SITE_NAME))
 
-    instances = create_proxy(r_id, count=4)
+    release_dir = os.path.join(PROJECT_DIR, 'current')
+
+    venv = os.path.join(release_dir, 'venv')
+    python = os.path.join(venv, 'bin',  'python')
+    app = os.path.join(release_dir, 'solitude')
+    with lcd(app):
+        local('%s %s/bin/schematic migrations' % (python, venv))
+
+    instances = create_proxy(ref, count=4)
     new_inst_ids = [i.id for i in instances]
 
     print 'Sleeping for 5 min while instances build.'
@@ -52,22 +60,18 @@ def deploy(ref, wait_timeout=900):
     print 'Waiting for instances (timeout: %ds)' % wait_timeout
     aws.wait_for_healthy_instances(LB_NAME, new_inst_ids, wait_timeout)
     print 'All instances healthy'
-    print '%s is now running' % r_id
+    print '%s is now running' % ref
 
 
 @task
-def build_release(ref):
+def build_release(ref, build_id, build_dir):
     """Build release. This assumes puppet has placed settings in /settings"""
 
     r_id = web.build_release('solitude', PROJECT_DIR,
                              repo='git://github.com/mozilla/solitude.git',
                              ref=ref,
                              requirements='requirements/prod.txt',
-                             settings_dir='solitude/settings')
+                             settings_dir='solitude/settings',
+                             build_dir=build_dir, release_id=build_id)
 
     return r_id
-
-
-@task
-def remove_old_releases():
-    web.remove_old_releases(PROJECT_DIR, keep=4)
