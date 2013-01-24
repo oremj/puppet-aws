@@ -1,4 +1,5 @@
 class sentry::nginx {
+    include nginx
 
     $app_domain = $sentry::service::url_prefix
 
