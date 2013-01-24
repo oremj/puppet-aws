@@ -3,6 +3,10 @@ server {
     listen 81;
     server_name <%= app_domain %>;
 
+    location /_static {
+        alias /usr/lib/python2.6/site-packages/sentry/static/;
+    }
+
     location / {
         try_files $uri @sentry;
     }
