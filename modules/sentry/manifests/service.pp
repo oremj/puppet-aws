@@ -76,18 +76,18 @@ class sentry::service(
     nginx::upstream {
         "${app_name}":
             upstream_port => $web_port,
-            require       => Class['nginx'];
+            require       => Package['nginx'];
     }
 
     nginx::logdir {
         "${app_domain}":
-            before       => Class['nginx'];
+            before       => Package['nginx'];
     }
 
     nginx::config {
         "${app_domain}":
             content => template('sentry/nginx.conf.erb'),
-            require => Class['nginx'];
+            require => Package['nginx'];
     }
 
 }
