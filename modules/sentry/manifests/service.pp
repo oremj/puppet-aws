@@ -23,48 +23,71 @@ class sentry::service(
   $email_address = 'nobody@mozilla.com'
 ){
   include sentry
-  #  include sentry::nginx
+  include nginx
   include supervisord
 
-  file { '/etc/sentry':
-      ensure  => directory,
-      mode    => '0755',
-      owner   => 'sentry',
-      group   => 'root',
-      require => Class['sentry'],
-  }
+    file { '/etc/sentry':
+        ensure  => directory,
+        mode    => '0755',
+        owner   => 'sentry',
+        group   => 'root',
+        require => Class['sentry'],
+    }
+  
+    file { '/etc/sentry/sentry.conf.py':
+        ensure  => present,
+        content => template("${module_name}/sentry.conf.py.erb"),
+        mode    => 0644,
+        owner   => 'sentry',
+        group   => 'root',
+        require => File['/etc/sentry'],
+    }
+  
+    supervisord::program {
+      'sentry-http':
+        command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start http',
+        cwd     => '/usr/bin',
+        user    => 'sentry',
+        require => File['/etc/sentry/sentry.conf.py'],
+    }
+  
+    supervisord::program {
+      'sentry-udp':
+        command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start udp',
+        cwd     => '/usr/bin',
+        user    => 'sentry',
+        require => File['/etc/sentry/sentry.conf.py'],
+    }
+  
+    celery::service {
+      'sentry':
+        command => "/usr/bin/sentry --config=/etc/sentry/sentry.conf.py celeryd -c 4",
+        app_dir => '/usr/bin',
+        user    => 'sentry',
+        require => File['/etc/sentry/sentry.conf.py'],
+    }
 
-  file { '/etc/sentry/sentry.conf.py':
-      ensure  => present,
-      content => template("${module_name}/sentry.conf.py.erb"),
-      mode    => 0644,
-      owner   => 'sentry',
-      group   => 'root',
-      require => File['/etc/sentry'],
-  }
+    # include nginx
 
-  supervisord::program {
-    'sentry-http':
-      command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start http',
-      cwd     => '/usr/bin',
-      user    => 'sentry',
-      require => File['/etc/sentry/sentry.conf.py'],
-  }
+    $app_domain = $url_prefix
 
-  supervisord::program {
-    'sentry-udp':
-      command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start udp',
-      cwd     => '/usr/bin',
-      user    => 'sentry',
-      require => File['/etc/sentry/sentry.conf.py'],
-  }
+    $app_name = 'sentry-http'
 
-  celery::service {
-    'sentry':
-      command => "/usr/bin/sentry --config=/etc/sentry/sentry.conf.py celeryd -c 4",
-      app_dir => '/usr/bin',
-      user    => 'sentry',
-      require => File['/etc/sentry/sentry.conf.py'],
-  }
+    nginx::upstream {
+        "${app_name}":
+            upstream_port => $web_port,
+            require       => Class['nginx'];
+    }
+
+    nginx::logdir {
+        "${app_domain}":
+            before       => Class['nginx'];
+    }
+
+    nginx::config {
+        "${app_domain}":
+            content => template('sentry/nginx.conf.erb'),
+            require => Class['nginx'];
+    }
 
 }
