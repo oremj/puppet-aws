@@ -101,19 +101,9 @@ def create_security_groups(env=ENV):
 
 
 @task
-def build_app(ref):
-    local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
-
-
-@task
-def install_app(build_id='LATEST'):
-    local('%s/bin/install-app %s %s' % (CLUSTER_DIR, SITE_NAME, build_id))
-
-
-@task
 def deploy_to_admin(ref):
-    build_app(ref)
-    install_app()
+    web.build_app(CLUSTER_DIR, SITE_NAME, ref)
+    web.install_app(CLUSTER_DIR, SITE_NAME)
 
     release_dir = os.path.join(PROJECT_DIR, 'current')
 
@@ -126,7 +116,7 @@ def deploy_to_admin(ref):
 
 @task
 def remote_install_app(build_id='LATEST'):
-    sudo('%s/bin/install-app %s %s' % (CLUSTER_DIR, SITE_NAME, build_id))
+    web.remote_install_app(CLUSTER_DIR, SITE_NAME, build_id)
     sudo('kill -HUP $(supervisorctl pid gunicorn-solitude-payments)')
 
 
@@ -145,16 +135,9 @@ def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
 
     deploy_to_admin(ref)
-
-    instances = create_web(ref, count=4)
-    new_inst_ids = [i.id for i in instances]
-
-    print 'Sleeping for 5 min while instances build.'
-    time.sleep(300)
-    print 'Waiting for instances (timeout: %ds)' % wait_timeout
-    aws.wait_for_healthy_instances(LB_NAME, new_inst_ids, wait_timeout)
-    print 'All instances healthy'
-    print '%s is now running' % ref
+    aws.deploy_instances_and_wait(create_instance=create_web, lb_name=LB_NAME,
+                                  ref=ref, count=count,
+                                  wait_timeout=wait_timeout)
 
 
 @task
