@@ -2,7 +2,7 @@ import os
 import time
 from functools import partial
 
-from fabric.api import lcd, local, task
+from fabric.api import env, lcd, local, sudo, task
 
 from mozawsdeploy import config, ec2
 from mozawsdeploy.fabfile import aws, web
@@ -101,10 +101,19 @@ def create_security_groups(env=ENV):
 
 
 @task
-def deploy(ref, wait_timeout=900):
-    """Deploy a new version"""
+def build_app(ref):
     local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
-    local('%s/bin/install-app %s LATEST' % (CLUSTER_DIR, SITE_NAME))
+
+
+@task
+def install_app(build_id='LATEST'):
+    local('%s/bin/install-app %s %s' % (build_id, CLUSTER_DIR, SITE_NAME))
+
+
+@task
+def deploy_to_admin(ref):
+    build_app(ref)
+    install_app()
 
     release_dir = os.path.join(PROJECT_DIR, 'current')
 
@@ -113,6 +122,29 @@ def deploy(ref, wait_timeout=900):
     app = os.path.join(release_dir, 'solitude')
     with lcd(app):
         local('%s %s/bin/schematic migrations' % (python, venv))
+
+
+@task
+def remote_install_app(version): 
+    with 
+    sudo('%s/bin/install-app %s %s' % (build_id, CLUSTER_DIR, SITE_NAME))
+    sudo('kill -HUP $(supervisorctl pid gunicorn-solitude-payments)')
+
+
+@task
+def fastdeploy(ref):
+    """Deploys a new version using existing web servers"""
+    deploy_to_admin(ref)
+
+    web_servers = ec2.get_instances_by_lb(LB_NAME)
+    env.hosts = [i.private_ip_address for i in web_servers]
+
+
+@task
+def deploy(ref, wait_timeout=900):
+    """Deploy a new version"""
+
+    deploy_to_admin(ref)
 
     instances = create_web(ref, count=4)
     new_inst_ids = [i.id for i in instances]
