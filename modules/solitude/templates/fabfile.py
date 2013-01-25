@@ -2,7 +2,7 @@ import os
 import time
 from functools import partial
 
-from fabric.api import env, execute, lcd, local, sudo, task
+from fabric.api import env, execute, lcd, local, settings, sudo, task
 
 from mozawsdeploy import config, ec2
 from mozawsdeploy.fabfile import aws, web
@@ -136,8 +136,8 @@ def fastdeploy(ref):
     deploy_to_admin(ref)
 
     web_servers = ec2.get_instances_by_lb(LB_NAME)
-    env.hosts = [i.private_ip_address for i in web_servers]
-    execute(remote_install_app)
+    with settings(hosts=[i.private_ip_address for i in web_servers]):
+        execute(remote_install_app)
 
 
 @task
