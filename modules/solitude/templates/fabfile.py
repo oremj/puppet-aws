@@ -107,7 +107,7 @@ def build_app(ref):
 
 @task
 def install_app(build_id='LATEST'):
-    local('%s/bin/install-app %s %s' % (build_id, CLUSTER_DIR, SITE_NAME))
+    local('%s/bin/install-app %s %s' % (CLUSTER_DIR, SITE_NAME, build_id))
 
 
 @task
@@ -125,9 +125,8 @@ def deploy_to_admin(ref):
 
 
 @task
-def remote_install_app(version): 
-    with 
-    sudo('%s/bin/install-app %s %s' % (build_id, CLUSTER_DIR, SITE_NAME))
+def remote_install_app(build_id='LATEST'):
+    sudo('%s/bin/install-app %s %s' % (CLUSTER_DIR, SITE_NAME, build_id))
     sudo('kill -HUP $(supervisorctl pid gunicorn-solitude-payments)')
 
 
