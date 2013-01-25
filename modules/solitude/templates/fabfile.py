@@ -2,7 +2,7 @@ import os
 import time
 from functools import partial
 
-from fabric.api import env, lcd, local, sudo, task
+from fabric.api import env, execute, lcd, local, sudo, task
 
 from mozawsdeploy import config, ec2
 from mozawsdeploy.fabfile import aws, web
