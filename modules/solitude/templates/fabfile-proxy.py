@@ -1,8 +1,7 @@
 import os
-import time
 from functools import partial
 
-from fabric.api import lcd, local, task
+from fabric.api import execute, settings, sudo, task
 
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
@@ -22,7 +21,7 @@ create_server = partial(aws.create_server, app='solitude', ami=AMAZON_AMI,
 
 
 @task
-def create_proxy(release_id, instance_type='m1.small', count=1):
+def create_web(release_id, instance_type='m1.small', count=1):
     """
     args: instance_type, count
     This function will create the "golden master" ami for solitude web servers.
@@ -39,26 +38,36 @@ def create_proxy(release_id, instance_type='m1.small', count=1):
 
 
 @task
+def deploy_to_admin(ref):
+    web.build_app(CLUSTER_DIR, SITE_NAME, ref)
+    web.install_app(CLUSTER_DIR, SITE_NAME)
+
+
+@task
+def remote_install_app(build_id='LATEST'):
+    web.remote_install_app(CLUSTER_DIR, SITE_NAME, build_id)
+    sudo('kill -HUP $(supervisorctl pid gunicorn-solitude-payments)')
+
+
+@task
+def fastdeploy(ref):
+    """Deploys a new version using existing web servers"""
+    deploy_to_admin(ref)
+
+    web_servers = ec2.get_instances_by_lb(LB_NAME)
+    with settings(hosts=[i.private_ip_address for i in web_servers]):
+        execute(remote_install_app)
+
+
+@task
 def deploy(ref, wait_timeout=900):
     """Deploy a new version"""
-    local('%s/build/%s "%s"' % (CLUSTER_DIR, SITE_NAME, ref))
-    local('%s/bin/install-app %s LATEST' % (CLUSTER_DIR, SITE_NAME))
 
-    release_dir = os.path.join(PROJECT_DIR, 'current')
+    deploy_to_admin(ref)
+    aws.deploy_instances_and_wait(create_instance=create_web, lb_name=LB_NAME,
+                                  ref=ref, count=4,
+                                  wait_timeout=wait_timeout)
 
-    venv = os.path.join(release_dir, 'venv')
-    python = os.path.join(venv, 'bin',  'python')
-    app = os.path.join(release_dir, 'solitude')
-
-    instances = create_proxy(ref, count=4)
-    new_inst_ids = [i.id for i in instances]
-
-    print 'Sleeping for 5 min while instances build.'
-    time.sleep(300)
-    print 'Waiting for instances (timeout: %ds)' % wait_timeout
-    aws.wait_for_healthy_instances(LB_NAME, new_inst_ids, wait_timeout)
-    print 'All instances healthy'
-    print '%s is now running' % ref
 
 
 @task
