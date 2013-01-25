@@ -1,10 +1,9 @@
 import os
-import time
 from functools import partial
 
-from fabric.api import env, execute, lcd, local, settings, sudo, task
+from fabric.api import execute, lcd, local, settings, sudo, task
 
-from mozawsdeploy import config, ec2
+from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
 
 
@@ -136,7 +135,7 @@ def deploy(ref, wait_timeout=900):
 
     deploy_to_admin(ref)
     aws.deploy_instances_and_wait(create_instance=create_web, lb_name=LB_NAME,
-                                  ref=ref, count=count,
+                                  ref=ref, count=4,
                                   wait_timeout=wait_timeout)
 
 
