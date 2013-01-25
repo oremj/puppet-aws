@@ -137,6 +137,7 @@ def fastdeploy(ref):
 
     web_servers = ec2.get_instances_by_lb(LB_NAME)
     env.hosts = [i.private_ip_address for i in web_servers]
+    execute(remote_install_app)
 
 
 @task
