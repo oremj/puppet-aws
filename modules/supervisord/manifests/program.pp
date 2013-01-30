@@ -6,8 +6,18 @@ define supervisord::program(
 ) {
     $program_name = $name
     file {
-        "/etc/supervisord.conf.d/$program_name.conf":
+        "/etc/supervisord.conf.d/${program_name}.conf":
             notify => Service['supervisord'],
             content => template('supervisord/program.conf');
+    }
+
+    service {
+        "supervisord-${program_name}":
+            ensure => 'running',
+            restart => "/usr/bin/supervisorctl restart ${program_name}",
+            start => "/usr/bin/supervisorctl start ${program_name}",
+            stop => "/usr/bin/supervisorctl stop ${program_name}",
+            status => "/usr/bin/supervisorctl status ${program_name} | /bin/grep -q RUNNING",
+            require => Service['supervisord'];
     }
 }
