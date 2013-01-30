@@ -15,11 +15,4 @@ define mozdeploy::server(
     nginx::logdir {
         $server_name:;
     }
-
-    file {
-        "/data/${cluster}/build":
-            ensure => directory,
-            purge => true,
-            recurse => true;
-    }
 }
