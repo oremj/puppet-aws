@@ -1,6 +1,4 @@
 define mozdeploy::server(
-    $hostroot,
-    $builddir = '/data/.mozdeploybuild',
     $port = '80',
     $alt_names = ''
 ) {
@@ -19,10 +17,6 @@ define mozdeploy::server(
     }
 
     file {
-        "/data/${cluster}/mozdeploy.cfg":
-            mode => '0600',
-            content => template('mozdeploy/server/mozdeploy.cfg');
-
         "/data/${cluster}/build":
             ensure => directory,
             purge => true,
