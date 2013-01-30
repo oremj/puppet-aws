@@ -39,7 +39,7 @@ def create_web(release_id, instance_type='m1.small', count=1):
 
 @task
 def deploy_to_admin(ref):
-    web.build_app(CLUSTER_DIR, SITE_NAME, ref)
+    web.build_app(PROJECT_DIR, ref)
     web.install_app(CLUSTER_DIR, SITE_NAME)
 
 

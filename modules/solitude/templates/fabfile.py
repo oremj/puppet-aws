@@ -101,7 +101,7 @@ def create_security_groups(env=ENV):
 
 @task
 def deploy_to_admin(ref):
-    web.build_app(CLUSTER_DIR, SITE_NAME, ref)
+    web.build_app(PROJECT_DIR, ref)
     web.install_app(CLUSTER_DIR, SITE_NAME)
 
     release_dir = os.path.join(PROJECT_DIR, 'current')
