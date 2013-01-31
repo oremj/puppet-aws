@@ -5,7 +5,7 @@ define ganglia::datasource(
     file {
         "/etc/ganglia/gmetad.d/${cluster}.conf":
             notify => Service['gmetad'],
-            require => Supervisor::Program["gmond-${cluster}"],
+            require => Supervisord::Program["gmond-${cluster}"],
             content => "data_source \"${cluster}\" localhost:${gmond_port}\n";
 
         "/etc/ganglia/gmond.d/${cluster}.conf":
