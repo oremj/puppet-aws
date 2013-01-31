@@ -31,4 +31,9 @@ class ganglia::server {
             hasrestart => true,
             hasstatus => true;
     }
+
+    ganglia::listener {
+        'generic':
+            gmond_port => '8649';
+    }
 }

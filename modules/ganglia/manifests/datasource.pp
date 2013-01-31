@@ -1,23 +1,19 @@
 define ganglia::datasource(
-    $gmond_port
+    $gmond_port,
+    $include_gmond = true
 ) {
     $cluster = $name
     file {
         "/etc/ganglia/gmetad.d/${cluster}.conf":
             notify => Service['gmetad'],
-            require => Supervisord::Program["gmond-${cluster}"],
             content => "data_source \"${cluster}\" localhost:${gmond_port}\n";
-
-        "/etc/ganglia/gmond.d/${cluster}.conf":
-            notify => Service["supervisord-gmond-${cluster}"],
-            content => template('ganglia/gmond.datasource.conf');
     }
 
-    supervisord::program {
-        "gmond-${cluster}":
-            command => "/usr/sbin/gmond -f -c /etc/ganglia/gmond.d/${cluster}.conf",
-            cwd => '/tmp',
-            user => 'ganglia',
-            require => [File["/etc/ganglia/gmond.d/${cluster}.conf"], Package['ganglia-gmond']];
+    if($include_gmond) {
+        ganglia::listener {
+            $cluster:
+                before => File["/etc/ganglia/gmetad.d/${cluster}.conf"],
+                gmond_port => $gmond_port;
+        }
     }
 }
