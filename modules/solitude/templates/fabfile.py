@@ -145,7 +145,8 @@ def build_release(ref, build_id, build_dir):
     """Build release. This assumes puppet has placed settings in /settings"""
     def extra(release_dir):
         local('rsync -av %s/aeskeys/ %s/aeskeys/' % (PROJECT_DIR, release_dir))
-        local('rsync -av %s/settings/ %s/solitude/settings/' % (PROJECT_DIR, release_dir))
+        local('rsync -av %s/settings/ %s/solitude/solitude/settings/' %
+              (PROJECT_DIR, release_dir))
 
     make.python_app_package('solitude',
                             version=ref,
