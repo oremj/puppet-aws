@@ -3,6 +3,7 @@ from functools import partial
 
 from fabric.api import execute, lcd, local, settings, sudo, task
 
+from mozdeploy import make
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
 
@@ -144,12 +145,11 @@ def build_release(ref, build_id, build_dir):
     """Build release. This assumes puppet has placed settings in /settings"""
     def extra(release_dir):
         local('rsync -av %s/aeskeys/ %s/aeskeys/' % (PROJECT_DIR, release_dir))
+        local('rsync -av %s/settings/ %s/solitude/settings/' % (PROJECT_DIR, release_dir))
 
-    r_id = web.build_release('solitude', PROJECT_DIR,
-                             repo='git://github.com/mozilla/solitude.git',
-                             ref=ref,
-                             requirements='requirements/prod.txt',
-                             settings_dir='solitude/settings', extra=extra,
-                             build_dir=build_dir, release_id=build_id)
-
-    return r_id
+    make.python_app_package('solitude',
+                            version=ref,
+                            repo='git://github.com/mozilla/solitude.git',
+                            requirements='requirements/prod.txt',
+                            extra=extra,
+                            build_dir=build_dir)
