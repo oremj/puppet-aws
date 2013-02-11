@@ -17,7 +17,7 @@ class rsyslog::node (
         "${rsyslog_ca_cert}":
           ensure  => present,
           mode    => '0644',
-          content => template("${rsyslog_ca_cert_content}"),
+          content => $rsyslog_ca_cert_content,
           before  => Rsyslog::Config['node'],
       }
     }
