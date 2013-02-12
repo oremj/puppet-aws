@@ -1,32 +1,7 @@
 class audit {
     $all_uids = 'yes'
 
-    package {
-        "audit_package":
-            ensure => latest,
-            name   => 'audit-mozilla';
-        "audispd-mozilla-plugins":
-            ensure => latest;
-        "audit-mozilla-libs-python":
-            ensure => latest;
-        "audit-mozilla-libs":
-            ensure => latest,
-            before => Package["audit_package"];
-
-        "audit":
-            ensure => absent,
-            before => Package["audit_package"];
-        "audispd-plugins":
-            ensure => absent,
-            before => Package["audispd-mozilla-plugins"];
-        "audit-libs-python":
-            ensure => absent;
-        "audit-libs":
-            ensure => latest,
-            before => Package["audit-libs"];
-        "audispd-plugins-1.8-3.el5.centosmoz5.i386":
-            ensure => absent;
-    }
+    include audit::aws
 
     service {
         "auditd":
