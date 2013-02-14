@@ -9,7 +9,7 @@ class mozwebsyslogger(
     include rsyslog
 
     if $tls {
-        $inputname = 'imtcp'
+        $inputname = 'tlsin'
         class {
             'rsyslog::tlsserver':
               ca_cert_content     => $ca_cert_content,
