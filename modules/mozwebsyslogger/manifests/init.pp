@@ -23,23 +23,27 @@ class mozwebsyslogger(
     }
     
     mount { 
-        '/var/log/clusterlogs':
+        '/var/log/syslogs':
             device  => "${device}",
             fstype  => 'ext4',
             ensure  => 'mounted',
             options => 'defaults',
             atboot  => 'true',
-            require => File['/var/log/clusterlogs'];
+            require => File['/var/log/syslogs'];
     }
 
     file {
-         '/var/log/clusterlogs':
+         '/var/log/syslogs':
             mode    => '0755',
             ensure  => directory,
     }
 
     file {
-         '/var/log/clusterlogs/hosts':
+         '/var/log/syslogs/apps':
+            mode    => '0755',
+            ensure  => directory,
+            require => Mount['/var/log/clusterlogs'];
+         '/var/log/syslogs/hosts':
             mode    => '0755',
             ensure  => directory,
             require => Mount['/var/log/clusterlogs'];
@@ -47,7 +51,7 @@ class mozwebsyslogger(
 
     rsyslog::config {
         'websyslogger':
-            require => File['/var/log/clusterlogs/hosts'],
+            require => [File['/var/log/syslogs/hosts'], File['/var/log/syslogs/apps']],
             content => template('mozwebsyslogger/syslog.conf');
     }
 }
