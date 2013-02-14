@@ -3,7 +3,7 @@ from functools import partial
 
 from fabric.api import execute, settings, sudo, task
 
-from mozdeploy import make
+from apppackr import make
 from mozawsdeploy import ec2
 from mozawsdeploy.fabfile import aws, web
 

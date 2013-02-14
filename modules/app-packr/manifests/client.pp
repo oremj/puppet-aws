@@ -1,14 +1,14 @@
-define mozdeploy::client(
+define app_packr::client(
     $pkghost
 ) {
 
     $cluster = $name
     $pkgroot = "${pkghost}/${cluster}"
 
-    include mozdeploy
+    include app_packr
     file {
         "/data/${cluster}/bin/install-app":
             mode => 0700,
-            content => template('mozdeploy/client/install-app');
+            content => template('app_packr/client/install-app');
     }
 }

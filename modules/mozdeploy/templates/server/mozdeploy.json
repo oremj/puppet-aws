@@ -1,6 +1,0 @@
-{
-    "hostroot": "/data/mozdeployserver/<%= cluster %>",
-    "build_dir": "/data/<%= cluster %>/.mozdeploybuild",
-    "app": "<%= app_name %>",
-    "command": "<%= build_command %>"
-}

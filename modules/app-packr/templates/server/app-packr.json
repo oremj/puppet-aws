@@ -1,0 +1,6 @@
+{
+    "hostroot": "/data/app-packr-server/<%= cluster %>",
+    "build_dir": "/data/<%= cluster %>/.app-packr-build",
+    "app": "<%= app_name %>",
+    "command": "<%= build_command %>"
+}

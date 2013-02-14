@@ -1,15 +1,15 @@
-define mozdeploy::server(
+define app_packr::server(
     $port = '80',
     $alt_names = ''
 ) {
     $cluster = $name
-    $server_name = "${cluster}.mozdeploy"
+    $server_name = "${cluster}.app_packr"
 
-    include mozdeploy
+    include app_packr
     include nginx
     nginx::config {
         $server_name:
-            content => template('mozdeploy/server/nginx.conf');
+            content => template('app_packr/server/nginx.conf');
     }
 
     nginx::logdir {

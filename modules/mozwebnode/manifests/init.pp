@@ -24,7 +24,7 @@ class mozwebnode(
             ensure => 'directory';
     }
 
-    mozdeploy::client {
+    app_packr::client {
         $cluster: 
             pkghost => $pkghost;
     }
