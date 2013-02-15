@@ -1,6 +1,6 @@
 define mozwebadmin::cluster(
     $packr_port,
-    $packr_alt_names => 'puppet localhost'
+    $packr_alt_names = 'puppet localhost'
 ) {
     $cluster_name = $name
 
