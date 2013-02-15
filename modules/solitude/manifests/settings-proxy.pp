@@ -24,7 +24,7 @@ define solitude::settings-proxy(
             ensure => 'directory';
 
         "${project_dir}/settings/local.py":
-            content => template('solitude/settings/local_proxy.py');
+            content => "from .sites.${site}.proxy import *\n";
 
         "${project_dir}/settings/sites/${site}/private_base.py":
             content => template('solitude/settings/private_proxy.py');

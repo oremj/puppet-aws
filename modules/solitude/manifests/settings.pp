@@ -25,7 +25,7 @@ define solitude::settings(
             ensure => 'directory';
 
         "${project_dir}/settings/local.py":
-            content => template('solitude/settings/local.py');
+            content => "from .sites.${site}.db import *\n";
 
         "${project_dir}/settings/sites/${site}/private_base.py":
             content => template('solitude/settings/private.py');
