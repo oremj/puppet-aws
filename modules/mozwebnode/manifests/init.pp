@@ -20,6 +20,7 @@ class mozwebnode(
     file {
         ['/data',
          "/data/${cluster}",
+         "/data/${cluster}/www",
          "/data/${cluster}/bin"]:
             ensure => 'directory';
     }
