@@ -8,6 +8,7 @@ define mozuser::key(
         $key_name:
             user => $user,
             type => $type,
+            require => Mozuser::User[$user],
             key => $key;
     }
 }
