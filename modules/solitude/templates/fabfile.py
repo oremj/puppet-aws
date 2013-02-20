@@ -76,6 +76,12 @@ def create_security_groups(env=ENV):
                              [ec2.SecurityGroupInbound('tcp',
                                                        22, 22, ['admin'])])
 
+    base = ec2.SecurityGroup('db',
+                             [ec2.SecurityGroupInbound('tcp',
+                                                       3306, 3306, ['admin',
+                                                                    'celery',
+                                                                    'web'])])
+
     rabbit_elb = ec2.SecurityGroup('rabbitmq-elb',
                                    [ec2.SecurityGroupInbound('tcp',
                                                              5672, 5672,
@@ -87,10 +93,21 @@ def create_security_groups(env=ENV):
                                [ec2.SecurityGroupInbound('udp',
                                                          514, 514, ['base'])])
 
+    web = ec2.SecurityGroup('web',
+                            [ec2.SecurityGroupInbound('tcp',
+                                                      81, 81, ['web-elb'])])
+
+    web_proxy  = ec2.SecurityGroup('web-proxy',
+                                   [ec2.SecurityGroupInbound('tcp',
+                                                             81, 81, ['web-proxy-elb'])])
+
     security_groups.append(admin)
     security_groups.append(base)
+    security_groups.append(db)
     security_groups.append(rabbit_elb)
     security_groups.append(syslog)
+    security_groups.append(web)
+    security_groups.append(web_proxy)
 
     security_groups += [ec2.SecurityGroup('celery'),
                         ec2.SecurityGroup('graphite'),
@@ -98,8 +115,7 @@ def create_security_groups(env=ENV):
                         ec2.SecurityGroup('rabbitmq'),
                         ec2.SecurityGroup('sentry'),
                         ec2.SecurityGroup('sentry-elb'),
-                        ec2.SecurityGroup('web-proxy'),
-                        ec2.SecurityGroup('web'),
+                        ec2.SecurityGroup('web-proxy-elb'),
                         ec2.SecurityGroup('web-elb')]
 
     ec2.create_security_groups(security_groups, 'solitude', env)
