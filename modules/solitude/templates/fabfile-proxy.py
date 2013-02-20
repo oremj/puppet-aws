@@ -1,7 +1,7 @@
 import os
 from functools import partial
 
-from fabric.api import execute, local, settings, sudo, task
+from fabric.api import execute, lcd, local, settings, sudo, task
 
 from apppackr import make
 from mozawsdeploy import ec2
