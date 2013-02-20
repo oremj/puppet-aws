@@ -11,22 +11,23 @@ class audit::aws {
             ensure => absent,
             before => [ 
                         Package['audispd-mozilla-plugins'],
-                        Package['audit-mozilla'],
+                        Package['audit_package'],
                         Package['audit-mozilla-libs'],
                         Package['audit-mozilla-libs-python'],
             ];
     }
 
     package {
-        'audit-mozilla':
-            ensure => latest;
+        'audit_package':
+            ensure => latest,
+            name   => audit-mozilla;
         'audispd-mozilla-plugins':
             ensure => latest;
         'audit-mozilla-libs-python':
             ensure => latest;
         'audit-mozilla-libs':
             ensure => latest,
-            before => Package['audit-mozilla'];
+            before => Package['audit_package'];
         'audit-libs':
             ensure => latest;
     }
