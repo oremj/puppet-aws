@@ -76,11 +76,11 @@ def create_security_groups(env=ENV):
                              [ec2.SecurityGroupInbound('tcp',
                                                        22, 22, ['admin'])])
 
-    base = ec2.SecurityGroup('db',
-                             [ec2.SecurityGroupInbound('tcp',
-                                                       3306, 3306, ['admin',
-                                                                    'celery',
-                                                                    'web'])])
+    db = ec2.SecurityGroup('db',
+                           [ec2.SecurityGroupInbound('tcp',
+                                                     3306, 3306, ['admin',
+                                                                  'celery',
+                                                                  'web'])])
 
     rabbit_elb = ec2.SecurityGroup('rabbitmq-elb',
                                    [ec2.SecurityGroupInbound('tcp',
