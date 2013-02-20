@@ -2,10 +2,11 @@ class audit::aws {
     # remove these before we even start.
     package {
       [
-        'audit',
         'audispd-plugins',
-        'audit-libs-python',
+        'audit',
+        'audit-libs',
         'audit-libs-2.2-2.17.amzn1.i686',
+        'audit-libs-python',
         'pam-1.1.1-10.19.amzn1.i686',
       ]:
             ensure => absent,
@@ -28,7 +29,5 @@ class audit::aws {
         'audit-mozilla-libs':
             ensure => latest,
             before => Package['audit_package'];
-        'audit-libs':
-            ensure => latest;
     }
 }
