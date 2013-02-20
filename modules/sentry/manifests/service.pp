@@ -12,7 +12,7 @@ class sentry::service(
   $udp_host = '0.0.0.0',
   $udp_port = '9000',
   $workers = '8',
-  $broker_url = 'amqp://sentry:',
+  #$broker_url = 'amqp://sentry:',
   $redis_host = 'localhost',
   $redis_port = '6379',
   $email_host = 'localhost',

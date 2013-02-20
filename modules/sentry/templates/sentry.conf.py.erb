@@ -41,13 +41,13 @@ SENTRY_WEB_OPTIONS = {
 SENTRY_UDP_HOST = '<%= udp_host %>'
 SENTRY_UDP_PORT = <%= udp_port %>
 
-SENTRY_USE_QUEUE = True
+SENTRY_USE_QUEUE = False
 
 CELERY_IGNORE_RESULT = True
 CELERY_SEND_EVENTS = False
 CELERYD_PREFETCH_MULTIPLIER = 8
 
-BROKER_URL = '<%= broker_url %>'
+#BROKER_URL = '<%= broker_url %>'
 
 SENTRY_BUFFER = 'sentry.buffer.base.Buffer'
 SENTRY_BUFFER_OPTIONS = {
