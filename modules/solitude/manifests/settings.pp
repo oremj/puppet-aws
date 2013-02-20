@@ -4,6 +4,7 @@ define solitude::settings(
     $db_url,
     $db_url_slave,
     $secret_key,
+    $hmac_key,
     $server_email,
     $email_host,
     $memcache_hosts,

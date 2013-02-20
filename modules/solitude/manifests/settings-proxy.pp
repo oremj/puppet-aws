@@ -2,6 +2,7 @@ define solitude::settings-proxy(
     $site,
     $project_dir,
     $secret_key,
+    $hmac_key,
     $server_email,
     $email_host,
     $cache_prefix,

@@ -1,6 +1,6 @@
 DATABASES_DEFAULT_URL = '<%= db_url %>'
 HMAC_KEYS = {
-    '2011-01-01': 'cheesecake'    
+    '2013-02-01': '<%= hmac_key %>'    
 }
 
 SECRET_KEY = '<%= secret_key %>'

@@ -1,5 +1,5 @@
 HMAC_KEYS = {
-    '2011-01-01': 'cheesecake'    
+    '2013-02-20': '<%= hmac_key %>'    
 }
 
 SECRET_KEY = '<%= secret_key %>'
