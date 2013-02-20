@@ -65,6 +65,11 @@ def create_security_groups(env=ENV):
                                                                    'web-proxy',
                                                                    'celery']),
                                ec2.SecurityGroupInbound('tcp',
+                                                        8080, 8080, ['web',
+                                                                     'celery']),
+                               ec2.SecurityGroupInbound('tcp',
+                                                        8081, 8081, ['web-proxy']),
+                               ec2.SecurityGroupInbound('tcp',
                                                         8140, 8140, ['base'])])
 
     base = ec2.SecurityGroup('base',
