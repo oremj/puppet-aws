@@ -1,6 +1,6 @@
 class mozwebsyslogger(
     $device = '/dev/xvdf1',
-    $tls = true,
+    $tls = false,
     $ca_cert_content = undef,
     $server_cert_content = undef,
     $server_key_content = undef
