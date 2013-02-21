@@ -47,7 +47,7 @@ def deploy_to_admin(ref):
 @task
 def remote_install_app(build_id='LATEST'):
     web.remote_install_app(CLUSTER_DIR, SITE_NAME, build_id)
-    sudo('kill -HUP $(supervisorctl pid gunicorn-solitude-payments)')
+    sudo('supervisorctl restart gunicorn-solitude-payments')
 
 
 @task
