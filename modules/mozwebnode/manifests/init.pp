@@ -3,6 +3,7 @@ class mozwebnode(
     $pkghost,
     $pyrepo_server = 'https://pyrepo.addons.mozilla.org/'
 ){
+    include rsyslog::udpserver
     include supervisord
 
     package {
