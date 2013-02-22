@@ -5,9 +5,4 @@ class solitude::packages {
          'libxml2']:
             ensure => 'present';
     }
-    package {
-        'py-bcrypt':
-          ensure  => present,
-          require => Yumrepo['epel'];
-    }
 }
