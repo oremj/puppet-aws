@@ -15,6 +15,6 @@ define rsyslog::tlsnode(
              ensure  => present,
              mode    => '0644',
              content => $rsyslog_ca_cert_content,
-             before  => Rsyslog::Config['node'],
+             before  => Rsyslog::Config["tlsnode_${syslog_server}"],
     }
 }
