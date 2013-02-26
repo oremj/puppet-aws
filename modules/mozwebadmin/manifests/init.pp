@@ -14,6 +14,6 @@ class mozwebadmin {
             ensure => 'directory';
 
         '/data/fabfile.py':
-            content => 'from mozawsdeploy.fabfile.aws import *';
+            content => template('mozwebadmin/fabfile.py');
     }
 }

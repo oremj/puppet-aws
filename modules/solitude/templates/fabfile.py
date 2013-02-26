@@ -18,8 +18,6 @@ SUBNET_ID = '<%= subnet_id %>'
 ENV = config.env
 LB_NAME = '<%= lb_name %>'
 
-SERVER_TYPES = ['syslog', 'celery', 'sentry', 'rabbitmq', 'graphite']
-
 create_server = partial(aws.create_server, subnet_id=SUBNET_ID)
 
 
@@ -34,19 +32,6 @@ def create_web(release_id, instance_type='m1.small', count=1):
                               instance_type=instance_type,
                               count=count)
 
-    return instances
-
-
-@task
-def create_instance(server_type, instance_type='m1.small'):
-    """
-    args: server_type, instance_type.
-          Valid server_types are listed in SERVER_TYPES
-    """
-    assert server_type in SERVER_TYPES
-
-    instances = create_server(server_type=server_type,
-                              instance_type=instance_type)
     return instances
 
 
