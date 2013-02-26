@@ -40,67 +40,29 @@ def create_security_groups(env=ENV):
     """
     This function will create security groups for the specified env
     """
-    security_groups = []
-    admin = ec2.SecurityGroup('admin',
-                              [ec2.SecurityGroupInbound('tcp',
-                                                        873, 873, ['web',
-                                                                   'web-proxy',
-                                                                   'celery']),
-                               ec2.SecurityGroupInbound('tcp',
-                                                        8080, 8080, ['web',
-                                                                     'celery']),
-                               ec2.SecurityGroupInbound('tcp',
-                                                        8081, 8081, ['web-proxy']),
-                               ec2.SecurityGroupInbound('tcp',
-                                                        8140, 8140, ['base'])])
+    security_policy = {
+        'admin': {'in': ['celery,web,web-proxy:873/tcp',
+                         'celery,web:8080/tcp',
+                         'web-proxy:8081/tcp',
+                         'base:8140/tcp']},
+        'celery': {},
+        'base': {'in': ['admin:22/tcp']},
+        'db': {'in': ['admin,celery,web:3306/tcp']},
+        'graphite': {},
+        'graphite-elb': {},
+        'rabbitmq': {},
+        'rabbitmq-elb': {'in': ['admin,celery,web:5672/tcp']},
+        'sentry': {},
+        'sentry-elb': {},
+        'syslog': {'in': ['base:514/udp']},
+        'web': {'in': ['web-elb:81/tcp']},
+        'web-elb': {},
+        'web-proxy': {'in': ['web-proxy-elb:81/tcp']},
+        'web-proxy-elb': {},
+    }
 
-    base = ec2.SecurityGroup('base',
-                             [ec2.SecurityGroupInbound('tcp',
-                                                       22, 22, ['admin'])])
 
-    db = ec2.SecurityGroup('db',
-                           [ec2.SecurityGroupInbound('tcp',
-                                                     3306, 3306, ['admin',
-                                                                  'celery',
-                                                                  'web'])])
-
-    rabbit_elb = ec2.SecurityGroup('rabbitmq-elb',
-                                   [ec2.SecurityGroupInbound('tcp',
-                                                             5672, 5672,
-                                                             ['web',
-                                                              'admin',
-                                                              'celery'])])
-
-    syslog = ec2.SecurityGroup('syslog',
-                               [ec2.SecurityGroupInbound('udp',
-                                                         514, 514, ['base'])])
-
-    web = ec2.SecurityGroup('web',
-                            [ec2.SecurityGroupInbound('tcp',
-                                                      81, 81, ['web-elb'])])
-
-    web_proxy  = ec2.SecurityGroup('web-proxy',
-                                   [ec2.SecurityGroupInbound('tcp',
-                                                             81, 81, ['web-proxy-elb'])])
-
-    security_groups.append(admin)
-    security_groups.append(base)
-    security_groups.append(db)
-    security_groups.append(rabbit_elb)
-    security_groups.append(syslog)
-    security_groups.append(web)
-    security_groups.append(web_proxy)
-
-    security_groups += [ec2.SecurityGroup('celery'),
-                        ec2.SecurityGroup('graphite'),
-                        ec2.SecurityGroup('graphite-elb'),
-                        ec2.SecurityGroup('rabbitmq'),
-                        ec2.SecurityGroup('sentry'),
-                        ec2.SecurityGroup('sentry-elb'),
-                        ec2.SecurityGroup('web-proxy-elb'),
-                        ec2.SecurityGroup('web-elb')]
-
-    ec2.create_security_groups(security_groups, 'solitude', env)
+    ec2.create_security_policy(security_policy, 'solitude', env)
 
 
 @task
