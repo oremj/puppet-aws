@@ -1,5 +1,6 @@
 [awsdeploy]
 app = <%= aws_app %>
+amazon_ami = <%= amazon_ami %>
 env = <%= aws_env %>
 region = <%= region %>
 puppet_ip = <%= puppet_ip %>
