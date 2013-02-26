@@ -1,0 +1,6 @@
+[awsdeploy]
+app = <%= aws_app %>
+env = <%= aws_env %>
+region = <%= region %>
+puppet_ip = <%= puppet_ip %>
+vpc_id = <%= vpc_id %>
