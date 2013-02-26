@@ -10,7 +10,8 @@ class mozwebadmin {
     }
 
     file {
-        '/data':
+        ['/data',
+         '/data/security_policies']:
             ensure => 'directory';
 
         '/data/fabfile.py':

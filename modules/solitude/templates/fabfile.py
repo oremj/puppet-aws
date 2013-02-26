@@ -15,7 +15,6 @@ PROJECT_DIR = os.path.normpath(os.path.dirname(__file__))
 CLUSTER_DIR = '/data/<%= cluster %>'
 SITE_NAME = '<%= site_name %>'
 SUBNET_ID = '<%= subnet_id %>'
-ENV = config.env
 LB_NAME = '<%= lb_name %>'
 
 create_server = partial(aws.create_server, subnet_id=SUBNET_ID)
@@ -33,36 +32,6 @@ def create_web(release_id, instance_type='m1.small', count=1):
                               count=count)
 
     return instances
-
-
-@task
-def create_security_groups(env=ENV):
-    """
-    This function will create security groups for the specified env
-    """
-    security_policy = {
-        'admin': {'in': ['celery,web,web-proxy:873/tcp',
-                         'celery,web:8080/tcp',
-                         'web-proxy:8081/tcp',
-                         'base:8140/tcp']},
-        'celery': {},
-        'base': {'in': ['admin:22/tcp']},
-        'db': {'in': ['admin,celery,web:3306/tcp']},
-        'graphite': {},
-        'graphite-elb': {},
-        'rabbitmq': {},
-        'rabbitmq-elb': {'in': ['admin,celery,web:5672/tcp']},
-        'sentry': {},
-        'sentry-elb': {},
-        'syslog': {'in': ['base:514/udp']},
-        'web': {'in': ['web-elb:81/tcp']},
-        'web-elb': {},
-        'web-proxy': {'in': ['web-proxy-elb:81/tcp']},
-        'web-proxy-elb': {},
-    }
-
-
-    ec2.create_security_policy(security_policy, 'solitude', env)
 
 
 @task
