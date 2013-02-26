@@ -4,21 +4,21 @@ from functools import partial
 from fabric.api import execute, lcd, local, settings, sudo, task
 
 from apppackr import make
-from mozawsdeploy import ec2
+from mozawsdeploy import config, configure, ec2
 from mozawsdeploy.fabfile import aws, web
 
+
+configure()
 
 PROJECT_DIR = os.path.normpath(os.path.dirname(__file__))
 
 CLUSTER_DIR = '/data/<%= cluster %>'
 SITE_NAME = '<%= site_name %>'
-AMAZON_AMI = 'ami-2a31bf1a'
 SUBNET_ID = '<%= subnet_id %>'
-ENV = '<%= site %>'
+ENV = config.env
 LB_NAME = '<%= lb_name %>'
 
-create_server = partial(aws.create_server, app='solitude', ami=AMAZON_AMI,
-                        subnet_id=SUBNET_ID, env=ENV)
+create_server = partial(aws.create_server, subnet_id=SUBNET_ID)
 
 
 @task
@@ -31,9 +31,6 @@ def create_web(release_id, instance_type='m1.small', count=1):
     instances = create_server(server_type='web-proxy',
                               instance_type=instance_type,
                               count=count)
-
-    for i in instances:
-        i.add_tag('Release', release_id)
 
     return instances
 
