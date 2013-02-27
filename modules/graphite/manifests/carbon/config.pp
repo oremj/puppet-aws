@@ -17,7 +17,9 @@ class graphite::carbon::config {
   file {
     '/etc/carbon/carbon.conf':
         ensure  => present,
-        content => template('graphite/carbon.conf.erb');
+        content => template('graphite/carbon.conf.erb'),
+        require => Package['carbon'],
+        notify  => Service['carbon-cache'];
   }
   concat { '/etc/carbon/storage-schemas.conf':
     group   => '0',
