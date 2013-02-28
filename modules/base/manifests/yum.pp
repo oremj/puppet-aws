@@ -13,6 +13,7 @@ class base::yum {
       baseurl        => 'https://s3-us-west-2.amazonaws.com/rpm-repo/6/',
       descr          => 'Mozilla Packages',
       enabled        => 1,
+      priority       => 1,
       gpgcheck       => 0,
       failovermethod => priority,
   }
