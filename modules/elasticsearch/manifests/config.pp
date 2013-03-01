@@ -1,7 +1,7 @@
 class elasticsearch::config(
   $cluster_name,
   $unicast_hosts,
-  $datecetner = 'aws'
+  $datacenter = 'aws'
 ){
 
   include elasticsearch
