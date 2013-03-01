@@ -33,7 +33,7 @@
   discovery: 
     zen.ping.unicast.hosts: 
     <% unicast_hosts.each do |host| -%>
-      "<%= host %>"
+      - "<%= host %>"
     <% end -%>
     zen: 
       ping_timeout: "4"
