@@ -1,6 +1,6 @@
 class elasticsearch (
-    $version = '0.20.7-1.el6',
     $plugins,
+    $version = '0.20.5-1.amzn1',
     $package = 'elasticsearch',
     $java_package = 'java-1.7.0-openjdk',
     $config_dir = '/etc/elasticsearch',
