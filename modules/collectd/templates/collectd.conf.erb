@@ -10,7 +10,7 @@
 # Global settings for the daemon.                                            #
 ##############################################################################
 
-Hostname    "<%= scope.lookupvar('::fqdn') %>.<%= scope.lookupvar('::ec2_instance_id') %>
+Hostname    "<%= scope.lookupvar('::fqdn') %>.<%= scope.lookupvar('::ec2_instance_id') %>"
 FQDNLookup   false
 BaseDir     "/var/lib/collectd"
 PIDFile     "/var/run/collectd.pid"
