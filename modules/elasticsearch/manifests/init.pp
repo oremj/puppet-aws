@@ -1,10 +1,10 @@
 class elasticsearch (
-    $plugins,
     $version = '0.20.5-1.amzn1',
     $package = 'elasticsearch',
     $java_package = 'java-1.7.0-openjdk',
     $config_dir = '/etc/elasticsearch',
-    $user = elasticsearch
+    $user = elasticsearch,
+    $plugins = false
 ){
 
   include elasticsearch::user
