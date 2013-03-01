@@ -14,21 +14,21 @@ class elasticsearch::config(
     "${elasticsearch::config_dir}/elasticsearch.yml":
         ensure   => present,
         content  => template('elasticsearch/elasticsearch.yml.erb'),
-        user     => "${elasticsearch::user}",
+        owner    => "${elasticsearch::user}",
         require  => Class['elasticsearch'];
   }
   file {
     "${elasticsearch::config_dir}/wordlist.txt":
         ensure   => present,
         content  => template('elasticsearch/wordlist.txt'),
-        user     => "${elasticsearch::user}",
+        owner    => "${elasticsearch::user}",
         require  => Class['elasticsearch'];
   }
   file {
     "${elasticsearch::config_dir}/logging.yml":
         ensure   => present,
         content  => template('elasticsearch/logging.yml'),
-        user     => "${elasticsearch::user}",
+        owner    => "${elasticsearch::user}",
         require  => Class['elasticsearch'];
   }
   file {
