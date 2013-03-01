@@ -32,10 +32,10 @@
     routing.allocation.awareness.attributes: datacenter
   discovery: 
     zen.ping.unicast.hosts: 
-    <% unicast_hosts.each do |host| -%>
-      - "<%= host %>"
-    <% end -%>
-    zen: 
+<% unicast_hosts.each do |host| -%>
+   - "<%= host %>"
+<% end -%>
+  zen: 
       ping_timeout: "4"
       minimum_master_nodes: "2"
       ping_retries: "2"
