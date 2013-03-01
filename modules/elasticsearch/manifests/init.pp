@@ -11,8 +11,7 @@ class elasticsearch (
 
   package {
     $package:
-        ensure  => present,
-        version => $version,
+        ensure  => $version,
         require => [
                    Yumrepo['mozilla'], 
                    Class['elasticsearch::user']
