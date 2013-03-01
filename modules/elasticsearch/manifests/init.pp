@@ -1,5 +1,5 @@
 class elasticsearch (
-    $version,
+    $version = '0.20.7-1.el6',
     $plugins,
     $package = 'elasticsearch',
     $java_package = 'java-1.7.0-openjdk',
@@ -42,6 +42,12 @@ class elasticsearch (
       group   => 'root',
       mode    => '0644',
       content => "# THIS FILE MANAGED BY PUPPET.\n${user} soft nofile 65535\n${user} hard nofile 65535\n",
+      require => Package[$package];
+  }
+
+  service { 'elasticsearch':
+      ensure  => running,
+      enable  => true,
       require => Package[$package];
   }
 
