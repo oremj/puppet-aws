@@ -1,4 +1,5 @@
 class collectd::config(
+    $collectd_hostname,
     $graphite_server
 ){
   include collectd
