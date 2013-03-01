@@ -33,9 +33,9 @@
   discovery: 
     zen.ping.unicast.hosts: 
 <% unicast_hosts.each do |host| -%>
-   - "<%= host %>"
+      - "<%= host %>"
 <% end -%>
-  zen: 
+    zen: 
       ping_timeout: "4"
       minimum_master_nodes: "2"
       ping_retries: "2"
