@@ -30,7 +30,7 @@ class elasticsearch::config(
   file {
     "${elasticsearch::config_dir}/logging.yml":
         ensure   => present,
-        content  => template('elasticsearch/logging.yml,erb'),
+        content  => template('elasticsearch/logging.yml.erb'),
         owner    => "${elasticsearch::user}",
         require  => Class['elasticsearch'];
   }
