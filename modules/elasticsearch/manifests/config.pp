@@ -27,7 +27,7 @@ class elasticsearch::config(
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        content => "# THIS FILE MANAGED BY PUPPET.\n${user} soft nofile 65535\n${user} hard nofile 65535\n";
+        content => "# THIS FILE MANAGED BY PUPPET.\n${elasticsearch::user} soft nofile 65535\n${elasticsearch::user} hard nofile 65535\n";
   }
 
   file {
