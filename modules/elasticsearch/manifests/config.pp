@@ -12,6 +12,26 @@ class elasticsearch::config(
   $es_max_mem = inline_template('<%= @memorysize =~ /^(\d+)/; val = ( ( $1.to_i * 1024) / 1.50 ).to_i %>m')
 
   file {
+    [
+      '/var/log/elasticsearch',
+      '/var/lib/elasticsearch',
+      '/var/run/elasticsearch',
+    ]:
+      ensure  => directory,
+      owner   => "${elasticsearch::user}",
+      mode    => '0755',
+  }
+
+  file { 
+    '/etc/security/limits.d/90-elasticsearch.conf':
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => "# THIS FILE MANAGED BY PUPPET.\n${user} soft nofile 65535\n${user} hard nofile 65535\n",
+        require => Package[$package];
+  }
+
+  file {
     "${elasticsearch::config_dir}":
         ensure => directory,
         owner   => "${elasticsearch::user}";
@@ -31,6 +51,7 @@ class elasticsearch::config(
         content => template('elasticsearch/logging.yml.erb'),
         owner   => "${elasticsearch::user}";
   }
+
   file {
     "/etc/sysconfig/elasticsearch":
         ensure  => present,

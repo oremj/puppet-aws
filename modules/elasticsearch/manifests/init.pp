@@ -17,31 +17,11 @@ class elasticsearch (
                    Class['elasticsearch::user']
                    ];
   }
+
   package {
     $java_package:
         ensure => present,
         before => Package[$package];
-  }
-
-  file {
-    [
-      '/var/log/elasticsearch',
-      '/var/lib/elasticsearch',
-      '/var/run/elasticsearch',
-      "${config_dir}/templates",
-    ]:
-      ensure  => directory,
-      owner   => $user,
-      mode    => '0755',
-      require => Package[$package];
-  }
-
-  file { '/etc/security/limits.d/90-elasticsearch.conf':
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => "# THIS FILE MANAGED BY PUPPET.\n${user} soft nofile 65535\n${user} hard nofile 65535\n",
-      require => Package[$package];
   }
 
   service { 'elasticsearch':
