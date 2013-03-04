@@ -6,8 +6,6 @@ class elasticsearch::config(
   $expected_nodes = '3',
 ){
 
-  include elasticsearch
-
   $es_name = $ec2_instance_id
   # make sure atleast 1 thread
   $es_threads = (($::processorcount/2) + 1)
