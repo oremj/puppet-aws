@@ -4,7 +4,7 @@ class elasticsearch (
     $java_package = 'java-1.7.0-openjdk',
     $config_dir = '/etc/elasticsearch',
     $user = elasticsearch,
-    $plugins = false
+    $plugins = ['elasticsearch-plugin-cloud-aws']
 ){
 
   include elasticsearch::user

@@ -1,6 +1,21 @@
 # THIS FILE MANAGED BY PUPPET.
 --- 
-  name: <%= es_name %>
+  cluster: 
+    name: <%= cluster_name %>
+  node: 
+    name: <%= es_name %>
+  cloud:
+    aws:
+      access_key: <%= aws_access_key %>
+      secret_key: <%= aws_secret_key %>
+      region: <%= aws_region %>
+  discovery:
+    type: ec2
+    ec2:
+      host_type: private_ip
+      ping_timeout: 5s
+      tag:
+        Type: elasticsearch
   threadpool: 
     refresh: 
       type: fixed
@@ -22,25 +37,11 @@
     number_of_shards: "10"
     number_of_replicas: "2"
   gateway: 
-    expected_nodes: "3"
+    expected_nodes: "<%= expected_nodes %>"
     recovery_after_nodes: "2"
   action: 
     disable_shutdown: "true"
     disable_delete_all_indices: "true"
-  cluster: 
-    name: <%= cluster_name %>
-    routing.allocation.awareness.attributes: datacenter
-  discovery: 
-    zen.ping.unicast.hosts: 
-<% unicast_hosts.each do |host| -%>
-      - "<%= host %>"
-<% end -%>
-    zen: 
-      ping_timeout: "4"
-      minimum_master_nodes: "2"
-      ping_retries: "2"
-  node: 
-    datacenter: <%= datacenter %>
   index: 
     analysis: 
       analyzer: 
