@@ -13,24 +13,24 @@ class elasticsearch::config(
 
   file {
     "${elasticsearch::config_dir}/elasticsearch.yml":
-        ensure   => present,
-        content  => template('elasticsearch/elasticsearch.yml.erb'),
-        owner    => "${elasticsearch::user}",
-        require  => Class['elasticsearch'];
+        ensure  => present,
+        content => template('elasticsearch/elasticsearch.yml.erb'),
+        owner   => "${elasticsearch::user}",
+        require => Package['elasticsearch'];
   }
   file {
     "${elasticsearch::config_dir}/wordlist.txt":
-        ensure   => present,
-        content  => template('elasticsearch/wordlist.txt'),
-        owner    => "${elasticsearch::user}",
-        require  => Class['elasticsearch'];
+        ensure  => present,
+        content => template('elasticsearch/wordlist.txt'),
+        owner   => "${elasticsearch::user}",
+        require => Package['elasticsearch'];
   }
   file {
     "${elasticsearch::config_dir}/logging.yml":
-        ensure   => present,
-        content  => template('elasticsearch/logging.yml.erb'),
-        owner    => "${elasticsearch::user}",
-        require  => Class['elasticsearch'];
+        ensure  => present,
+        content => template('elasticsearch/logging.yml.erb'),
+        owner   => "${elasticsearch::user}",
+        require => Package['elasticsearch'];
   }
   file {
     "/etc/sysconfig/elasticsearch":
