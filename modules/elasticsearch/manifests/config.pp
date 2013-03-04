@@ -12,25 +12,24 @@ class elasticsearch::config(
   $es_max_mem = inline_template('<%= @memorysize =~ /^(\d+)/; val = ( ( $1.to_i * 1024) / 1.50 ).to_i %>m')
 
   file {
+    "${elasticsearch::config_dir}":
+        ensure => directory,
+        owner   => "${elasticsearch::user}";
+
     "${elasticsearch::config_dir}/elasticsearch.yml":
         ensure  => present,
         content => template('elasticsearch/elasticsearch.yml.erb'),
-        owner   => "${elasticsearch::user}",
-        require => Package['elasticsearch'];
-  }
-  file {
+        owner   => "${elasticsearch::user}";
+
     "${elasticsearch::config_dir}/wordlist.txt":
         ensure  => present,
         content => template('elasticsearch/wordlist.txt'),
-        owner   => "${elasticsearch::user}",
-        require => Package['elasticsearch'];
-  }
-  file {
+        owner   => "${elasticsearch::user}";
+
     "${elasticsearch::config_dir}/logging.yml":
         ensure  => present,
         content => template('elasticsearch/logging.yml.erb'),
-        owner   => "${elasticsearch::user}",
-        require => Package['elasticsearch'];
+        owner   => "${elasticsearch::user}";
   }
   file {
     "/etc/sysconfig/elasticsearch":
