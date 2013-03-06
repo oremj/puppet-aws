@@ -7,6 +7,7 @@ class sentry::service(
   $sentry_key = undef,
   $secret_key = undef,
   $url_prefix = 'https://somewebsite.mozilla.com',
+  $extra_domains = '',
   $web_host = '0.0.0.0',
   $web_port = '9000',
   $udp_host = '0.0.0.0',
