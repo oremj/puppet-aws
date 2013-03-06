@@ -14,9 +14,13 @@ define collectd::plugin(
 
   file {
     "${include_dir}/${name}.conf":
-        ensure  => present,
-        content => template("collectd/collectd.d/${name}.conf.erb"),
-        notify  => Service['collectd'];
+        ensure      => present,
+        content     => template("collectd/collectd.d/${name}.conf.erb"),
+        notify      => Service['collectd'],
+        require     => $package ? {
+            true    => [Package["collectd-${name}"]],
+            default => [],
+        };
   }
 
 }
