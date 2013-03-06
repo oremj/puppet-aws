@@ -15,7 +15,7 @@ define collectd::plugin(
   file {
     "${include_dir}/${name}.conf":
         ensure  => present,
-        content => template('collectd/collectd.d/${name}.conf.erb'),
+        content => template("collectd/collectd.d/${name}.conf.erb"),
         notify  => Service['collectd'];
   }
 
