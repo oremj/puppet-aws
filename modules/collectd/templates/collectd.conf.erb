@@ -52,7 +52,7 @@ LoadPlugin syslog
 # to missing dependencies or because they have been deactivated explicitly.  #
 ##############################################################################
 
-Include "/etc/collectd.d"
+Include "/etc/collectd.d/*.conf"
 
 LoadPlugin cpu
 LoadPlugin contextswitch
