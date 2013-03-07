@@ -7,9 +7,13 @@ define solitude::nginx(
     nginx::config {
         "${app_domain}":
             content => template('solitude/nginx.conf');
-        '00default':
-            content => template('nginx/nginx.conf.default');
     }
+
+    nginx::default_server_block {
+        "${app_domain}":
+            content => template('solitude/healthcheck.nginx.conf');
+    }
+
     nginx::logdir {
         "${app_domain}":;
     }
