@@ -1,0 +1,15 @@
+LoadPlugin mysql
+
+<% if collectd_args != :undef -%>
+<% collectd_args.sort.each do |key, value_hash| -%>
+<Plugin mysql>
+  <Database "<%= value_hash['dbname'] %>">
+    Host "<%= value_hash['dbhost'] %>"
+    User "collectd",
+    Password "<%= value_hash['dbpass'] %>"
+    MasterStats true
+    Port "3306"
+  </Database>
+</Plugin>
+<% end -%>
+<% end -%>

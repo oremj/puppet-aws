@@ -1,5 +1,6 @@
 define collectd::plugin(
-  $package = false
+  $package = false,
+  $collectd_args = undef
 ){
   include collectd
 
