@@ -5,7 +5,7 @@ LoadPlugin mysql
 <Plugin mysql>
   <Database "<%= value_hash['dbname'] %>">
     Host "<%= value_hash['dbhost'] %>"
-    User "collectd",
+    User "collectd"
     Password "<%= value_hash['dbpass'] %>"
     MasterStats true
     Port "3306"
