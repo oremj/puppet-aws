@@ -10,10 +10,17 @@ class base::yum {
   }
 
   @yumrepo { "mozilla":
-      baseurl        => 'https://s3-us-west-2.amazonaws.com/rpm-repo/6/',
+      baseurl        => 'https://s3-us-west-2.amazonaws.com/rpm-repo/6/$basearch',
       descr          => 'Mozilla Packages',
       enabled        => 1,
       priority       => 1,
+      gpgcheck       => 0,
+      failovermethod => priority,
+  }
+  @yumrepo { "mozilla-source":
+      baseurl        => 'https://s3-us-west-2.amazonaws.com/rpm-repo/6/SRPMS',
+      descr          => 'Mozilla Source Packages',
+      enabled        => 1,
       gpgcheck       => 0,
       failovermethod => priority,
   }
