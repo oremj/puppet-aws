@@ -16,8 +16,12 @@ class ntpd (
 
     service {
         'ntpd':
-            ensure  => running,
-            require => Package['ntp'],
+            ensure       => running,
+            name         => $::osfamily ? {
+                'RedHat' => 'ntpd',
+                'Debian' => 'ntp',
+            },
+            require      => Package['ntp'],
     }
 
 }
