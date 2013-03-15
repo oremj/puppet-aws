@@ -1,5 +1,4 @@
 class ssh {
-
     package {
       [
         'openssh',
@@ -14,7 +13,10 @@ class ssh {
             enable     => true,
             hasstatus  => true,
             hasrestart => true,
-            require    => Package['openssh-server'],
+            name       => $::osfamily ? {
+              "RedHat" => "sshd",
+              "Debian" => "ssh",
+            };
     }
 
 }
