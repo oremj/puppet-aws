@@ -1,11 +1,18 @@
 class ssh {
     package {
       [
-        'openssh',
-        'openssh-clients',
         'openssh-server',
       ]:
-          ensure => latest;
+            ensure => latest;
+    }
+
+    package {
+        'openssh':
+            ensure => latest,
+            name       => $::osfamily ? {
+              'RedHat' => 'openssh',
+              'Debian' => 'openssh-client',
+            }
     }
     service {
         'sshd':
