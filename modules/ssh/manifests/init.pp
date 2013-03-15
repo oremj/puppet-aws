@@ -14,8 +14,8 @@ class ssh {
             hasstatus  => true,
             hasrestart => true,
             name       => $::osfamily ? {
-              "RedHat" => "sshd",
-              "Debian" => "ssh",
+              'RedHat' => 'sshd',
+              'Debian' => 'ssh',
             };
     }
 
