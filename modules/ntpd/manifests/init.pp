@@ -18,8 +18,8 @@ class ntpd (
         'ntpd':
             ensure       => running,
             name         => $::osfamily ? {
-                'RedHat' => 'ntpd',
                 'Debian' => 'ntp',
+                default  => 'ntpd',
             },
             require      => Package['ntp'],
     }
