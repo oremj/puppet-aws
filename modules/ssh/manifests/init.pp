@@ -8,10 +8,10 @@ class ssh {
 
     package {
         'openssh':
-            ensure => latest,
+            ensure     => latest,
             name       => $::osfamily ? {
-              'RedHat' => 'openssh',
               'Debian' => 'openssh-client',
+              default  => 'openssh',
             }
     }
     service {
@@ -21,8 +21,8 @@ class ssh {
             hasstatus  => true,
             hasrestart => true,
             name       => $::osfamily ? {
-              'RedHat' => 'sshd',
               'Debian' => 'ssh',
+              default  => 'sshd',
             };
     }
 
