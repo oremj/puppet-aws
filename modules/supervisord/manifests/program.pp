@@ -9,16 +9,19 @@ define supervisord::program(
         "/etc/supervisord.conf.d/${program_name}.conf":
             notify => Service['supervisord'],
             content => template('supervisord/program.conf');
+
+        "/etc/init.d/${name}":
+            mode => '0755',
+            content => template('supervisord/supervisor.erb');
     }
 
     service {
-        "supervisord-${program_name}":
-            ensure  => 'running',
-            enable  => true,
-            restart => "/usr/bin/supervisorctl restart ${program_name}",
-            start   => "/usr/bin/supervisorctl start ${program_name}",
-            stop    => "/usr/bin/supervisorctl stop ${program_name}",
-            status  => "/usr/bin/supervisorctl status ${program_name} | /bin/grep -q RUNNING",
-            require => Service['supervisord'];
+        "${program_name}":
+            enable     => true,
+            ensure     => running,
+            hasrestart => true,
+            hasstatus  => true,
+            status     => "/sbin/service ${program_name} status",
+            require    => File["/etc/init.d/${program_name}", "/etc/supervisord.conf.d/${program_name}.conf"];
     }
 }
