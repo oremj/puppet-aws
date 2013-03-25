@@ -37,6 +37,7 @@
 
 <% if is_master == true -%>
 [master]
+  ignorecache = true
   node_terminus = exec
   dns_alt_names = <%= ec2_instance_id %>,puppet
   external_nodes = /usr/bin/puppet_aws_lookup
