@@ -13,11 +13,12 @@ define supervisord::program(
 
     service {
         "supervisord-${program_name}":
-            ensure => 'running',
+            ensure  => 'running',
+            enabe   => true,
             restart => "/usr/bin/supervisorctl restart ${program_name}",
-            start => "/usr/bin/supervisorctl start ${program_name}",
-            stop => "/usr/bin/supervisorctl stop ${program_name}",
-            status => "/usr/bin/supervisorctl status ${program_name} | /bin/grep -q RUNNING",
+            start   => "/usr/bin/supervisorctl start ${program_name}",
+            stop    => "/usr/bin/supervisorctl stop ${program_name}",
+            status  => "/usr/bin/supervisorctl status ${program_name} | /bin/grep -q RUNNING",
             require => Service['supervisord'];
     }
 }

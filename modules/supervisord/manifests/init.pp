@@ -12,11 +12,12 @@ class supervisord {
 
     service {
         'supervisord':
-            ensure => 'running',
-            restart => '/usr/bin/supervisorctl update',
-            start => '/usr/bin/supervisord -c /etc/supervisord.conf',
-            stop => '/usr/bin/supervisorctl shutdown',
+            ensure    => 'running',
+            enable    => true,
+            restart   => '/usr/bin/supervisorctl update',
+            start     => '/usr/bin/supervisord -c /etc/supervisord.conf',
+            stop      => '/usr/bin/supervisorctl shutdown',
             hasstatus => false,
-            require => File['/etc/supervisord.conf'];
+            require   => File['/etc/supervisord.conf'];
     }
 }
