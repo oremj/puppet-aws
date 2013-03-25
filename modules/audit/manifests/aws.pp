@@ -1,7 +1,10 @@
 class audit::aws {
     # remove these before we even start.
     package {
-        'pam-1.1.1-10.19.amzn1.i686':
+        [
+          'pam-1.1.1-10.19.amzn1.i686',
+          'pam-1.1.1-13.20.amzn1.i686',
+        ]:
             ensure => absent,
             before => Package['audit-libs-2.2-2.17.amzn1.i686'];
       [
