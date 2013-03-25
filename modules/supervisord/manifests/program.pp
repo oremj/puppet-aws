@@ -14,7 +14,7 @@ define supervisord::program(
     service {
         "supervisord-${program_name}":
             ensure  => 'running',
-            enabe   => true,
+            enable  => true,
             restart => "/usr/bin/supervisorctl restart ${program_name}",
             start   => "/usr/bin/supervisorctl start ${program_name}",
             stop    => "/usr/bin/supervisorctl stop ${program_name}",
