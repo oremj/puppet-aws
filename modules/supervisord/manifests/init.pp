@@ -8,6 +8,10 @@ class supervisord {
             ensure => 'directory',
             recurse => true,
             purge => true;
+
+        '/etc/init.d/supervisord':
+            mode => '0755',
+            content => template('supervisord/init.erb');
     }
 
     service {
@@ -15,9 +19,10 @@ class supervisord {
             ensure    => 'running',
             enable    => true,
             restart   => '/usr/bin/supervisorctl update',
-            start     => '/usr/bin/supervisord -c /etc/supervisord.conf',
-            stop      => '/usr/bin/supervisorctl shutdown',
-            hasstatus => false,
+            start     => '/sbin/service supervisord start',
+            stop      => '/sbin/service supervisord stop',
+            hasstatus => true,
+            status    => '/sbin/service supervisord status',
             require   => File['/etc/supervisord.conf'];
     }
 }
