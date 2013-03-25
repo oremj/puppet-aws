@@ -2,7 +2,8 @@ define supervisord::program(
     $command,
     $cwd,
     $user,
-    $environ = ''
+    $environ = '',
+    $configtest_command = ''
 ) {
     $program_name = $name
     file {
