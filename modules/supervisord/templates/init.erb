@@ -18,10 +18,6 @@
 
 RETVAL=0
 
-<% if ulimit %>
-ulimit <%= ulimit %>
-<% end %>
-
 start() {
     echo -n $"Starting supervisord: "
     daemon supervisord
