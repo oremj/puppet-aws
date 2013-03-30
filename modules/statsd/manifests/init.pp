@@ -14,8 +14,8 @@ class statsd (
 
   package {
     'nodejs-statsd':
-      provider => rpm,
       ensure   => present,
+      provider => rpm,
       source   => "file:///var/tmp/${statsd_rpm}",
       require  => [
                     File["/var/tmp/${statsd_rpm}"],
@@ -24,7 +24,7 @@ class statsd (
   }
 
   base::user{
-    "${user}":
+    $user:
       uid => '2002'
   }
 }

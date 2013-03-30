@@ -12,24 +12,24 @@ class rsyslog::tlsserver(
             content => template('rsyslog/tlsserver.conf');
     }
     file {
-        "${ca_cert}":
+        $ca_cert:
             ensure  => present,
             mode    => '0644',
-            content => template("${ca_cert_content}"),
+            content => template($ca_cert_content),
             before  => Rsyslog::Config['tlsserver'],
       }
     file {
-        "${server_cert}":
+        $server_cert:
             ensure  => present,
             mode    => '0644',
-            content => template("${server_cert_content}"),
+            content => template($server_cert_content),
             before  => Rsyslog::Config['tlsserver'],
       }
     file {
-        "${server_key}":
+        $server_key:
             ensure  => present,
             mode    => '0644',
-            content => template("${server_key_content}"),
+            content => template($server_key_content),
             before  => Rsyslog::Config['tlsserver'],
       }
 }

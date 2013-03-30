@@ -9,8 +9,8 @@ class statsd::service {
 
   supervisord::program {
     'statsd':
-      command => "${node} ${statsd} $config",
-      cwd     => "/usr/bin",
+      command => "${node} ${statsd} ${config}",
+      cwd     => '/usr/bin',
       user    => 'statsd',
       require => [
                   Class['statsd::config'],

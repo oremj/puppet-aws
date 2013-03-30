@@ -6,10 +6,10 @@ class statsd::config (
 ){
   $config = '/etc/statsd.js'
 
-  file{ "$config":
+  file{ $config:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    content => template("$module_name/statsd.js.erb"),
+    content => template("${module_name}/statsd.js.erb"),
   }
 }

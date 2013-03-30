@@ -17,12 +17,13 @@ define supervisord::program(
     }
 
     service {
-        "${program_name}":
-            enable     => true,
+        $program_name:
             ensure     => running,
+            enable     => true,
             hasrestart => true,
             hasstatus  => true,
             status     => "/sbin/service ${program_name} status",
-            require    => File["/etc/init.d/${program_name}", "/etc/supervisord.conf.d/${program_name}.conf"];
+            require    => File["/etc/init.d/${program_name}",
+                                "/etc/supervisord.conf.d/${program_name}.conf"];
     }
 }

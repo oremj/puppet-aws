@@ -34,16 +34,16 @@ class sentry::service(
         group   => 'root',
         require => Class['sentry'],
     }
-  
+
     file { '/etc/sentry/sentry.conf.py':
         ensure  => present,
         content => template("${module_name}/sentry.conf.py.erb"),
-        mode    => 0644,
+        mode    => '0644',
         owner   => 'sentry',
         group   => 'root',
         require => File['/etc/sentry'],
     }
-  
+
     supervisord::program {
       'sentry-http':
         command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start http',
@@ -51,7 +51,7 @@ class sentry::service(
         user    => 'sentry',
         require => File['/etc/sentry/sentry.conf.py'],
     }
-  
+
     supervisord::program {
       'sentry-udp':
         command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py start udp',
@@ -59,10 +59,10 @@ class sentry::service(
         user    => 'sentry',
         require => File['/etc/sentry/sentry.conf.py'],
     }
-  
+
     celery::service {
       'sentry':
-        command => "/usr/bin/sentry --config=/etc/sentry/sentry.conf.py celeryd -c 4",
+        command => '/usr/bin/sentry --config=/etc/sentry/sentry.conf.py celeryd -c 4',
         app_dir => '/usr/bin',
         user    => 'sentry',
         require => File['/etc/sentry/sentry.conf.py'],
@@ -75,16 +75,16 @@ class sentry::service(
     $app_name = 'sentry-http'
 
     nginx::upstream {
-        "${app_name}":
+        $app_name:
             upstream_port => $web_port;
     }
 
     nginx::logdir {
-        "${app_domain}":;
+        $app_domain:;
     }
 
     nginx::config {
-        "${app_domain}":
+        $app_domain:
             content => template('sentry/nginx.conf.erb');
     }
 

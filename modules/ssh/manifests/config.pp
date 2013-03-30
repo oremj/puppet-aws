@@ -6,9 +6,9 @@ class ssh::config(
     $sshd_config = '/etc/ssh/sshd_config'
 
     file{
-        "${sshd_config}":
+        $sshd_config:
             ensure  => present,
-            content => template("$module_name/sshd_config.erb"),
+            content => template("${module_name}/sshd_config.erb"),
             owner   => 'root',
             group   => 'root',
             mode    => '0600',
