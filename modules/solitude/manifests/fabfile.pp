@@ -1,3 +1,4 @@
+# Define fabfile for solitude.
 define solitude::fabfile(
     $site,
     $site_name,
