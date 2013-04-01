@@ -24,7 +24,7 @@ def deploy(ref, servers=4, wait_timeout=900):
 
 @task
 def build(ref, build_id, build_dir):
-    make.python_app_package('solitude',
+    make.python_app_package('monolith',
                             version=ref,
                             repo='git://github.com/mozilla/monolith.git',
                             requirements='requirements/prod.txt',
