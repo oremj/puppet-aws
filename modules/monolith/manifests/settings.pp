@@ -21,6 +21,8 @@ define monolith::settings(
     }
 
     file {
+        $settings_dir:
+            ensure => directory;
         "${settings_dir}/monolith.ini":
             content => template($settings_template);
     }
