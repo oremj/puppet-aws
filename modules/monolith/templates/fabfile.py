@@ -1,6 +1,5 @@
-import os
-
 from apppackr import make
+from fabric.api import task
 from mozawsdeploy.fabfile import aws, web
 
 import fabconfig
