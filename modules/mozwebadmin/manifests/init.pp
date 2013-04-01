@@ -1,3 +1,4 @@
+# Base class for webadmin servers.
 class mozwebadmin {
     class {
         'pyrepo':
@@ -5,13 +6,22 @@ class mozwebadmin {
     }
 
     package {
-        'git':
+        [
+            'gcc',
+            'git',
+            'libxml2-devel',
+            'libxslt-devel',
+            'mysql',
+            'puppet',
+            'puppet-server',
+            'python-crypto',
+            'python-devel'
+        ]:
             ensure => 'present';
     }
 
     file {
-        ['/data',
-         '/data/security_policies']:
+        ['/data', '/data/security_policies']:
             ensure => 'directory';
 
         '/data/fabfile.py':
