@@ -9,6 +9,8 @@ define mozwebadmin::application(
     $site_name = $name
 
     file {
+        $project_dir:
+            ensure => directory;
         "${project_dir}/fabconfig.py":
             content => template('mozwebadmin/fabconfig.py');
     }
