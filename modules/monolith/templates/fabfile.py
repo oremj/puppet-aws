@@ -32,5 +32,5 @@ def build(ref, build_id, build_dir):
                             requirements='requirements/prod.txt',
                             build_dir=build_dir)
 
-    with lcd(os.path.join(build_dir, 'monolith'):
+    with lcd(os.path.join(build_dir, 'monolith')):
         local('../venv/bin/python setup.py develop')
