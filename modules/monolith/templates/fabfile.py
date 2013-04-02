@@ -1,5 +1,5 @@
 from apppackr import make
-from fabric.api import task
+from fabric.api import lcd, local, task
 from mozawsdeploy.fabfile import aws, web
 
 import fabconfig
@@ -29,3 +29,6 @@ def build(ref, build_id, build_dir):
                             repo='git://github.com/mozilla/monolith.git',
                             requirements='requirements/prod.txt',
                             build_dir=build_dir)
+
+    with lcd(build_dir):
+        local('./venv/bin/python monolith/setup.py develop')
