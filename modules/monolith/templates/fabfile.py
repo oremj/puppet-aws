@@ -1,3 +1,5 @@
+import os
+
 from apppackr import make
 from fabric.api import lcd, local, task
 from mozawsdeploy.fabfile import aws, web
@@ -30,5 +32,5 @@ def build(ref, build_id, build_dir):
                             requirements='requirements/prod.txt',
                             build_dir=build_dir)
 
-    with lcd(build_dir):
-        local('./venv/bin/python monolith/setup.py develop')
+    with lcd(os.path.join(build_dir, 'monolith'):
+        local('../venv/bin/python setup.py develop')
