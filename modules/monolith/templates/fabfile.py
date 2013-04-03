@@ -34,3 +34,6 @@ def build(ref, build_id, build_dir):
 
     with lcd(os.path.join(build_dir, 'monolith')):
         local('../venv/bin/python setup.py develop')
+
+    with lcd(build_dir):
+        local('./venv/bin/virtualenv --relocatable ./venv')
