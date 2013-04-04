@@ -37,3 +37,7 @@ def build(ref, build_id, build_dir):
 
     with lcd(build_dir):
         local('./venv/bin/virtualenv --relocatable ./venv')
+
+    local('rsync -av %s/ %s/' % (
+        os.path.join(fabconfig.PROJECT_DIR, 'settings'),
+        build_dir))

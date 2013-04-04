@@ -12,6 +12,11 @@ define monolith::aggregator_settings(
     $settings_dir = "${project_dir}/settings"
 
     file {
+        "${project_dir}/fabfile.py":
+            content => template('monolith/fabfile.aggregator.py');
+    }
+
+    file {
         $settings_dir:
             ensure => directory;
 
