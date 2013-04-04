@@ -1,9 +1,9 @@
 # Define an application on the admin server.
 define mozwebadmin::application(
     $project_dir,
-    $lb_name,
     $subnet_id,
     $cluster,
+    $lb_name = '',
     $instance_type = 'm1.small'
 ) {
     $site_name = $name

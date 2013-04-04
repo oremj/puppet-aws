@@ -1,0 +1,34 @@
+# Monolith aggregator
+define monolith::aggregator_settings(
+    $subnet_id,
+    $cluster,
+    $config_ini,
+    $ga_auth,
+    $mkt_auth
+) {
+    $site_name = $name
+
+    $project_dir = "/data/${cluster}/www/${site_name}"
+    $settings_dir = "${project_dir}/settings"
+
+    file {
+        $settings_dir:
+            ensure => directory;
+
+        "${settings_dir}/monolith.ini":
+            content => $config_ini;
+
+        "${settings_dir}/auth.json":
+            content => $ga_auth;
+
+        "${settings_dir}/monolith.password.ini":
+            content => $ga_auth;
+    }
+
+    mozwebadmin::application {
+        $site_name:
+            project_dir => $project_dir,
+            subnet_id   => $subnet_id,
+            cluster     => $cluster;
+    }
+}
