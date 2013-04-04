@@ -1,10 +1,10 @@
 # Monolith aggregator
 define monolith::aggregator_settings(
     $subnet_id,
-    $cluster,
     $config_ini,
     $ga_auth,
-    $mkt_auth
+    $mkt_auth,
+    $cluster='monolith.aggregator'
 ) {
     $site_name = $name
 
