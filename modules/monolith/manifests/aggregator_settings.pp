@@ -27,7 +27,7 @@ define monolith::aggregator_settings(
             content => $ga_auth;
 
         "${settings_dir}/monolith.password.ini":
-            content => $ga_auth;
+            content => $mkt_auth;
     }
 
     mozwebadmin::application {
