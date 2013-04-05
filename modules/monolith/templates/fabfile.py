@@ -40,4 +40,4 @@ def build(ref, build_id, build_dir):
 
     local('rsync -av %s/ %s/' % (
         os.path.join(fabconfig.PROJECT_DIR, 'settings'),
-        build_dir))
+        os.path.join(build_dir, 'monolith')))
