@@ -4,7 +4,7 @@ define monolith::settings(
     $subnet_id,
     $instance_type = 'm1.small',
     $cluster = 'monolith',
-    $elasticsearch_hosts = 'localhost:9200',
+    $elasticsearch_host = 'http://localhost:9200',
     $statsd_host = 'localhost',
     $statsd_port = '8125',
     $statsd_rate = '1.0',
