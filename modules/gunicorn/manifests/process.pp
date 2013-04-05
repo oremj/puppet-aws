@@ -8,7 +8,7 @@ define gunicorn::process(
     $addr = '127.0.0.1',
     $workers = '4',
     $max_requests = '5000',
-    $log_syslog = true
+    $log_syslog = false
 ) {
     $app_name = $name
 
