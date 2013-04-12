@@ -16,7 +16,8 @@ def localdeploy(ref):
 
 @task
 def remote_install_app():
-    sudo('puppet agent --test')
+    with settings(ok_ret_codes=[0, 2]):
+        sudo('puppet agent --test')
 
 
 @task
@@ -36,11 +37,12 @@ def deploy(ref):
 
 @task
 def build(ref, build_id, build_dir):
-    make.python_app_package('monolith-aggregator',
-                            version=ref,
-                            repo='git://github.com/mozilla/monolith-aggregator.git',
-                            requirements='requirements/prod.txt',
-                            build_dir=build_dir)
+    make.python_app_package(
+        'monolith-aggregator',
+        version=ref,
+        repo='git://github.com/mozilla/monolith-aggregator.git',
+        requirements='requirements/prod.txt',
+        build_dir=build_dir)
 
     with lcd(os.path.join(build_dir, 'monolith-aggregator')):
         local('../venv/bin/python setup.py develop')
