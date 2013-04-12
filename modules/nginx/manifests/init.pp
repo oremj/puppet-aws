@@ -30,6 +30,13 @@ class nginx(
             recurse => true,
             purge   => true;
 
+        '/var/log/nginx':
+            ensure  => directory,
+            require => Package[nginx],
+            owner   => $user,
+            group   => 'users',
+            mode    => '750';
+
         '/etc/nginx/nginx.conf':
             before  => Service[nginx],
             content => template('nginx/nginx.conf');
@@ -52,6 +59,7 @@ class nginx(
             group   => root,
             mode    => '0644',
             content => template('nginx/logrotate.conf');
+
 
         '/etc/init.d/nginx':
             require => Package[nginx],
