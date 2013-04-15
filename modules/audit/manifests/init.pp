@@ -4,10 +4,10 @@ class audit {
     include audit::aws
 
     service {
-        "auditd":
-            ensure => running,
-            enable => true,
-            require => Package["audit_package"],
+        'auditd':
+            ensure    => running,
+            enable    => true,
+            require   => Package['audit_package'],
             hasstatus => true;
     }
 
