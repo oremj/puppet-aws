@@ -47,12 +47,6 @@ class audit {
             group   => root,
             mode    => '0600',
             source  => "puppet:///modules/audit/syslog.conf";
-
-        "/var/log/audit":
-            ensure => directory,
-            owner  => root,
-            group  => root,
-            mode   => '0700';
     }
     exec {
         'restart-auditd':
