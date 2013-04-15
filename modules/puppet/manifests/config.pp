@@ -1,5 +1,6 @@
 class puppet::config(
-  $is_master = false
+  $is_master = false,
+  $altnames = []
 ){
 
   if $is_master {

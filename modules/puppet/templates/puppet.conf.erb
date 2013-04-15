@@ -39,6 +39,6 @@
 [master]
   ignorecache = true
   node_terminus = exec
-  dns_alt_names = <%= ec2_instance_id %>,puppet
+  dns_alt_names = <%= altnames.concat([ec2_instance_id, "puppet"]).join(',') %>
   external_nodes = /usr/bin/puppet_aws_lookup
 <% end -%>
