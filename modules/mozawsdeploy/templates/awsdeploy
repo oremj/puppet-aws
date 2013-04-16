@@ -4,4 +4,5 @@ amazon_ami = <%= amazon_ami %>
 env = <%= aws_env %>
 region = <%= region %>
 puppet_ip = <%= puppet_ip %>
+admin_ip = <%= admin_ip %>
 vpc_id = <%= vpc_id %>
