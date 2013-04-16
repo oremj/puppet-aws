@@ -15,7 +15,9 @@
       host_type: private_ip
       ping_timeout: 5s
       tag:
-        Type: elasticsearch
+        App: <%= scope.lookupvar('::ec2_app') %>
+        Type: <%= scope.lookupvar('::ec2_type') %>
+        Env: <%= scope.lookupvar('::ec2_env') %>
   threadpool: 
     refresh: 
       type: fixed
