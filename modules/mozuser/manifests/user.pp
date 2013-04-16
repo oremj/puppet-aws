@@ -1,8 +1,8 @@
 define mozuser::user(
     $shell,
     $groups,
-    $ensure = present,
     $uid,
+    $ensure = present,
     $home = "/home/${name}",
     $shell = '/bin/bash'
 ) {
