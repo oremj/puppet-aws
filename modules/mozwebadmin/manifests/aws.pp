@@ -4,6 +4,7 @@ class mozwebadmin::aws(
 {
     class {
         'mozawsdeploy::config':
-            vpc_id => $::ec2_vpc;
+            vpc_id    => $::ec2_vpc,
+            puppet_ip => $puppet_ip;
     }
 }
