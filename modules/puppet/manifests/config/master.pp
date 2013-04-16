@@ -1,3 +1,4 @@
+# Extra service for puppetmaster.
 class puppet::config::master{
 
   file {
@@ -14,6 +15,4 @@ class puppet::config::master{
           ensure  => running,
           enable  => true,
   }
-          
-
 }

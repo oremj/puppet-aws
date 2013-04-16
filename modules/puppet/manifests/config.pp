@@ -1,4 +1,6 @@
+# defines /etc/puppet.conf
 class puppet::config(
+  $puppet_server = 'puppet',
   $is_master = false,
   $altnames = []
 ){
