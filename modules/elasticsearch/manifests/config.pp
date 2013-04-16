@@ -2,6 +2,7 @@ class elasticsearch::config(
   $cluster_name,
   $aws_access_key,
   $aws_secret_key,
+  $es_data_path = '/var/lib/elasticsearch',
   $aws_region = 'us-west-2',
   $expected_nodes = '3',
 ){
