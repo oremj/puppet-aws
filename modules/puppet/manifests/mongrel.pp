@@ -13,7 +13,8 @@ class puppet::mongrel(
     }
 
     nginx::config {
-        content => template('puppet/mongrel.nginx.conf');
+        'puppet.mongrel':
+            content => template('puppet/mongrel.nginx.conf');
     }
 
     file {
