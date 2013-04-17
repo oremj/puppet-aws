@@ -1,1 +1,1 @@
-PUPPETMASTER_PORTS=(<%= mongrel_ports.join(' ') %>)
+PUPPETMASTER_PORTS=( <%= mongrel_ports.join(' ') %> )
