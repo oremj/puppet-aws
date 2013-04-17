@@ -21,4 +21,9 @@ class puppet::mongrel(
         '/etc/sysconfig/puppetmaster':
             content => template('puppet/puppetmaster.sysconfig.mongrel');
     }
+
+    package {
+        'rubygem-mongrel':
+            ensure => present;
+    }
 }
