@@ -22,7 +22,7 @@ create_server = partial(aws.create_server, subnet_id=SUBNET_ID)
 
 
 @task
-def create_web(release_id, instance_type='m1.small', count=1):
+def create_web(instance_type='m1.small', count=1):
     """
     args: instance_type, count
     This function will create the "golden master" ami for solitude web servers.

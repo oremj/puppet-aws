@@ -4,7 +4,7 @@ from functools import partial
 from fabric.api import execute, lcd, local, settings, sudo, task
 
 from apppackr import make
-from mozawsdeploy import config, configure, ec2
+from mozawsdeploy import configure, ec2
 from mozawsdeploy.fabfile import aws, web
 
 
@@ -21,7 +21,7 @@ create_server = partial(aws.create_server, subnet_id=SUBNET_ID)
 
 
 @task
-def create_web(release_id, instance_type='m1.small', count=1):
+def create_web(instance_type='m1.small', count=1):
     """
     args: instance_type, count
     This function will create the "golden master" ami for solitude web servers.
