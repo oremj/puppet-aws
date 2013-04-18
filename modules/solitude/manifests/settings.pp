@@ -15,7 +15,9 @@ define solitude::settings(
     $paypal_url_whitelist,
     $aes_key_dir,
     $statsd_host,
-    $statsd_port
+    $statsd_port,
+    $webpay_oauth_secret,
+    $mkt_oauth_secret
 ) {
     file {
         [$project_dir,

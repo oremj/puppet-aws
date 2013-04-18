@@ -25,3 +25,8 @@ CLIENT_JWT_KEYS = {}
 
 PAYPAL_PROXY = '<%= solitude_proxy %>/proxy/paypal'
 BANGO_PROXY = '<%= solitude_proxy %>/proxy/bango'
+
+CLIENT_OAUTH_KEYS = {
+    'webpay': '<%= webpay_oauth_secret %>',
+    'marketplace': '<%= mkt_oauth_secret %>'
+}
