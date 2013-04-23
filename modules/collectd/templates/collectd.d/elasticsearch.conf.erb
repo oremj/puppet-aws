@@ -4,7 +4,7 @@
 <% if collectd_args != :undef -%>
 <% collectd_args.sort.each do |key, value_hash| -%>
 <Plugin "python">
-    ModulePath "<%= plugindir %>"
+    ModulePath "/usr/lib64/collectd/plugins/"
         Import "elasticsearch"
         <Module "elasticsearch">
             Verbose false
