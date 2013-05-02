@@ -1,6 +1,6 @@
 class mozawsdeploy::config(
     $vpc_id,
-    $amazon_ami = 'ami-2a31bf1a',
+    $amazon_ami = 'ami-ecbe2adc',
     $region = 'us-west-2',
     $puppet_host = 'puppet'
 ) {

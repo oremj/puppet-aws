@@ -1,0 +1,15 @@
+<LoadPlugin "python">
+    Globals true
+</LoadPlugin>
+<% if collectd_args != :undef -%>
+<% collectd_args.sort.each do |key, value_hash| -%>
+<Plugin "python">
+    ModulePath "/usr/lib64/collectd/plugins/"
+        Import "elasticsearch"
+        <Module "elasticsearch">
+            Verbose false
+            Cluster "<%= value_hash['cluster_name'] %>">
+        </Module>
+</Plugin>
+<% end -%>
+<% end -%>
