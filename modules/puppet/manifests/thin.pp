@@ -2,9 +2,8 @@
 class puppet::thin(
     $listen_on = '8140',
     $puppet_dir = '/etc/puppet/',
-    $puppet_socket_dir = '/var/run/puppet/',
+    $puppet_run_dir = '/var/run/puppet',
     $puppet_workers = '4',
-    $puppet_pid = '/var/run/puppet/puppetmasterd.pid',
     $puppet_rackup = '/usr/share/puppet/ext/rack/files/config.ru',
     $cert_name = 'puppetmaster'
 ) {

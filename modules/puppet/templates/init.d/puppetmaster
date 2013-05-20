@@ -15,7 +15,7 @@
 DAEMON=/usr/bin/thin
 SCRIPT_NAME=/etc/init.d/puppetmaster
 CONFIG=/etc/puppetmaster.yml
-PIDDIR=<%= puppet_pid_dir %>
+PIDDIR=<%= puppet_run_dir %>
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
