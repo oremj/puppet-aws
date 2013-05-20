@@ -1,0 +1,41 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          puppetmaster
+# Required-Start:    $local_fs $remote_fs
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      S 0 1 6
+# Short-Description: puppetmaster
+# Description:       puppetmaster
+### END INIT INFO
+
+DAEMON=/usr/bin/thin
+SCRIPT_NAME=/etc/init.d/puppetmaster
+CONFIG_PATH=/etc/puppetmaster.yml
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+if [ "X$2" = X ] || [ "X$3" = X ]; then
+    INSTANCES="--all $CONFIG_PATH"
+else
+    INSTANCES="-C $3"
+fi
+
+case "$1" in
+  start)
+  $DAEMON start $INSTANCES 
+  ;;
+  stop)
+  $DAEMON stop $INSTANCES
+  ;;
+  restart)
+  $DAEMON restart $INSTANCES
+  ;;
+  *)
+  echo "Usage: $SCRIPT_NAME {start|stop|restart} (-C config_file.yml)" >&2
+  exit 3
+  ;;
+esac
+
+:

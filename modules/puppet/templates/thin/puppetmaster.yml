@@ -1,0 +1,9 @@
+---
+pid: <%= puppet_pid %>
+environment: production
+servers: <%= puppet_workers %>
+socket: <%= puppet_socket_dir/puppetmasterd.sock %>
+chdir: <%= puppet_dir %>
+user: puppet
+group: puppet
+rackup: <%= puppet_rackup %>
