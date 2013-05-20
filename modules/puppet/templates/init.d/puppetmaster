@@ -11,20 +11,18 @@
 
 DAEMON=/usr/bin/thin
 SCRIPT_NAME=/etc/init.d/puppetmaster
-CONFIG_PATH=/etc/puppetmaster.yml
+CONFIG=/etc/puppetmaster.yml
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
 
 if [ "X$2" = X ] || [ "X$3" = X ]; then
-    INSTANCES="--all $CONFIG_PATH"
-else
-    INSTANCES="-C $3"
+    INSTANCES="-C $CONFIG"
 fi
 
 case "$1" in
   start)
-  $DAEMON start $INSTANCES 
+  $DAEMON start $INSTANCES
   ;;
   stop)
   $DAEMON stop $INSTANCES
@@ -33,7 +31,7 @@ case "$1" in
   $DAEMON restart $INSTANCES
   ;;
   *)
-  echo "Usage: $SCRIPT_NAME {start|stop|restart} (-C config_file.yml)" >&2
+  echo "Usage: $SCRIPT_NAME {start|stop|restart}" >&2
   exit 3
   ;;
 esac
