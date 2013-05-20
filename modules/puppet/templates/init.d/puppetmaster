@@ -9,9 +9,13 @@
 # Description:       puppetmaster
 ### END INIT INFO
 
+# Source function library.
+. /etc/rc.d/init.d/functions
+
 DAEMON=/usr/bin/thin
 SCRIPT_NAME=/etc/init.d/puppetmaster
 CONFIG=/etc/puppetmaster.yml
+PIDDIR=<%= puppet_pid_dir %>
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -20,7 +24,17 @@ if [ "X$2" = X ] || [ "X$3" = X ]; then
     INSTANCES="-C $CONFIG"
 fi
 
+rh_status() {
+    for PIDFILE in $PIDDIR/puppetmasterd.*.pid
+    do
+        status -p ${PIDFILE} puppetmaster
+    done
+}
 case "$1" in
+  status)
+  rh_status
+  RETVAL=$?
+  ;;
   start)
   $DAEMON start $INSTANCES
   ;;
@@ -31,7 +45,7 @@ case "$1" in
   $DAEMON restart $INSTANCES
   ;;
   *)
-  echo "Usage: $SCRIPT_NAME {start|stop|restart}" >&2
+  echo "Usage: $SCRIPT_NAME {status|start|stop|restart}" >&2
   exit 3
   ;;
 esac
