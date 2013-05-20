@@ -3,6 +3,7 @@ class puppet::thin(
     $listen_on = '8140',
     $puppet_dir = '/etc/puppet/',
     $puppet_run_dir = '/var/run/puppet',
+    $puppet_thin_port = '10000',
     $puppet_workers = '4',
     $puppet_rackup = '/usr/share/puppet/ext/rack/files/config.ru',
     $cert_name = 'puppetmaster'
@@ -21,7 +22,7 @@ class puppet::thin(
         '/etc/init.d/puppetmaster':
             ensure  => present,
             content => template('puppet/init.d/puppetmaster'),
-            mode    => 0755;
+            mode    => '0755';
     }
 
     file {

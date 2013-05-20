@@ -2,7 +2,8 @@
 pid: <%= puppet_run_dir %>/puppetmasterd.pid
 environment: production
 servers: <%= puppet_workers %>
-socket: <%= puppet_run_dir %>/puppetmasterd.sock
+port: <%= puppet_thin_port %>
+address: localhost
 chdir: <%= puppet_dir %>
 user: puppet
 group: puppet
