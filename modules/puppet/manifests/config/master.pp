@@ -10,9 +10,4 @@ class puppet::config::master{
           source => "puppet:///modules/${module_name}/bin/update-repo";
   }
 
-  service {
-      'puppetmaster':
-          ensure  => running,
-          enable  => true,
-  }
 }
