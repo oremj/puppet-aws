@@ -1,0 +1,24 @@
+server {
+    listen 8140 ssl;
+    server_name puppet <%= fqdn %>;
+
+    passenger_enabled on;
+    passenger_set_cgi_param HTTP_X_CLIENT_DN $ssl_client_s_dn;
+    passenger_set_cgi_param HTTP_X_CLIENT_VERIFY $ssl_client_verify;
+
+    root /etc/puppet/rack/public;
+
+    ssl_certificate /etc/puppet/ssl/certs/<%= fqdn %>.pem;
+    ssl_certificate_key /etc/puppet/ssl/private_keys/<%= fqdn %>.pem;
+    ssl_crl /etc/puppet/ssl/ca/ca_crl.pem;
+    ssl_client_certificate /etc/puppet/ssl/certs/ca.pem;
+    ssl_ciphers SSLv2:-LOW:-EXPORT:RC4+RSA;
+    ssl_prefer_server_ciphers on;
+    ssl_verify_client optional;
+    ssl_verify_depth 1;
+    ssl_session_cache shared:SSL:8m;
+    ssl_session_timeout 5m;
+
+    access_log /var/log/nginx/<%= fqdn %>/puppet-access.log;
+    error_log /var/log/nginx/<%= fqdn %>/puppet-error.log;
+}
