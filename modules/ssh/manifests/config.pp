@@ -1,3 +1,4 @@
+# ssh config class
 class ssh::config(
     $allow_agent_forwarding = 'no',
     $allow_tcp_forwarding = 'no'

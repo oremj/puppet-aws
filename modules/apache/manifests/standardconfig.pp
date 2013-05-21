@@ -1,3 +1,4 @@
+# apache standard config
 class apache::standardconfig {
     include apache
     include apache::eightyone

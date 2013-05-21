@@ -1,3 +1,4 @@
+# sentry service class
 class sentry::service(
   $db_user = 'sentry',
   $db_name = 'sentry',

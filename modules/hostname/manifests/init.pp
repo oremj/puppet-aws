@@ -1,5 +1,6 @@
+# hostname class
 class hostname(
-    $hostname
+    $hostname = 'nohostname',
 ) {
     exec {
         "/bin/hostname ${hostname}":

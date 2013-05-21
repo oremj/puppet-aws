@@ -1,3 +1,4 @@
+# ssh class
 class ssh {
     package {
       [
@@ -6,13 +7,20 @@ class ssh {
             ensure => latest;
     }
 
+    $ssh_package_name = $::osfamily ? {
+        'Debian' => 'openssh-client',
+        default  => 'openssh',
+    }
+
+    $ssh_name =  $::osfamily ? {
+        'Debian' => 'ssh',
+        default  => 'sshd',
+    }
+
     package {
         'openssh':
             ensure     => latest,
-            name       => $::osfamily ? {
-              'Debian' => 'openssh-client',
-              default  => 'openssh',
-            }
+            name       => $ssh_package_name,
     }
     service {
         'sshd':
@@ -20,10 +28,7 @@ class ssh {
             enable     => true,
             hasstatus  => true,
             hasrestart => true,
-            name       => $::osfamily ? {
-              'Debian' => 'ssh',
-              default  => 'sshd',
-            };
+            name       => $ssh_name,
     }
 
 }

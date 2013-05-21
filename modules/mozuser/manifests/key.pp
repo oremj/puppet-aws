@@ -1,3 +1,4 @@
+# mozuser key class
 define mozuser::key(
     $user,
     $type,
@@ -6,9 +7,9 @@ define mozuser::key(
     $key_name = $name
     ssh_authorized_key {
         $key_name:
-            user => $user,
-            type => $type,
+            user    => $user,
+            type    => $type,
             require => Mozuser::User[$user],
-            key => $key;
+            key     => $key,
     }
 }

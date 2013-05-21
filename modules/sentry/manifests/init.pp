@@ -1,8 +1,9 @@
+# class sentry
 class sentry {
 
   include sentry::user
   include base::yum
- 
+
   package {
     [
       'python-devel',

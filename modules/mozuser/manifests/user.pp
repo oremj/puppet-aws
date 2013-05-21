@@ -1,3 +1,4 @@
+# mozuser user class
 define mozuser::user(
     $shell,
     $groups,
@@ -9,8 +10,8 @@ define mozuser::user(
     $user_name = $name
     user {
         $user_name:
-            shell      => $shell,
             ensure     => $ensure,
+            shell      => $shell,
             managehome => true,
             home       => $home,
             uid        => $uid,

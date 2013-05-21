@@ -1,3 +1,4 @@
+# redis class
 class redis {
   include base::yum
 

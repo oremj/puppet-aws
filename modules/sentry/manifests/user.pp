@@ -1,3 +1,4 @@
+# sentry user class
 class sentry::user {
 
   base::user{
