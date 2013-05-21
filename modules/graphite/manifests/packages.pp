@@ -1,3 +1,4 @@
+# grahite packages class
 class graphite::packages{
   realize (Yumrepo['epel'])
   # only needed because the rpms are local (for now)

@@ -13,7 +13,7 @@
 # [Remember: No empty lines between comments and class definition]
 class graphite::carbon::config {
   include concat::setup
-  # manage carbon.conf 
+  # manage carbon.conf
   file {
     '/etc/carbon/carbon.conf':
         ensure  => present,

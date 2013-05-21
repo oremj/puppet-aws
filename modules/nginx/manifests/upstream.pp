@@ -1,3 +1,4 @@
+# nginx upstream
 define nginx::upstream(
     $upstream_port,
     $upstream_host = '127.0.0.1'

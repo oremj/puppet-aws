@@ -1,3 +1,4 @@
+# nginx class
 class nginx(
     $nx_user = 'nginx',
     $version = 'present'
@@ -9,8 +10,8 @@ class nginx(
 
     service {
         'nginx':
-            require    => Package['nginx'],
             ensure     => running,
+            require    => Package['nginx'],
             enable     => true,
             restart    => '/etc/init.d/nginx restart',
             status     => '/etc/init.d/nginx status',
@@ -19,13 +20,13 @@ class nginx(
     }
 
     file {
-        # the absence of 'source => ...' tells puppet that we want to remove all unmanaged files from these directories.
-        # TODO: Fix bug 811515 someday, so that unmanaged directories are removed as well.
-        ['/etc/nginx/',
-         '/etc/nginx/conf.d/',
-         '/etc/nginx/managed/']:
+        [
+          '/etc/nginx/',
+          '/etc/nginx/conf.d/',
+          '/etc/nginx/managed/'
+        ]:
+            ensure  => directory,
             notify  => Service['nginx'],
-            ensure  => 'directory',
             force   => true,
             recurse => true,
             purge   => true;
@@ -33,9 +34,9 @@ class nginx(
         '/var/log/nginx':
             ensure  => directory,
             require => Package[nginx],
-            owner   => $user,
+            owner   => $nx_user,
             group   => 'users',
-            mode    => '750';
+            mode    => '0750';
 
         '/etc/nginx/nginx.conf':
             before  => Service[nginx],
@@ -55,11 +56,10 @@ class nginx(
 
         '/etc/logrotate.d/nginx':
             require => Package[nginx],
-            owner   => $user,
+            owner   => $nx_user,
             group   => root,
             mode    => '0644',
             content => template('nginx/logrotate.conf');
-
 
         '/etc/init.d/nginx':
             require => Package[nginx],

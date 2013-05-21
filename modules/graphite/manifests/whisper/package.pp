@@ -1,3 +1,4 @@
+# graphite whisper package
 class graphite::whisper::package (
   $version='0.9.10'
   ){

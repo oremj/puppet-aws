@@ -1,3 +1,4 @@
+# nginx config
 define nginx::config(
     $content = false,
     $source = false,
@@ -12,7 +13,7 @@ define nginx::config(
     if($content) {
         file {
             "/etc/nginx/managed/${name}${suffix}":
-                notify => Service['nginx'],
+                notify  => Service['nginx'],
                 content => $content;
         }
     } else {

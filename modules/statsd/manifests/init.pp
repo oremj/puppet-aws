@@ -1,3 +1,4 @@
+# statsd class
 class statsd (
   $version='0.5.0-1'
 ){
@@ -9,7 +10,7 @@ class statsd (
   file {
     "/var/tmp/${statsd_rpm}":
       ensure => present,
-      source   => "puppet:///modules/${module_name}/${statsd_rpm}",
+      source => "puppet:///modules/${module_name}/${statsd_rpm}",
   }
 
   package {

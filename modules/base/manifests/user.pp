@@ -1,3 +1,4 @@
+# base user
 define base::user(
   $uid = undef
 ){

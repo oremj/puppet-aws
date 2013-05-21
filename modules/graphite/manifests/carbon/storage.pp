@@ -1,4 +1,5 @@
-define graphite::carbon::storage ( $pattern,$retentions){
+# graphite carbon storage
+define graphite::carbon::storage ($pattern,$retentions){
   concat::fragment {$name:
     target  => '/etc/carbon/storage-schemas.conf',
     order   => 10,

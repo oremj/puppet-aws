@@ -1,3 +1,4 @@
+# graphite web service class
 class graphite::web::service {
 
   service { 'httpd':

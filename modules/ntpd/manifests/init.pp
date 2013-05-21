@@ -1,7 +1,12 @@
+# class ntpd
 class ntpd (
-  $ntp_servers,
+  $ntp_servers = undef,
 ){
 
+    $ntp_name = $::osfamily ? {
+        'Debian' => 'ntp',
+        default  => 'ntpd',
+    }
     package {
         'ntp':
             ensure => present
@@ -17,10 +22,7 @@ class ntpd (
     service {
         'ntpd':
             ensure       => running,
-            name         => $::osfamily ? {
-                'Debian' => 'ntp',
-                default  => 'ntpd',
-            },
+            name         => $ntp_name,
             require      => Package['ntp'],
     }
 

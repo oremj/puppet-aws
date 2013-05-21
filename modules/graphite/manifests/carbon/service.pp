@@ -1,3 +1,4 @@
+# graphite carbon service
 class graphite::carbon::service {
 
   service { 'carbon-cache':

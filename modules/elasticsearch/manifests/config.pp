@@ -1,7 +1,8 @@
+# elasticsearch config class
 class elasticsearch::config(
-  $cluster_name,
-  $aws_access_key,
-  $aws_secret_key,
+  $cluster_name = undef,
+  $aws_access_key = undef,
+  $aws_secret_key = undef,
   $es_data_path = '/var/lib/elasticsearch',
   $aws_region = 'us-west-2',
   $expected_nodes = '3',
@@ -23,7 +24,7 @@ class elasticsearch::config(
       mode    => '0755',
   }
 
-  file { 
+  file {
     '/etc/security/limits.d/90-elasticsearch.conf':
         owner   => 'root',
         group   => 'root',
@@ -34,7 +35,7 @@ class elasticsearch::config(
   file {
     "${elasticsearch::config_dir}":
         ensure => directory,
-        owner   => "${elasticsearch::user}";
+        owner  => "${elasticsearch::user}";
 
     "${elasticsearch::config_dir}/elasticsearch.yml":
         ensure  => present,
@@ -53,7 +54,7 @@ class elasticsearch::config(
   }
 
   file {
-    "/etc/sysconfig/elasticsearch":
+    '/etc/sysconfig/elasticsearch':
         ensure  => present,
         content => template('elasticsearch/sysconfig.erb')
   }

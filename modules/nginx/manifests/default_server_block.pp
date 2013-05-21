@@ -1,3 +1,4 @@
+# nginx default server block
 define nginx::default_server_block(
     $content
 ) {

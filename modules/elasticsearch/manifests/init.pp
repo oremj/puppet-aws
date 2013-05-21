@@ -1,3 +1,4 @@
+# elasticsearch class
 class elasticsearch (
     $version = '0.20.5-1.amzn1',
     $package = 'elasticsearch',
@@ -13,9 +14,9 @@ class elasticsearch (
     $package:
         ensure  => $version,
         require => [
-                   Yumrepo['mozilla'], 
-                   Class['elasticsearch::user']
-                   ];
+                    Yumrepo['mozilla'],
+                    Class['elasticsearch::user']
+                  ];
   }
 
   package {
@@ -33,7 +34,7 @@ class elasticsearch (
   if $plugins {
       class {
           'elasticsearch::plugins':
-              require => Package[$package]; 
+              require => Package[$package];
       }
   }
 }

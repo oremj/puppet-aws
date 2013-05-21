@@ -1,3 +1,4 @@
+# statsd config
 class statsd::config (
   $graphite_host = 'localhost',
   $graphite_port = '2003',

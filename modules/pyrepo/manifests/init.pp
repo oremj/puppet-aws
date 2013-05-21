@@ -1,3 +1,4 @@
-class pyrepo($server) {
+# pyrepo
+class pyrepo($server = undef) {
 
 }
