@@ -1,3 +1,4 @@
+# audit aws class
 class audit::aws {
     # remove these before we even start.
     package {
@@ -14,7 +15,7 @@ class audit::aws {
         'audit-libs-python',
       ]:
             ensure => absent,
-            before => [ 
+            before => [
                         Package['audispd-mozilla-plugins'],
                         Package['audit_package'],
                         Package['audit-mozilla-libs'],

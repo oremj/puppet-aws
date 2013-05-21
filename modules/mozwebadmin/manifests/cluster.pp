@@ -1,3 +1,4 @@
+# mozwebadmin cluster
 define mozwebadmin::cluster(
     $packr_port,
     $packr_alt_names = 'puppet localhost'
@@ -6,7 +7,7 @@ define mozwebadmin::cluster(
 
     app_packr::server {
         $cluster_name:
-            port => $packr_port,
+            port      => $packr_port,
             alt_names => $packr_alt_names;
     }
 
@@ -16,8 +17,9 @@ define mozwebadmin::cluster(
     }
 
     file {
-        ["/data/${cluster_name}",
-         "/data/${cluster_name}/www"]:
-            ensure => "directory";
+        [
+          "/data/${cluster_name}",
+          "/data/${cluster_name}/www"]:
+            ensure => directory;
     }
 }

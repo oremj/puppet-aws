@@ -1,4 +1,4 @@
-# celery service 
+# celery service
 define celery::service (
     $app_dir,
     $user = 'celery',

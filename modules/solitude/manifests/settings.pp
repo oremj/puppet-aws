@@ -1,3 +1,4 @@
+# solitude settings
 define solitude::settings(
     $site,
     $project_dir,
@@ -20,11 +21,12 @@ define solitude::settings(
     $mkt_oauth_secret
 ) {
     file {
-        [$project_dir,
-         "${project_dir}/settings",
-         "${project_dir}/aeskeys",
-         "${project_dir}/settings/sites",
-         "${project_dir}/settings/sites/${site}"]:
+        [
+          $project_dir,
+          "${project_dir}/settings",
+          "${project_dir}/aeskeys",
+          "${project_dir}/settings/sites",
+          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
 
         "${project_dir}/settings/local.py":

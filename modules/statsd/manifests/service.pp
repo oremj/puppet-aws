@@ -1,3 +1,4 @@
+# statsd service class
 class statsd::service {
 
   include supervisord

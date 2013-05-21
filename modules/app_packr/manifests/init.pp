@@ -1,3 +1,4 @@
+# class app_packr
 class app_packr {
 
     pyrepo::package {

@@ -7,7 +7,7 @@ class base::yum {
       enabled        => 1,
       gpgcheck       => 1,
       failovermethod => priority,
-      gpgkey => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
+      gpgkey         => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6',
   }
 
   @yumrepo { 'mozilla':

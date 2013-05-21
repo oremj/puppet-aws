@@ -1,3 +1,4 @@
+# rsyslog udpnode
 define rsyslog::udpnode() {
     $syslog_server = $name
     include rsyslog

@@ -1,12 +1,13 @@
+# mozawsdeploy config
 class mozawsdeploy::config(
-    $vpc_id,
+    $vpc_id = 'UNSET',
     $amazon_ami = 'ami-ecbe2adc',
     $region = 'us-west-2',
     $puppet_host = 'puppet'
 ) {
     $aws_app = $::ec2_app
     $aws_env = $::ec2_env
-    $admin_host = $ipaddress
+    $admin_host = $::ipaddress
 
     file {
         '/etc/awsdeploy.puppet':

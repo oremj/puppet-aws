@@ -1,3 +1,4 @@
+# ganglia class
 class ganglia {
     package {
         'ganglia':

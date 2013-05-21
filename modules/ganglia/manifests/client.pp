@@ -1,8 +1,9 @@
+# ganglia client class
 class ganglia::client(
-    $cluster_name,
-    $cluster_owner,
-    $recv_host,
-    $recv_port
+    $cluster_name = undef,
+    $cluster_owner = undef,
+    $recv_host = undef,
+    $recv_port = undef,
 ) {
     package {
         'ganglia-gmond':
@@ -11,15 +12,15 @@ class ganglia::client(
 
     file {
         '/etc/ganglia/gmond.conf':
-            notify => Service['gmond'],
+            notify  => Service['gmond'],
             require => Package['ganglia-gmond'],
             content => template('ganglia/gmond.conf');
     }
 
     service {
         'gmond':
-            ensure => 'running',
+            ensure     => 'running',
             hasrestart => true,
-            hasstatus => true;
+            hasstatus  => true;
     }
 }

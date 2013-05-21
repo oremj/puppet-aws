@@ -1,3 +1,4 @@
+# supervisord class
 class supervisord {
     file {
         '/etc/supervisord.conf':
@@ -5,12 +6,12 @@ class supervisord {
         '/var/log/supervisor':
             ensure => 'directory';
         '/etc/supervisord.conf.d':
-            ensure => 'directory',
+            ensure  => 'directory',
             recurse => true,
-            purge => true;
+            purge   => true;
 
         '/etc/init.d/supervisord':
-            mode => '0755',
+            mode    => '0755',
             content => template('supervisord/init.erb');
     }
 

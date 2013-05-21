@@ -15,9 +15,9 @@ define solitude::fabfile(
 
     app_packr::application {
         $site_name:
-            project_dir => $project_dir,
+            project_dir   => $project_dir,
             build_command => "/usr/bin/fab -f ${project_dir}/fabfile.py build_release:{version},{build_id},{build_dir}",
-            cluster => $cluster;
+            cluster       => $cluster;
     }
 
 }

@@ -1,9 +1,10 @@
+# class rsync
 class rsyncd(
     $rsync_user = 'nobody',
     $rsync_group = 'nobody'
 ){
-    
-    include xinetd 
+
+    include xinetd
     xinetd::service {
         'rsyncd':
             content => template('rsyncd/xinetd.conf');
@@ -11,20 +12,20 @@ class rsyncd(
 
     file {
         '/etc/rsyncd.conf.d':
-            ensure => directory,
-            purge => true,
+            ensure  => directory,
+            purge   => true,
             recurse => true;
 
         '/etc/rsyncd.conf.d/00global.conf':
-            notify => Exec['build-rsync'],
+            notify  => Exec['build-rsync'],
             content => template('rsyncd/global.conf');
     }
 
     exec {
         'build-rsync':
-            command => '/bin/cat /etc/rsyncd.conf.d/* > /etc/rsyncd.conf.new; /bin/mv /etc/rsyncd.conf.new /etc/rsyncd.conf',
-            require => File['/etc/rsyncd.conf.d'],
-            notify => Service['xinetd'],
+            command     => '/bin/cat /etc/rsyncd.conf.d/* > /etc/rsyncd.conf.new; /bin/mv /etc/rsyncd.conf.new /etc/rsyncd.conf',
+            require     => File['/etc/rsyncd.conf.d'],
+            notify      => Service['xinetd'],
             refreshonly => true;
     }
 }

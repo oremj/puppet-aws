@@ -1,18 +1,19 @@
+# supervisord program
 define supervisord::program(
-    $command,
-    $cwd,
-    $user,
+    $command = undef,
+    $cwd = undef,
+    $user = undef,
     $environ = '',
     $configtest_command = ''
 ) {
     $program_name = $name
     file {
         "/etc/supervisord.conf.d/${program_name}.conf":
-            notify => Service['supervisord'],
+            notify  => Service['supervisord'],
             content => template('supervisord/program.conf');
 
         "/etc/init.d/${name}":
-            mode => '0755',
+            mode    => '0755',
             content => template('supervisord/supervisor.erb');
     }
 

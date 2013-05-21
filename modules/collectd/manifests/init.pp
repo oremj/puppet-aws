@@ -1,3 +1,4 @@
+# collectd class
 class collectd {
 
   package {

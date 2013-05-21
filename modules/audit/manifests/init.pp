@@ -1,3 +1,4 @@
+# audit class
 class audit {
     $all_uids = 'yes'
 

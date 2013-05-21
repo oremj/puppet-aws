@@ -1,3 +1,4 @@
+# rsyslog udpserver class
 class rsyslog::udpserver(
     $udp_port = 514
 ) {

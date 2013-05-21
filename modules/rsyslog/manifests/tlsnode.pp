@@ -1,3 +1,4 @@
+# rsyslog tlsnode
 define rsyslog::tlsnode(
     $rsyslog_ca_cert_content,
     $rsyslog_ca_cert = '/etc/pki/rsyslog/rsyslog-ca.crt'
@@ -11,10 +12,10 @@ define rsyslog::tlsnode(
     }
 
     file {
-        "${rsyslog_ca_cert}":
-             ensure  => present,
-             mode    => '0644',
-             content => $rsyslog_ca_cert_content,
-             before  => Rsyslog::Config["tlsnode_${syslog_server}"],
+        $rsyslog_ca_cert:
+            ensure  => present,
+            mode    => '0644',
+            content => $rsyslog_ca_cert_content,
+            before  => Rsyslog::Config["tlsnode_${syslog_server}"],
     }
 }

@@ -7,7 +7,7 @@ define rsyncd::module(
 
     file {
         "/etc/rsyncd.conf.d/${rsync_module_name}.conf":
-            notify => Exec['build-rsync'],
+            notify  => Exec['build-rsync'],
             content => template('rsyncd/module.conf');
     }
 

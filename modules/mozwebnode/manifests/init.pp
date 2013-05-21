@@ -1,6 +1,7 @@
+# mozwebnode
 class mozwebnode(
-    $cluster,
-    $pkghost,
+    $cluster = undef,
+    $pkghost = undef,
     $pyrepo_server = 'https://pyrepo.addons.mozilla.org/'
 ){
     include rsyslog::udpserver
@@ -19,15 +20,17 @@ class mozwebnode(
     }
 
     file {
-        ['/data',
-         "/data/${cluster}",
-         "/data/${cluster}/www",
-         "/data/${cluster}/bin"]:
-            ensure => 'directory';
+        [
+          '/data',
+          "/data/${cluster}",
+          "/data/${cluster}/www",
+          "/data/${cluster}/bin"
+        ]:
+            ensure => directory;
     }
 
     app_packr::client {
-        $cluster: 
+        $cluster:
             pkghost => $pkghost;
     }
 }

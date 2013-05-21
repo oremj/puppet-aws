@@ -1,6 +1,7 @@
+# collectd config class
 class collectd::config(
-    $collectd_hostname,
-    $graphite_server
+    $collectd_hostname = undef,
+    $graphite_server = undef
 ){
   include collectd
   file {

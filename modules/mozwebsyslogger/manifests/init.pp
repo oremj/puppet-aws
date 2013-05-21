@@ -1,3 +1,4 @@
+# mozwebsyslogger
 class mozwebsyslogger(
     $device = '/dev/xvdf1',
     $tls = false,
@@ -21,34 +22,38 @@ class mozwebsyslogger(
         $inputname = 'imudp'
         include rsyslog::udpserver
     }
-    
-    mount { 
+
+    mount {
         '/var/log/syslogs':
-            device  => "${device}",
-            fstype  => 'ext4',
             ensure  => 'mounted',
+            device  => $device,
+            fstype  => 'ext4',
             options => 'defaults',
-            atboot  => 'true',
+            atboot  => true,
             require => File['/var/log/syslogs'];
     }
 
     file {
-         '/var/log/syslogs':
-            mode    => '0755',
+        '/var/log/syslogs':
             ensure  => directory,
+            mode    => '0755',
     }
 
     file {
-         ['/var/log/syslogs/apps',
-          '/var/log/syslogs/hosts']:
-            mode    => '0755',
+          [
+            '/var/log/syslogs/apps',
+            '/var/log/syslogs/hosts'
+          ]:
             ensure  => directory,
+            mode    => '0755',
             require => Mount['/var/log/syslogs'];
     }
 
     rsyslog::config {
         'websyslogger':
-            require => [File['/var/log/syslogs/hosts'], File['/var/log/syslogs/apps']],
+            require => [
+                        File['/var/log/syslogs/hosts'],
+                        File['/var/log/syslogs/apps']],
             content => template('mozwebsyslogger/syslog.conf');
     }
 }

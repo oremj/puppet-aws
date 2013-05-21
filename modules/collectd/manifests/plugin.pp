@@ -1,3 +1,4 @@
+# collectd plugin
 define collectd::plugin(
   $package = false,
   $collectd_args = undef
@@ -13,15 +14,17 @@ define collectd::plugin(
       }
   }
 
+  $collectd_require = $package ? {
+      true    => [Package["collectd-${name}"]],
+      default => [],
+  }
+
   file {
     "${include_dir}/${name}.conf":
         ensure      => present,
         content     => template("collectd/collectd.d/${name}.conf.erb"),
         notify      => Service['collectd'],
-        require     => $package ? {
-            true    => [Package["collectd-${name}"]],
-            default => [],
-        };
+        require     => $collectd_require,
   }
 
 }

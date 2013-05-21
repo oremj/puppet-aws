@@ -1,3 +1,4 @@
+# nodejs class
 class nodejs (
   $version='0.8.16'
 ){
@@ -5,14 +6,14 @@ class nodejs (
   $node_rpm = "nodejs-${version}-1.x86_64.rpm"
   file {
     "/var/tmp/${node_rpm}":
-      ensure => present,
+      ensure   => present,
       source   => "puppet:///modules/${module_name}/${node_rpm}",
   }
 
   package {
     'nodejs':
-      provider => rpm,
       ensure   => present,
+      provider => rpm,
       source   => "file:///var/tmp/${node_rpm}",
       require  => File["/var/tmp/${node_rpm}"],
   }

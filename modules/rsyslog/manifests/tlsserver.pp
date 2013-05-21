@@ -1,7 +1,8 @@
+# rsyslog tlsserver class
 class rsyslog::tlsserver(
-    $ca_cert_content,
-    $server_cert_content,
-    $server_key_content,
+    $ca_cert_content = 'UNSET',
+    $server_cert_content = 'UNSET',
+    $server_key_content = 'UNSET',
     $ca_cert = '/etc/pki/rsyslog/rsyslog-ca.crt',
     $server_cert = '/etc/pki/rsyslog/rsyslog-server.crt',
     $server_key = '/etc/pki/rsyslog/rsyslog-server.key',

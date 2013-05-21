@@ -1,3 +1,4 @@
+# class rsyslog
 class rsyslog {
     package {
         'rsyslog':
@@ -9,22 +10,22 @@ class rsyslog {
     file {
         '/etc/rsyslog.conf':
             require => Package['rsyslog'],
-            mode => '0644',
+            mode    => '0644',
             content => template('rsyslog/rsyslog.conf'),
-            notify => Service['rsyslog'];
+            notify  => Service['rsyslog'];
 
         '/etc/rsyslog.d/':
-            ensure => directory,
+            ensure  => directory,
             recurse => true,
-            purge => true;
+            purge   => true,
     }
 
     service {
         'rsyslog':
-            enable => true,
-            ensure => running,
+            ensure     => running,
+            enable     => true,
             hasrestart => true,
-            hasstatus => true,
-            require => File['/etc/rsyslog.conf'];
+            hasstatus  => true,
+            require    => File['/etc/rsyslog.conf'];
     }
 }

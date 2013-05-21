@@ -1,3 +1,4 @@
+# solitude settings proxy
 define solitude::settings-proxy(
     $site,
     $project_dir,
@@ -18,10 +19,11 @@ define solitude::settings-proxy(
     $statsd_port
 ) {
     file {
-        [$project_dir,
-         "${project_dir}/settings",
-         "${project_dir}/settings/sites",
-         "${project_dir}/settings/sites/${site}"]:
+        [
+          $project_dir,
+          "${project_dir}/settings",
+          "${project_dir}/settings/sites",
+          "${project_dir}/settings/sites/${site}"]:
             ensure => 'directory';
 
         "${project_dir}/settings/local.py":
