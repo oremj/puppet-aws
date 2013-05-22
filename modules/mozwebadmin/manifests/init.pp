@@ -12,8 +12,6 @@ class mozwebadmin {
             'libxml2-devel',
             'libxslt-devel',
             'mysql',
-            'puppet',
-            'puppet-server',
             'python-crypto',
             'python-devel'
         ]:
