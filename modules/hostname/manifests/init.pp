@@ -12,4 +12,9 @@ class hostname(
             ensure  => present,
             content => template('hostname/network.erb');
     }
+
+    host {
+        $hostname:
+            ip => '127.0.0.1'
+    }
 }
