@@ -4,7 +4,7 @@ class puppet::packages(
     $facter_version = '1.7.0-2.el6'
 ){
     include base::yum
-    realize (Yumrepo['puppetlabs-product'])
+    realize (Yumrepo['puppetlabs-products'])
     realize (Yumrepo['puppetlabs-deps'])
     realize (Yumrepo['mozilla'])
 
@@ -13,7 +13,7 @@ class puppet::packages(
             ensure  => $puppet_version,
             require => [
                           Package['facter'],
-                          Yumrepo['puppetlabs-product'],
+                          Yumrepo['puppetlabs-products'],
                           Yumrepo['puppetlabs-deps'],
             ]
     }
