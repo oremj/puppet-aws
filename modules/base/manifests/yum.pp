@@ -31,6 +31,7 @@ class base::yum {
       baseurl        => 'http://yum.puppetlabs.com/el/6/products/$basearch',
       descr          => 'Puppet Labs Products El 6 - $basearch',
       enabled        => 1,
+      priority       => 1,
       gpgcheck       => 0,
       failovermethod => priority,
   }
@@ -39,6 +40,7 @@ class base::yum {
       baseurl        => 'http://yum.puppetlabs.com/el/6/dependencies/$basearch',
       descr          => 'Puppet Labs Dependencies El 6 - $basearch',
       enabled        => 1,
+      priority       => 1,
       gpgcheck       => 0,
       failovermethod => priority,
   }
