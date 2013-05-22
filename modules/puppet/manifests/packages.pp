@@ -9,6 +9,16 @@ class puppet::packages(
     realize (Yumrepo['mozilla'])
 
     package {
+        'facter':
+            ensure  => $facter_version,
+            require => Yumrepo['mozilla'],
+            before  => [
+                          Yumrepo['puppetlabs-products'],
+                          Yumrepo['puppetlabs-deps'],
+            ],
+    }
+
+    package {
         'puppet':
             ensure  => $puppet_version,
             require => [
@@ -16,11 +26,6 @@ class puppet::packages(
                           Yumrepo['puppetlabs-products'],
                           Yumrepo['puppetlabs-deps'],
             ]
-    }
-    package {
-        'facter':
-            ensure  => $facter_version,
-            require => Yumrepo['mozilla'],
     }
 
 }
