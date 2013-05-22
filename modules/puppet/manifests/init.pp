@@ -1,0 +1,4 @@
+# puppet class
+class puppet {
+
+}

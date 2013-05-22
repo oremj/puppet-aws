@@ -5,6 +5,9 @@ class puppet::config(
   $altnames = []
 ){
 
+  # include puppet packages
+  include puppet::packages
+
   if $is_master {
     include puppet::config::master
   }
@@ -14,7 +17,8 @@ class puppet::config(
       ensure  => present,
       owner   => 'root',
       group   => 'root',
-      content => template("${module_name}/puppet.conf.erb");
+      content => template("${module_name}/puppet.conf.erb"),
+      before  => Class['puppet::packages'],
   }
 
 }
