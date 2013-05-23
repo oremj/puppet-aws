@@ -3,7 +3,7 @@ class statsd::config (
   $graphite_host = 'localhost',
   $graphite_port = '2003',
   $port = '8125',
-  $flush_interval = '10'
+  $flush_interval = '10000'
 ){
   $config = '/etc/statsd.js'
 
