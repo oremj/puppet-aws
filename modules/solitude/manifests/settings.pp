@@ -18,7 +18,8 @@ define solitude::settings(
     $statsd_host,
     $statsd_port,
     $webpay_oauth_secret,
-    $mkt_oauth_secret
+    $mkt_oauth_secret,
+    $bango_basic_auth
 ) {
     file {
         [

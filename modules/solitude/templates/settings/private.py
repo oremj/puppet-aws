@@ -30,3 +30,5 @@ CLIENT_OAUTH_KEYS = {
     'webpay': '<%= webpay_oauth_secret %>',
     'marketplace': '<%= mkt_oauth_secret %>'
 }
+
+BANGO_BASIC_AUTH = <%= bango_basic_auth %>
