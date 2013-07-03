@@ -19,7 +19,10 @@ define solitude::settings(
     $statsd_port,
     $webpay_oauth_secret,
     $mkt_oauth_secret,
-    $bango_basic_auth
+    $bango_basic_auth,
+    $s3_auth_key='',
+    $s3_auth_secret='',
+    $s3_bucket=''
 ) {
     file {
         [

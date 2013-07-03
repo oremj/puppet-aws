@@ -32,3 +32,6 @@ CLIENT_OAUTH_KEYS = {
 }
 
 BANGO_BASIC_AUTH = <%= bango_basic_auth %>
+S3_AUTH_KEY = '<%= s3_auth_key %>'
+S3_AUTH_SECRET = '<%= s3_auth_secret %>'
+S3_BUCKET = '<%= s3_bucket %>'
