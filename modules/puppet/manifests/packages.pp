@@ -1,6 +1,6 @@
 # puppet packages class
 class puppet::packages(
-    $puppet_version = '3.2.2-1.el6',
+    $puppet_version = '3.2.4-1.el6',
     $facter_version = '1.7.0-2.el6'
 ){
     include base::yum
