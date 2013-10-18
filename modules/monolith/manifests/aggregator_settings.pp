@@ -4,6 +4,7 @@ define monolith::aggregator_settings(
     $config_ini,
     $ga_auth,
     $mkt_auth,
+    $solitude_aws_keys,
     $cluster='monolith.aggregator'
 ) {
     $site_name = $name
@@ -28,6 +29,9 @@ define monolith::aggregator_settings(
 
         "${settings_dir}/monolith.password.ini":
             content => $mkt_auth;
+
+        "${settings_dir}/solitude_aws_keys.ini":
+            content => $solitude_aws_keys;
     }
 
     mozwebadmin::application {
